@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+
+@font-face {
+  font-family: "Oxanium";
+  src: url("/fonts/Oxanium-VariableFont_wght.ttf") format("opentype");
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Oxanium", Arial, Helvetica, sans-serif;
+}
