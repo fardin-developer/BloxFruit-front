@@ -7,7 +7,17 @@
 }
 
 body {
-  background: var(--background);
+  /* background: #080705; */
   color: var(--foreground);
   font-family: "Oxanium", Arial, Helvetica, sans-serif;
+}
+
+
+
+
+/* *******************Custom********************* */
+
+.grad-btn{
+  border-radius: 8px;
+  background: linear-gradient(90deg, #FADA1B 0%, #FFF 100%);
 }
