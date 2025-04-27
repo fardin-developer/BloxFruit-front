@@ -39,7 +39,7 @@ const Navbar = () => {
                 >
                   {/* Active background */}
                   {isActive && (
-                    <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd02] backdrop-blur-[1px] z-0" />
+                    <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
                   )}
                   <span
                     className={`relative z-10 block text-lg ${
@@ -128,7 +128,6 @@ const Navbar = () => {
         } xl:hidden`}
       >
         <div className="flex justify-end items-center px-4 py-[33px] border-b border-gray-800">
-
           <button
             onClick={() => setMenuOpen(false)}
             className="text-white text-2xl"

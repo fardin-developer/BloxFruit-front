@@ -7,33 +7,51 @@ const Hero = () => {
   return (
     <div className="container mx-auto px-4 xl:px-0 xl:py-4 text-white">
       <div
-        className="h-[100vh] bg-cover bg-center rounded-t-xl flex "
+        className="h-[100vh] bg-cover bg-center rounded-t-xl flex relative "
         style={{
           backgroundImage: `url(${bannerbackground.src})`,
         }}
       >
-        <div className="max-w-[1320px] mx-auto flex flex-row-reverse justify-between items-center relative">
-          <div className="absolute ">
+        <div className="max-w-[1320px] mx-auto flex flex-row-reverse justify-between items-center ">
+          <div className="absolute right-0 ">
             <img
               src={gamecharecter.src}
               alt=""
-              className="aspect-square xl:h-[880px]"
+              className="aspect-square xl:h-[800px]"
             />
           </div>
           <div className="relative ">
-            <span className="text-[1.5rem] font-medium bg-gradient-to-l to-[#FADA1B] via-[#fad81bc0] from-white bg-clip-text text-transparent ">
-              Unlock Exclusive Roblox Gear in Seconds!
-            </span>
-            <h1 className="text-[4.5rem] font-bold leading-[110%] max-w-[20ch]">
-              Buy Your Favorite In-Game Items <span className="bg-gradient-to-l to-white via-[#FADA1B] from-white bg-clip-text text-transparent ">Instantly, Securely, and Easily</span>
-              with Blox Fruit Hub!
-            </h1>
-            <p className="max-w-[60ch]">
-              Looking for fast and trusted item purchases in BloxFruits, Blue
-              Lock Rivals, Rivals, Combat Warrior, and Anime Reborn? Blox Fruit
-              Hub delivers your favorite items instantly.
-            </p>
-            <button>Get Started!</button>
+            <div className="-ml-[30%]">
+              <span className="text-[1.5rem] font-medium bg-gradient-to-l to-[#FADA1B] via-[#fad81bc0] from-white bg-clip-text text-transparent ">
+                Unlock Exclusive Roblox Gear in Seconds!
+              </span>
+              <h1 className="text-[4.5rem] font-bold leading-[110%] max-w-[19ch]">
+                Buy Your Favorite In-Game Items{" "}
+                  Instantly, Securely, and Easily 
+                 with Blox Fruit Hub!
+              </h1>
+              <p className="max-w-[60ch]">
+                Looking for fast and trusted item purchases in BloxFruits, Blue
+                Lock Rivals, Rivals, Combat Warrior, and Anime Reborn? Blox
+                Fruit Hub delivers your favorite items instantly.
+              </p>
+              <button className="hidden xl:flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer mt-8">
+                Get Started!
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="ml-2"
+                >
+                  <path
+                    d="M4 11V13H16V15H18V13H20V11H18V9H16V11H4ZM14 7H16V9H14V7ZM14 7H12V5H14V7ZM14 17H16V15H14V17ZM14 17H12V19H14V17Z"
+                    fill="#0F1016"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
