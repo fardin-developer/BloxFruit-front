@@ -31,7 +31,7 @@ const Navbar = () => {
               >
                 {/* Active background layer */}
                 {item.isActive && (
-                  <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd02] backdrop-blur-[2px]  z-0" />
+                  <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd02] backdrop-blur-[1px]  z-0" />
                 )}
 
                 <span
@@ -45,8 +45,8 @@ const Navbar = () => {
                 {/* Yellow glow and line under active */}
                 {item.isActive && (
                   <>
-                    <div className="absolute left-1/2 -translate-x-1/2 w-20 h-2  bg-yellow-400 opacity-50 blur-md rounded-full z-0" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-[1px]  bg-yellow-400 rounded-full z-10" />
+                    <div className="absolute left-1/2 -translate-x-1/2 w-20 h-2  bg-yellow-500  blur-md rounded-full z-0" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-[1px]  bg-yellow-500 rounded-full z-10" />
                   </>
                 )}
               </Link>
