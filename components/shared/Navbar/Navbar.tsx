@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 import { FaDiscord } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { TbCoinBitcoinFilled, TbShoppingBag } from "react-icons/tb";
@@ -6,54 +8,61 @@ import us from "@/public/images/us.png";
 import Link from "next/link";
 
 const navItems = [
-  { name: "Home", href: "/", isActive: true },
-  { name: "Store", href: "/store", isActive: false },
-  { name: "Checkout", href: "/checkout", isActive: false },
+  { name: "Home", href: "/" },
+  { name: "Store", href: "/store" },
+  { name: "Checkout", href: "/checkout" },
 ];
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <nav className="bg-[#080705]">
       <div className="text-white container mx-auto px-4 md:px-8 py-6 flex items-center justify-between">
+        {/* Left - Logo and Links */}
         <div className="flex items-center space-x-14">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <img src="/logo.svg" alt="Logo" />
           </Link>
 
-          {/* Nav Links */}
-          <nav className="hidden md:flex text-base font-medium">
-            {navItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className={`relative px-8 py-2.5 border-x border-transparent text-center group overflow-hidden`}
-              >
-                {/* Active background layer */}
-                {item.isActive && (
-                  <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd02] backdrop-blur-[1px]  z-0" />
-                )}
-
-                <span
-                  className={`relative z-10 block text-lg ${
-                    item.isActive ? "text-[#FBDE6E] " : "text-opacity-60"
-                  }`}
+          {/* Desktop Nav Links */}
+          <nav className="hidden xl:flex text-base font-medium">
+            {navItems.map((item, index) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className={`relative px-8 py-2.5 border-x border-transparent text-center group overflow-hidden`}
                 >
-                  {item.name}
-                </span>
+                  {/* Active background */}
+                  {isActive && (
+                    <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd02] backdrop-blur-[1px] z-0" />
+                  )}
+                  <span
+                    className={`relative z-10 block text-lg ${
+                      isActive ? "text-[#FBDE6E]" : "text-opacity-60"
+                    }`}
+                  >
+                    {item.name}
+                  </span>
 
-                {/* Yellow glow and line under active */}
-                {item.isActive && (
-                  <>
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3  bg-yellow-500 blur-sm rounded-full z-0" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-[1px]  bg-yellow-500 rounded-full z-10" />
-                  </>
-                )}
-              </Link>
-            ))}
+                  {/* Glow and underline */}
+                  {isActive && (
+                    <>
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-[1px] bg-yellow-500 rounded-full z-10" />
+                    </>
+                  )}
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
+        {/* Right - Icons, Cart, Currency */}
         <div className="flex items-center space-x-4">
           <a href="#" className="text-[#5865F2] text-xl">
             <FaDiscord size={48} />
@@ -68,7 +77,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="mr-8">
+          <div className="hidden xl:flex mr-8">
             <div className="relative bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] flex items-center px-4 py-2 pr-12">
               <TbCoinBitcoinFilled size={24} className="text-yellow-500 mr-2" />
               <span className="text-white text-sm font-semibold mr-1">
@@ -83,7 +92,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          <button className="flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer">
+          <button className="hidden xl:flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer">
             Get Started!
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -99,6 +108,58 @@ const Navbar = () => {
               />
             </svg>
           </button>
+
+          {/* Mobile Toggle */}
+          <div className="xl:hidden">
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="text-white text-3xl focus:outline-none"
+            >
+              ☰
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Sidebar Menu */}
+      <div
+        className={`fixed top-0 right-0 h-full w-64 bg-[#080705] z-50 transform transition-transform duration-300 ease-in-out ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        } xl:hidden`}
+      >
+        <div className="flex justify-end items-center px-4 py-[33px] border-b border-gray-800">
+
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="text-white text-2xl"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="px-4 py-6 space-y-4">
+          {navItems.map((item, index) => (
+            <Link
+              key={index}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              className={`block py-2 text-lg font-medium ${
+                pathname === item.href ? "text-yellow-400" : "text-white"
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          <div className="flex items-center justify-between bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] px-4 py-2 rounded-md mt-6">
+            <TbCoinBitcoinFilled size={20} className="text-yellow-500" />
+            <span className="text-white text-sm font-semibold">US Dollar</span>
+            <img
+              src={us.src}
+              alt="US Flag"
+              className="w-10 h-10 rounded-full drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]"
+            />
+          </div>
         </div>
       </div>
     </nav>
