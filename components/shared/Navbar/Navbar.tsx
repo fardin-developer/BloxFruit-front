@@ -18,8 +18,8 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-[#080705]">
-      <div className="text-white container mx-auto px-4 md:px-8 py-6 flex items-center justify-between">
+    <nav className="bg-[#080705] border-b border-[#e4e4e414] ">
+      <div className="text-white container mx-auto px-4 xl:px-0 py-6 flex items-center justify-between">
         {/* Left - Logo and Links */}
         <div className="flex items-center space-x-14">
           {/* Logo */}

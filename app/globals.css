@@ -7,7 +7,7 @@
 }
 
 body {
-  /* background: #080705; */
+  background: #080705;
   color: var(--foreground);
   font-family: "Oxanium", Arial, Helvetica, sans-serif;
 }
@@ -23,5 +23,5 @@ body {
 }
 
 .test{
-  background: rgba(250, 216, 27, 0.863);
+  background: #e4e4e414;
 }
