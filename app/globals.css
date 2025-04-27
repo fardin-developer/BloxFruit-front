@@ -21,3 +21,7 @@ body {
   border-radius: 8px;
   background: linear-gradient(90deg, #FADA1B 0%, #FFF 100%);
 }
+
+.test{
+  background: rgba(250, 216, 27, 0.863);
+}

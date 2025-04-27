@@ -1,42 +1,41 @@
 import React from "react";
 import { FaDiscord } from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
-import { BsCartFill } from "react-icons/bs";
-import { MdOutlineArrowForward } from "react-icons/md";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { TbCoinBitcoinFilled, TbShoppingBag } from "react-icons/tb";
+import us from "@/public/images/us.png";
 import Link from "next/link";
-import { TbShoppingBag } from "react-icons/tb";
+
+const navItems = [
+  { name: "Home", href: "/", isActive: true },
+  { name: "Store", href: "/store", isActive: false },
+  { name: "Checkout", href: "/checkout", isActive: false },
+];
 
 const Navbar = () => {
   return (
     <nav className="bg-[#080705]">
-      <div className=" text-white container mx-auto px-4 md:px-8 py-6 flex items-center justify-between ">
-        <div className=" flex items-center space-x-14">
+      <div className="text-white container mx-auto px-4 md:px-8 py-6 flex items-center justify-between">
+        <div className="flex items-center space-x-14">
           {/* Logo */}
-          <Link href="/" className="flex items-center ">
-            <img src="/logo.svg" alt="Logo" className="" />
+          <Link href="/" className="flex items-center">
+            <img src="/logo.svg" alt="Logo" />
           </Link>
 
           {/* Nav Links */}
           <nav className="hidden md:flex text-base font-medium">
-            <a
-              href="#"
-              className=" relative bg-red-100/10 backdrop-blur-3xl  text-[#FBDE6E] border-x-1 border-[#FBDE6E] py-2.5 px-8"
-            >
-              Home
-              
-            </a>
-            <a
-              href="#"
-              className="text-[#FBDE6E] border-x-1 border-[#FBDE6E] py-2.5 px-8"
-            >
-              Store
-            </a>
-            <a
-              href="#"
-              className="text-[#FBDE6E] border-x-1 border-[#FBDE6E] py-2.5 px-8"
-            >
-              Checkout
-            </a>
+            {navItems.map((item, index) => (
+              <Link
+                key={index}
+                href={item.href}
+                className={`${
+                  item.isActive
+                    ? "relative border-x-1 border-[#FBDE6E] bg-red-100/10 backdrop-blur-3xl text-[#FBDE6E]"
+                    : "text-[#FBDE6E]"
+                }  py-2.5 px-8`}
+              >
+                {item.name}
+              </Link>
+            ))}
           </nav>
         </div>
 
@@ -54,19 +53,20 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="w-[145px] mr-8">
-            <div className="relative bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] flex items-center px-4 py-2">
-              <span className="text-yellow-300 mr-1">US Dollar</span>
-              <IoIosArrowDown className="text-yellow-300" />
+          <div className="mr-8">
+            <div className="relative bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] flex items-center px-4 py-2 pr-12">
+              <TbCoinBitcoinFilled size={24} className="text-yellow-500 mr-2" />
+              <span className="text-white text-sm font-semibold mr-1">US Dollar</span>
+              <IoMdArrowDropdown size={24} className="text-white" />
               <img
-                src="/images/us.png"
+                src={us.src}
                 alt="US Flag"
-                className="w-12 h-12 rounded-full absolute -right-4"
+                className="w-12 h-12 rounded-full absolute -right-4 drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]"
               />
             </div>
           </div>
 
-          <button className="flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer ">
+          <button className="flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer">
             Get Started!
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,6 @@ const Navbar = () => {
               <path
                 d="M4 11V13H16V15H18V13H20V11H18V9H16V11H4ZM14 7H16V9H14V7ZM14 7H12V5H14V7ZM14 17H16V15H14V17ZM14 17H12V19H14V17Z"
                 fill="#0F1016"
-                
               />
             </svg>
           </button>
