@@ -27,13 +27,28 @@ const Navbar = () => {
               <Link
                 key={index}
                 href={item.href}
-                className={`${
-                  item.isActive
-                    ? "relative border-x-1 border-[#FBDE6E] bg-red-100/10 backdrop-blur-3xl text-[#FBDE6E]"
-                    : "text-[#FBDE6E]"
-                }  py-2.5 px-8`}
+                className={`relative px-8 py-2.5  text-center group overflow-hidden`}
               >
-                {item.name}
+                {/* Active background layer */}
+                {item.isActive && (
+                  <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd02] backdrop-blur-[2px]  z-0" />
+                )}
+
+                <span
+                  className={`relative z-10 block text-[#FBDE6E] text-lg ${
+                    item.isActive ? "font-semibold " : "text-opacity-60"
+                  }`}
+                >
+                  {item.name}
+                </span>
+
+                {/* Yellow glow and line under active */}
+                {item.isActive && (
+                  <>
+                    <div className="absolute left-1/2 -translate-x-1/2 w-20 h-2  bg-yellow-400 opacity-50 blur-md rounded-full z-0" />
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-[1px]  bg-yellow-400 rounded-full z-10" />
+                  </>
+                )}
               </Link>
             ))}
           </nav>
@@ -56,7 +71,9 @@ const Navbar = () => {
           <div className="mr-8">
             <div className="relative bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] flex items-center px-4 py-2 pr-12">
               <TbCoinBitcoinFilled size={24} className="text-yellow-500 mr-2" />
-              <span className="text-white text-sm font-semibold mr-1">US Dollar</span>
+              <span className="text-white text-sm font-semibold mr-1">
+                US Dollar
+              </span>
               <IoMdArrowDropdown size={24} className="text-white" />
               <img
                 src={us.src}
