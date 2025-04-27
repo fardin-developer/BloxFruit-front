@@ -27,7 +27,7 @@ const Navbar = () => {
               <Link
                 key={index}
                 href={item.href}
-                className={`relative px-8 py-2.5  text-center group overflow-hidden`}
+                className={`relative px-8 py-2.5 border-x border-transparent text-center group overflow-hidden`}
               >
                 {/* Active background layer */}
                 {item.isActive && (
@@ -35,8 +35,8 @@ const Navbar = () => {
                 )}
 
                 <span
-                  className={`relative z-10 block text-[#FBDE6E] text-lg ${
-                    item.isActive ? "font-semibold " : "text-opacity-60"
+                  className={`relative z-10 block text-lg ${
+                    item.isActive ? "text-[#FBDE6E] " : "text-opacity-60"
                   }`}
                 >
                   {item.name}
@@ -45,7 +45,7 @@ const Navbar = () => {
                 {/* Yellow glow and line under active */}
                 {item.isActive && (
                   <>
-                    <div className="absolute left-1/2 -translate-x-1/2 w-20 h-2  bg-yellow-500  blur-md rounded-full z-0" />
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3  bg-yellow-500 blur-sm rounded-full z-0" />
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-[1px]  bg-yellow-500 rounded-full z-10" />
                   </>
                 )}
