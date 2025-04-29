@@ -22,7 +22,7 @@ const Hero = () => {
           </div>
           <div className="h-32 w-full bg-[#0e0c15] absolute bottom-0 right-0 blur-xl"></div>
           <div className="relative ">
-            <div className="-ml-[30%]">
+            <div className="-ml-[32.9%]">
               <span className="text-[1.5rem] font-medium bg-gradient-to-l to-[#FADA1B] via-[#fad81bc0] from-white bg-clip-text text-transparent ">
                 Unlock Exclusive Roblox Gear in Seconds!
               </span>
