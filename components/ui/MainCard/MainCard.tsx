@@ -120,7 +120,7 @@ const MainCard = ({ data }: any) => {
         {/* Action Buttons */}
         <div className="mt-3 flex items-center gap-2">
           <button
-            className={`${currentStyle.buttonClass}  py-3 w-full rounded-sm font-bold cursor-pointer active:scale-95 duration-200 hover:opacity-85`}
+            className={`${currentStyle.buttonClass}  py-3 w-full rounded-sm font-bold cursor-pointer active:scale-95 duration-200 hover:brightness-150`}
           >
             Buy now
           </button>
