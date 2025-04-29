@@ -45,7 +45,7 @@ export default function OurGames() {
   return (
     <div className="text-white max-w-[1320px] mx-auto px-4 xl:px-0 mt-20">
       <div className="mb-12 lg:flex items-center justify-between">
-        <h1 className="text-3xl xl:text-5xl font-medium ">
+        <h1 className="text-3xl xl:text-5xl font-medium uppercase">
           Our <span className="text-[#FADA1B]">Games</span>
         </h1>
         <div className="sm:flex justify-between items-center">
