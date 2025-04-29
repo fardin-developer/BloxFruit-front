@@ -5,7 +5,7 @@ import typeLegendary from "@/public/mainCardImages/type-legendary.png";
 import typeUncommon from "@/public/mainCardImages/type-uncommon.png";
 import typeMythical from "@/public/mainCardImages/type-mythical.png";
 import typeCommon from "@/public/mainCardImages/type-common.png";
-
+import "./MainCard.css";
 import Image from "next/image";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { TbShoppingCart } from "react-icons/tb";
@@ -50,7 +50,9 @@ const MainCard = ({ data }: any) => {
   const currentStyle = typeStyles[type] || typeStyles["common"];
 
   return (
-    <div className={`rounded-xl ${currentStyle.bg} p-3 shadow-xl transition-all text-white group bg-[#1a1a1a]`}>
+    <div
+      className={`rounded-xl ${currentStyle.bg} p-3 shadow-xl transition-all text-white group bg-[#1a1a1a]`}
+    >
       <div
         className="relative h-56 rounded-xl overflow-hidden"
         style={{
@@ -118,7 +120,7 @@ const MainCard = ({ data }: any) => {
         {/* Action Buttons */}
         <div className="mt-3 flex items-center gap-2">
           <button
-            className={`${currentStyle.buttonClass}  py-3 w-full rounded-sm font-bold cursor-pointer`}
+            className={`${currentStyle.buttonClass}  py-3 w-full rounded-sm font-bold cursor-pointer active:scale-95 duration-200 hover:opacity-85`}
           >
             Buy now
           </button>
