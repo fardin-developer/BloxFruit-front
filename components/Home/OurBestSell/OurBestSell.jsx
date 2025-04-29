@@ -1,3 +1,4 @@
+import MainCard from '@/components/ui/MainCard/MainCard'
 import React from 'react'
 
 export default function OurBestSell() {
@@ -34,6 +35,9 @@ export default function OurBestSell() {
                         </svg>
                     </button>
                 </div>
+            </div>
+            <div className='grid grid-cols-4'>
+                <MainCard />
             </div>
         </div>
     )
