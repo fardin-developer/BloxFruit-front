@@ -43,16 +43,22 @@ const data = [
 
 export default function OurGames() {
   return (
-    <div className="text-white  max-w-[1320px] mx-auto mt-20">
-      <div className="mb-12 flex items-center justify-between">
-        <h1 className="text-5xl font-medium ">
+    <div className="text-white max-w-[1320px] mx-auto px-4 xl:px-0 mt-20">
+      <div className="mb-12 lg:flex items-center justify-between">
+        <h1 className="text-3xl xl:text-5xl font-medium ">
           Our <span className="text-[#FADA1B]">Games</span>
         </h1>
-        <div className="flex items-center">
-          <p className="text-white">Total Price 70.99ETH</p>
-          <span className="text-3xl px-4 text-[#2F2A38]">|</span>
-          <p className="text-white pr-6">Total 15 Items</p>
-          <button className="hidden xl:flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer">
+        <div className="sm:flex justify-between items-center">
+          <div className="flex justify-between my-3 items-center">
+            <p className="text-white">
+              Total Price 70.99ETH
+            </p>
+            <span className="text-3xl px-4 text-[#2F2A38]">|</span>
+            <p className="text-white md:pr-6">
+              Total 15 Items
+            </p>
+          </div>
+          <button className="w-full sm:w-fit text-center flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer">
             Get Started!
             <svg
               xmlns="http://www.w3.org/2000/svg"
