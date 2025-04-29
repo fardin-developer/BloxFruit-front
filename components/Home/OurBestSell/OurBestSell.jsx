@@ -1,7 +1,83 @@
 import MainCard from '@/components/ui/MainCard/MainCard'
-import React from 'react'
+import rare from "@/public/mainCardImages/rare.png";
+import legendary from "@/public/mainCardImages/legendary.png";
+import uncommon from "@/public/mainCardImages/uncommon.png";
+import mythical from "@/public/mainCardImages/mythical.png";
+import common from "@/public/mainCardImages/common.png";
+
+
+
+const cardData = [
+    {
+        "type": "Rare",
+        "name": "BarrierFruit",
+        "regularPrice": 17.89,
+        "discountPrice": 10.23,
+        "image": rare,
+        "category": "Permanent Fruit"
+    },
+    {
+        "type": "Legendary",
+        "name": "RubberFruit",
+        "regularPrice": 15.49,
+        "discountPrice": 7.79,
+        "image": legendary,
+        "category": "Permanent Fruit"
+    },
+    {
+        "type": "Uncommon",
+        "name": "IceFruit",
+        "regularPrice": 9.99,
+        "discountPrice": 4.89,
+        "image": uncommon,
+        "category": "Permanent Fruit"
+    },
+    {
+        "type": "Mythical",
+        "name": "SandFruit",
+        "regularPrice": 9.99,
+        "discountPrice": 4.89,
+        "image": mythical,
+        "category": "Permanent Fruit"
+    },
+    {
+        "type": "Common",
+        "name": "BuddhaFruit",
+        "regularPrice": 10.23,
+        "discountPrice": 4.5,
+        "image": common,
+        "category": "Permanent Fruit"
+    },
+    {
+        "type": "Mythical",
+        "name": "SandFruit",
+        "regularPrice": 9.99,
+        "discountPrice": 4.89,
+        "image": mythical,
+        "category": "Permanent Fruit"
+    },
+    {
+        "type": "Rare",
+        "name": "BarrierFruit",
+        "regularPrice": 17.89,
+        "discountPrice": 10.23,
+        "image": rare,
+        "category": "Permanent Fruit"
+    },
+    {
+        "type": "Uncommon",
+        "name": "IceFruit",
+        "regularPrice": 9.99,
+        "discountPrice": 4.89,
+        "image": uncommon,
+        "category": "Permanent Fruit"
+    }
+];
+
+
 
 export default function OurBestSell() {
+    console.log(cardData);
     return (
         <div className='max-w-[1320px] mx-auto px-4 xl:px-0 mt-20'>
             <div className="mb-12 lg:flex items-center justify-between text-white">
@@ -36,8 +112,12 @@ export default function OurBestSell() {
                     </button>
                 </div>
             </div>
-            <div className='grid grid-cols-4'>
-                <MainCard />
+            <div className="grid grid-cols-4 gap-4">
+                {
+                    cardData.map((item, index) => (
+                        <MainCard key={index} data={item} />
+                    ))
+                }
             </div>
         </div>
     )

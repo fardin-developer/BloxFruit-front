@@ -1,32 +1,40 @@
 import React from "react";
 import cardBg from "@/public/mainCardImages/card-bg-2.png";
-import rare from "@/public/mainCardImages/rare.png";
+import typeRare from "@/public/mainCardImages/type-rare.png";
+import typeLegendary from "@/public/mainCardImages/type-legendary.png";
+import typeUncommon from "@/public/mainCardImages/type-uncommon.png";
+import typeMythical from "@/public/mainCardImages/type-mythical.png";
+import typeCommon from "@/public/mainCardImages/type-common.png";
+
 import Image from "next/image";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { TbShoppingCart } from "react-icons/tb";
 
-const MainCard = () => {
+const MainCard = ({ data }: any) => {
+  const { category, image, discountPrice, regularPrice, name, type } = data;
+
   return (
-    <div className="rounded-xl main-card-bg p-3 shadow-xl transition-all text-white group">
-      <div className="relative h- rounded-xl border-1 border-[#6BCA4A] overflow-hidden">
+    <div className="rounded-xl main-card-bg-rare p-3 shadow-xl transition-all text-white group">
+      <div className="relative h-56 rounded-xl border-1 border-[#6BCA4A] overflow-hidden">
+        <div className="absolute top-2 left-3">
+          <Image
+            src={typeRare}
+            alt="top type "
+            width={400}
+            height={400}
+            className=" z-10 h-11 w-fit "
+          />
+        </div>
         <div
-          className="absolute inset-0 bg-cover opacity-1   "
+          className="absolute inset-0 bg-cover bg-center opacity-10"
           style={{
             backgroundImage: `url(${cardBg.src})`,
             backgroundBlendMode: "color-burn",
           }}
         ></div>
         <div className="relative">
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-10"
-            style={{
-              backgroundImage: `url(${cardBg.src})`,
-              backgroundBlendMode: "color-burn",
-            }}
-          ></div>
-
           <Image
-            src={rare}
+            src={image}
             alt="Rare Shadow"
             width={400}
             height={400}
@@ -34,29 +42,29 @@ const MainCard = () => {
           />
           {/* Main Rare Image */}
           <Image
-            src={rare}
+            src={image}
             alt="Rare"
             width={400}
             height={400}
-            className="relative z-10 transition-all duration-300"
+            className="relative z-10 transition-all duration-300 group-hover:scale-105 mt-4"
           />
         </div>
       </div>
       <div className="mt-3">
-        <p className="text-sm mb-2 text-[#9D99AD]">Permanent Fruit</p>
+        <p className="text-sm mb-2 text-[#9D99AD]">{category}</p>
         <div className="flex items-center gap-1">
-          <h2 className="text-lg text-white font-bold">BarrierFruit</h2>
+          <h2 className="text-lg text-white font-bold">{name}</h2>
           <RiVerifiedBadgeFill className="text-[#1d96ff]" />
         </div>
         <hr className="mt-2 my-4 border rgb-border" />
         <div className="flex justify-between">
           <div className="space-y-2">
             <p className="text-xs text-[#9D99AD]">Regular Price</p>
-            <h2 className="text-lg text-white">$17.89 Dollar</h2>
+            <h2 className="text-lg text-white">${regularPrice} Dollar</h2>
           </div>
           <div className="space-y-2">
             <p className="text-xs text-[#9D99AD]">Discount Price</p>
-            <h2 className="text-lg text-white">$10.23 Dollar</h2>
+            <h2 className="text-lg text-white">${discountPrice} Dollar</h2>
           </div>
         </div>
         <div className="mt-3 flex items-center gap-2">
