@@ -13,18 +13,62 @@ import { TbShoppingCart } from "react-icons/tb";
 const MainCard = ({ data }: any) => {
   const { category, image, discountPrice, regularPrice, name, type } = data;
 
+  // Styles based on type
+  const typeStyles: any = {
+    rare: {
+      bg: "bg-rare",
+      borderColor: "#6BCA4A",
+      typeImage: typeRare,
+      buttonClass: "bg-gradient-to-l to-green-400 from-white text-gray-700 ",
+    },
+    legendary: {
+      bg: "bg-legendary",
+      borderColor: "#CB2086",
+      typeImage: typeLegendary,
+      buttonClass: "bg-gradient-to-l to-[#CB2086] from-white text-gray-700",
+    },
+    uncommon: {
+      bg: "bg-uncommon",
+      borderColor: "#24b1cd",
+      typeImage: typeUncommon,
+      buttonClass: "bg-gradient-to-l to-[#1FB6CB] from-white text-gray-700",
+    },
+    mythical: {
+      bg: "bg-mythical",
+      borderColor: "#9C0600",
+      typeImage: typeMythical,
+      buttonClass: "bg-gradient-to-l to-[#C0241C] from-white text-gray-700",
+    },
+    common: {
+      bg: "bg-common",
+      borderColor: "#fada1b",
+      typeImage: typeCommon,
+      buttonClass: "bg-gradient-to-l to-[#FADA1B] from-white text-gray-700",
+    },
+  };
+
+  const currentStyle = typeStyles[type] || typeStyles["common"];
+
   return (
-    <div className="rounded-xl main-card-bg-rare p-3 shadow-xl transition-all text-white group">
-      <div className="relative h-56 rounded-xl border-1 border-[#6BCA4A] overflow-hidden">
-        <div className="absolute top-2 left-3">
+    <div className={`rounded-xl ${currentStyle.bg} p-3 shadow-xl transition-all text-white group bg-[#1a1a1a]`}>
+      <div
+        className="relative h-56 rounded-xl overflow-hidden"
+        style={{
+          border: `1px solid ${currentStyle.borderColor}`,
+        }}
+      >
+        {/* Type badge */}
+        <div className="absolute top-2 left-3 z-10">
           <Image
-            src={typeRare}
-            alt="top type "
+            src={currentStyle.typeImage}
+            alt="type badge"
             width={400}
             height={400}
-            className=" z-10 h-11 w-fit "
+            className="h-11 w-fit"
           />
         </div>
+
+        {/* Background texture */}
         <div
           className="absolute inset-0 bg-cover bg-center opacity-10"
           style={{
@@ -32,24 +76,27 @@ const MainCard = ({ data }: any) => {
             backgroundBlendMode: "color-burn",
           }}
         ></div>
+
+        {/* Shadow + Main image */}
         <div className="relative">
           <Image
             src={image}
-            alt="Rare Shadow"
+            alt="Shadow"
             width={400}
             height={400}
             className="absolute -top-9 left-5 w-64 h-64 object-cover blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
           />
-          {/* Main Rare Image */}
           <Image
             src={image}
-            alt="Rare"
+            alt="Main"
             width={400}
             height={400}
             className="relative z-10 transition-all duration-300 group-hover:scale-105 mt-4"
           />
         </div>
       </div>
+
+      {/* Info Section */}
       <div className="mt-3">
         <p className="text-sm mb-2 text-[#9D99AD]">{category}</p>
         <div className="flex items-center gap-1">
@@ -67,11 +114,15 @@ const MainCard = ({ data }: any) => {
             <h2 className="text-lg text-white">${discountPrice} Dollar</h2>
           </div>
         </div>
+
+        {/* Action Buttons */}
         <div className="mt-3 flex items-center gap-2">
-          <button className="bg-gradient-to-l to-green-400 from-white py-3 w-full rounded-sm text-gray-700 font-bold cursor-pointer">
+          <button
+            className={`${currentStyle.buttonClass}  py-3 w-full rounded-sm font-bold cursor-pointer`}
+          >
             Buy now
           </button>
-          <button className="p-3.5 bg-white/10 rounded-sm cursor-pointer ">
+          <button className="p-3.5 bg-white/10 rounded-sm cursor-pointer">
             <TbShoppingCart size={20} />
           </button>
         </div>

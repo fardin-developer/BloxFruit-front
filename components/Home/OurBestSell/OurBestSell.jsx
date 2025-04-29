@@ -9,7 +9,7 @@ import common from "@/public/mainCardImages/common.png";
 
 const cardData = [
     {
-        "type": "Rare",
+        "type": "rare",
         "name": "BarrierFruit",
         "regularPrice": 17.89,
         "discountPrice": 10.23,
@@ -17,7 +17,7 @@ const cardData = [
         "category": "Permanent Fruit"
     },
     {
-        "type": "Legendary",
+        "type": "legendary",
         "name": "RubberFruit",
         "regularPrice": 15.49,
         "discountPrice": 7.79,
@@ -25,7 +25,7 @@ const cardData = [
         "category": "Permanent Fruit"
     },
     {
-        "type": "Uncommon",
+        "type": "uncommon",
         "name": "IceFruit",
         "regularPrice": 9.99,
         "discountPrice": 4.89,
@@ -33,7 +33,7 @@ const cardData = [
         "category": "Permanent Fruit"
     },
     {
-        "type": "Mythical",
+        "type": "mythical",
         "name": "SandFruit",
         "regularPrice": 9.99,
         "discountPrice": 4.89,
@@ -41,7 +41,7 @@ const cardData = [
         "category": "Permanent Fruit"
     },
     {
-        "type": "Common",
+        "type": "common",
         "name": "BuddhaFruit",
         "regularPrice": 10.23,
         "discountPrice": 4.5,
@@ -49,7 +49,7 @@ const cardData = [
         "category": "Permanent Fruit"
     },
     {
-        "type": "Mythical",
+        "type": "mythical",
         "name": "SandFruit",
         "regularPrice": 9.99,
         "discountPrice": 4.89,
@@ -57,7 +57,7 @@ const cardData = [
         "category": "Permanent Fruit"
     },
     {
-        "type": "Rare",
+        "type": "rare",
         "name": "BarrierFruit",
         "regularPrice": 17.89,
         "discountPrice": 10.23,
@@ -65,7 +65,7 @@ const cardData = [
         "category": "Permanent Fruit"
     },
     {
-        "type": "Uncommon",
+        "type": "uncommon",
         "name": "IceFruit",
         "regularPrice": 9.99,
         "discountPrice": 4.89,
