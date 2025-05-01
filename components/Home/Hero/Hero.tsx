@@ -14,21 +14,19 @@ const Hero = () => {
       >
         <div className="max-w-[1320px] mx-auto flex flex-row-reverse justify-between items-center  ">
           <div className="absolute right-0 ">
-            <Image
-              src={gamecharecter}
+            <img
+              src={gamecharecter.src}
               alt="gamecharecter"
-              width={845}
-              height={880}
-              className="aspect-square xl:h-[800px] z-10"
+              className="aspect-square xl:h-[600px] 2xl:h-[800px] z-10"
             />
           </div>
           <div className="h-32 w-full bg-[#0e0c15] absolute bottom-0 right-0 blur-sm"></div>
           <div className="relative ">
-            <div className="-ml-[32.9%]">
-              <span className="text-[1.5rem] font-medium bg-gradient-to-l to-[#FADA1B] via-[#fad81bc0] from-white bg-clip-text text-transparent ">
+            <div className="xl:-ml-[22.9%] 2xl:-ml-[32.9%]">
+              <span className="text-[1.2rem]  xl:text-[1.5rem] font-medium bg-gradient-to-l to-[#FADA1B] via-[#fad81bc0] from-white bg-clip-text text-transparent ">
                 Unlock Exclusive Roblox Gear in Seconds!
               </span>
-              <h1 className="text-[4.5rem] font-bold leading-[110%] max-w-[19ch]">
+              <h1 className="text-[2rem] xl:text-[4.5rem] font-bold leading-[110%] max-w-[19ch]">
                 Buy Your Favorite In-Game Items{" "}
                 <span className="bg-gradient-to-l to-[#FADA1B] from-white bg-clip-text text-transparent ">
                   Instantly
@@ -43,7 +41,7 @@ const Hero = () => {
                 </span>
                 with Blox Fruit Hub!
               </h1>
-              <p className="max-w-[60ch]">
+              <p className="text-sm xl:text-base max-w-[60ch]">
                 Looking for fast and trusted item purchases in BloxFruits, Blue
                 Lock Rivals, Rivals, Combat Warrior, and Anime Reborn? Blox
                 Fruit Hub delivers your favorite items instantly.
