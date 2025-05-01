@@ -2,32 +2,42 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { IoIosArrowDown } from "react-icons/io";
 const items = [
   { name: "Permanent Fruits", href: "#PermanentFruits" },
   { name: "Gamepass", href: "#Gamepass" },
   { name: "Others section", href: "#OthersSection" },
 ];
 
+const categories = [
+  { value: "All", label: "All" },
+  { value: "popular", label: "Popular" },
+  { value: "new", label: "New" },
+  { value: "old", label: "Old" },
+];
+
 export default function StoreProducts() {
   const [activeSection, setActiveSection] = useState("Permanent Fruits");
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState("Select one");
 
   useEffect(() => {
     const sections = document.querySelectorAll("section");
 
     const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const sectionTitle = entry.target.getAttribute("data-title");
-              if (sectionTitle) setActiveSection(sectionTitle);
-            }
-          });
-        },
-        {
-          threshold: 0.5,
-          rootMargin: "0px 0px -40% 0px",
-        }
-      );
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionTitle = entry.target.getAttribute("data-title");
+            if (sectionTitle) setActiveSection(sectionTitle);
+          }
+        });
+      },
+      {
+        threshold: 0.5,
+        rootMargin: "0px 0px -40% 0px",
+      }
+    );
     sections.forEach((section) => observer.observe(section));
     return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
@@ -91,7 +101,7 @@ export default function StoreProducts() {
         </div>
 
         {/* Price Range */}
-        <div className="border-t border-gray-800 pt-4">
+        <div className="bg-[#0c0c09] p-4 rounded-lg">
           <h3 className="text-sm font-semibold mb-3">Price Range</h3>
           <input type="range" className="w-full accent-[#FADA1B]" />
           <div className="flex justify-between text-xs text-gray-400 mt-1">
@@ -104,7 +114,7 @@ export default function StoreProducts() {
       {/* Product Grid */}
       <main className="w-full lg:w-3/4">
         <div className="sticky top-4 z-10 bg-[#0a0a09] flex justify-between">
-          <div className="flex gap-4 text-white mb-8">
+          <div className="flex gap-4 text-white">
             {items.map((item, index) => {
               const isActive = activeSection === item.name;
               return (
@@ -133,8 +143,49 @@ export default function StoreProducts() {
               );
             })}
           </div>
-          <div className="">
-            hello
+          <div className="flex items-center gap-2.5">
+            <div className="relative z-10 w-36 text-white pr-2">
+              <button
+                className="text-xs px-2 sm:text-sm xl:text-lg w-full flex justify-between items-center border selects-border selects-border cursor-pointer  duration-300"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                {selected}
+                <IoIosArrowDown
+                  className={`text-xs sm:text-sm xl:text-lg duration-300 transform ${
+                    isOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
+              <div
+                className={`absolute mt-1 w-full scrollbar-hide transition-all duration-300 ease-linear overflow-hidden 
+                    ${
+                      isOpen
+                        ? "opacity-100 max-h-[420px] scale-y-100"
+                        : "opacity-100 max-h-0 scale-y-95"
+                    }`}
+              >
+                <ul>
+                  {["Select one", ...categories.map((s) => s.label)].map(
+                    (label) => (
+                      <li
+                        key={label}
+                        className={`text-xs sm:text-sm xl:text-lg p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize ${
+                          selected === label
+                            ? "bg-[#FADA1B] text-[#0a0a09]"
+                            : "hover:bg-[#FADA1B] "
+                        }`}
+                        onClick={() => {
+                          setSelected(label);
+                          setIsOpen(false);
+                        }}
+                      >
+                        {label}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -37,3 +37,6 @@ html {
 .rgb-border {
   border-image: linear-gradient(to right, #4a4529,  #4a45291f) 1;
 }
+.selects-border {
+  border-image: linear-gradient(to right, #fad81b41,  #4a45291f) 1;
+}
