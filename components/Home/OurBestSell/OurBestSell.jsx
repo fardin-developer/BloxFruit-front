@@ -112,7 +112,7 @@ export default function OurBestSell() {
                     </button>
                 </div>
             </div>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid xl:grid-cols-4 gap-4">
                 {
                     cardData.map((item, index) => (
                         <MainCard key={index} data={item} />

@@ -1,5 +1,5 @@
 import React from "react";
-import cardBg from "@/public/mainCardImages/card-bg-2.png";
+import cardBg from "@/public/mainCardImages/card-bg.png";
 import typeRare from "@/public/mainCardImages/type-rare.png";
 import typeLegendary from "@/public/mainCardImages/type-legendary.png";
 import typeUncommon from "@/public/mainCardImages/type-uncommon.png";
@@ -72,10 +72,11 @@ const MainCard = ({ data }: any) => {
 
         {/* Background texture */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-10"
+          className="absolute inset-0 bg-cover bg-center opacity-5 "
           style={{
             backgroundImage: `url(${cardBg.src})`,
             backgroundBlendMode: "color-burn",
+            
           }}
         ></div>
 
