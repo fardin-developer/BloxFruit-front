@@ -5,14 +5,15 @@ import {
   FaTwitter,
   FaFacebook,
 } from "react-icons/fa";
-
+import Image from "next/image";
+import logo from "@/public/logo.svg";
 const Footer = () => {
   return (
     <footer className=" text-white px-6 py-10 mt-8 border-t border-[#e4e4e414]">
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-2 mb-4">
-            <img src="/logo.svg" alt="logo" className="" />
+            <Image src={logo} alt="logo"  width={183} height={52} className="" />
           </div>
           <div className="flex space-x-4 text-lg text-white">
             <FaFacebook />

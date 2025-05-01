@@ -6,7 +6,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { TbCoinBitcoinFilled, TbShoppingBag } from "react-icons/tb";
 import us from "@/public/images/us.png";
 import Link from "next/link";
-
+import Image from "next/image";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Store", href: "/store" },
@@ -24,7 +24,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-14">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <img src="/logo.svg" alt="Logo" />
+            <Image src="/logo.svg" alt="Logo" width={183} height={52} />
           </Link>
 
           {/* Desktop Nav Links */}
@@ -84,9 +84,11 @@ const Navbar = () => {
                 US Dollar
               </span>
               <IoMdArrowDropdown size={24} className="text-white" />
-              <img
-                src={us.src}
+              <Image
+                src={us}
                 alt="US Flag"
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded-full absolute -right-4 drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]"
               />
             </div>
@@ -153,9 +155,11 @@ const Navbar = () => {
           <div className="flex items-center justify-between bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] px-4 py-2 rounded-md mt-6">
             <TbCoinBitcoinFilled size={20} className="text-yellow-500" />
             <span className="text-white text-sm font-semibold">US Dollar</span>
-            <img
-              src={us.src}
+            <Image
+              src={us}
               alt="US Flag"
+              width={48}
+              height={48}
               className="w-10 h-10 rounded-full drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]"
             />
           </div>

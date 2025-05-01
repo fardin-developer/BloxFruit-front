@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { FaEthereum, FaCheckCircle } from "react-icons/fa";
-import images from "@/public/cardsImage/ourgames.png";
+import { FaEthereum } from "react-icons/fa";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 

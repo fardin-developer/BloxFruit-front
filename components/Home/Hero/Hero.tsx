@@ -3,7 +3,6 @@ import React from "react";
 import bannerbackground from "@/public/images/bannerbackground.png";
 import gamecharecter from "@/public/images/gamecharecter.png";
 import Image from "next/image";
-
 const Hero = () => {
   return (
     <div className="container mx-auto px-4 xl:px-0 xl:py-4 text-white">
@@ -15,10 +14,11 @@ const Hero = () => {
       >
         <div className="max-w-[1320px] mx-auto flex flex-row-reverse justify-between items-center  ">
           <div className="absolute right-0 ">
-            <img
-              src={gamecharecter.src}
-              alt=""
-             
+            <Image
+              src={gamecharecter}
+              alt="gamecharecter"
+              width={845}
+              height={880}
               className="aspect-square xl:h-[800px] z-10"
             />
           </div>

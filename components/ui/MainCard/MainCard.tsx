@@ -10,7 +10,7 @@ import Image from "next/image";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { TbShoppingCart } from "react-icons/tb";
 
-const MainCard = ({ data }: any) => {
+const MainCard = ({ data }: { data: any }) => {
   const { category, image, discountPrice, regularPrice, name, type } = data;
 
   // Styles based on type
