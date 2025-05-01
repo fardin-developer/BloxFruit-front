@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoMdArrowDropdown } from "react-icons/io";
 const items = [
   { name: "Permanent Fruits", href: "#PermanentFruits" },
   { name: "Gamepass", href: "#Gamepass" },
@@ -45,7 +45,7 @@ export default function StoreProducts() {
   return (
     <div className="flex flex-col lg:flex-row  gap-6">
       {/* Sidebar */}
-      <aside className="sticky top-4 z-10 w-full lg:w-96 h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6">
+      <aside className="lg:sticky top-4 z-10 w-full lg:w-80 xl:w-96 h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6">
         {/* Filter header */}
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Filter</h2>
@@ -127,7 +127,7 @@ export default function StoreProducts() {
                     <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
                   )}
                   <span
-                    className={`relative z-10 block text-lg ${
+                    className={`relative z-10 block text-xs xl:text-lg ${
                       isActive ? "text-[#FBDE6E]" : "text-white/60"
                     }`}
                   >
@@ -143,14 +143,14 @@ export default function StoreProducts() {
               );
             })}
           </div>
-          <div className="flex items-center gap-2.5">
-            <div className="relative z-10 w-36 text-white pr-2">
+          <div className="flex items-center gap-2.5 pr-2">
+            <div className="relative z-10 w-36 text-white bg-gradient-to-l from-[#4a45291f] to-[#fad81b41] p-[1px] rounded-sm">
               <button
-                className="text-xs px-2 sm:text-sm xl:text-lg w-full flex justify-between items-center border selects-border selects-border cursor-pointer  duration-300"
+                className="text-xs px-2 sm:text-sm xl:text-lg w-full flex justify-between items-center rounded-sm bg-[#0a0a09] selects-border cursor-pointer  duration-300"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 {selected}
-                <IoIosArrowDown
+                <IoMdArrowDropdown size={24}
                   className={`text-xs sm:text-sm xl:text-lg duration-300 transform ${
                     isOpen ? "rotate-180" : "rotate-0"
                   }`}
