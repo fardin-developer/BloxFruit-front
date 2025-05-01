@@ -65,7 +65,7 @@ const FAQ = () => {
                   <span className="h-8 w-8 text-base text-black font-semibold bg-gradient-to-l to-[#FADA1B] from-white rounded-full flex items-center justify-center drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]">
                     {index + 1}
                   </span>
-                  <span>{item.question}</span>
+                  <span className="text-sm md:text-base">{item.question}</span>
                 </div>
                 <div className=" relative transform transition-transform ">
                   <Image src={faqImage} alt="faq" width={124} height={72} />
