@@ -72,11 +72,9 @@ const MainCard = ({ data }: { data: any }) => {
 
         {/* Background texture */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-5 "
+          className="absolute inset-0 bg-cover bg-center mix-blend-color-burn"
           style={{
             backgroundImage: `url(${cardBg.src})`,
-            backgroundBlendMode: "color-burn",
-            
           }}
         ></div>
 
