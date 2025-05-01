@@ -2,7 +2,7 @@ import Hero from "@/components/Home/Hero/Hero";
 import OurGames from "@/components/Home/OurGames/OurGames";
 import OurBestSell from "@/components/Home/OurBestSell/OurBestSell";
 import WhyChoose from "@/components/Home/WhyChoose/WhyChoose";
-import React from "react";
+import FAQ from "@/components/Home/FAQ/FAQ";
 
 const page = () => {
   return (
@@ -11,6 +11,7 @@ const page = () => {
       <WhyChoose />
       <OurGames />
       <OurBestSell />
+      <FAQ />
     </div>
   );
 };
