@@ -11,7 +11,9 @@ body {
   color: var(--foreground);
   font-family: "Oxanium", Arial, Helvetica, sans-serif;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 
 
 
