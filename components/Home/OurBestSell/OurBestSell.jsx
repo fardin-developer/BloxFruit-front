@@ -1,10 +1,5 @@
 "use client"
 import MainCard from '@/components/ui/MainCard/MainCard'
-import rare from "@/public/mainCardImages/rare.png";
-import legendary from "@/public/mainCardImages/legendary.png";
-import uncommon from "@/public/mainCardImages/uncommon.png";
-import mythical from "@/public/mainCardImages/mythical.png";
-import common from "@/public/mainCardImages/common.png";
 import { useEffect, useState } from 'react';
 
 
