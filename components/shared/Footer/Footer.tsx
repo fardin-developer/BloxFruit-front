@@ -5,7 +5,7 @@ import logo from "@/public/logo.svg";
 const Footer = () => {
   return (
     <footer className=" text-white  border-t border-[#e4e4e414]">
-      <div className="container mx-auto px-4 2xl:px-0 py-10">
+      <div className="max-w-[1616px] mx-auto px-4 2 py-10">
         <div className="flex justify-between items-center mb-6 lg:mb-8">
           <div className="flex items-center space-x-2 mb-4">
             <Image src={logo} alt="logo" width={183} height={52} className="" />
@@ -114,7 +114,7 @@ const Footer = () => {
 
       {/* Bottom Footer */}
       <div className="border-t border-[#e4e4e414] mt-10 text-sm text-gray-500">
-        <div className="container mx-auto py-5 flex flex-col md:flex-row justify-between items-center ">
+        <div className="max-w-[1616px] mx-auto py-5 flex flex-col md:flex-row justify-between items-center ">
           <div className="space-x-4 mb-3 md:mb-0">
             <a href="#">Privacy Policy</a>
             <a href="#">TOS</a>

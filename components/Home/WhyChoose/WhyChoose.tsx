@@ -61,7 +61,7 @@ const Card = ({
 
 export default function WhyChoose() {
   return (
-    <div className="max-w-[1320px] mx-auto px-4 2xl:px-0 mt-20">
+    <div className="max-w-[1320px] mx-auto px-4 2 mt-20">
       <div className="mb-24 lg:flex items-center justify-between text-white">
         <h1 className="text-3xl xl:text-5xl font-medium uppercase">
           Why Choose{" "}

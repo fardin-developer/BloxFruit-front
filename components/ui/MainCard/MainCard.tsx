@@ -85,7 +85,7 @@ const MainCard = ({ data }: { data: any }) => {
             alt="Shadow"
             width={400}
             height={400}
-            className="absolute -top-9 left-5 w-64 h-64 object-cover blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
+            className="absolute aspect-3/4 -top-9 left-5 w-64 h-64 object-cover blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
           />
           <Image
             src={image}

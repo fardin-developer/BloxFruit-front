@@ -5,7 +5,7 @@ import gamecharecter from "@/public/images/gamecharecter.png";
 import Image from "next/image";
 const Hero = () => {
   return (
-    <div className="container mx-auto px-4 xl:px-0 xl:py-4 text-white">
+    <div className="max-w-[1616px] mx-auto px-4  xl:py-4 text-white">
       <div
         className="h-[100vh] bg-cover bg-center rounded-t-xl flex relative overflow-hidden "
         style={{
