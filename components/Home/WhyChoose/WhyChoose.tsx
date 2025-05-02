@@ -70,7 +70,7 @@ export default function WhyChoose() {
           </span>
         </h1>
       </div>
-      <div className="space-y-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+      <div className="space-y-6 md:space-y-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
         {cardData.map((item, index) => (
           <Card key={index} {...item} />
         ))}

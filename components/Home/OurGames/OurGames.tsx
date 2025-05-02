@@ -58,7 +58,7 @@ export default function OurGames() {
               Total 15 Items
             </p>
           </div>
-          <button className="w-full sm:w-fit text-center flex justify-center items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer">
+          <button className="w-full sm:w-fit text-center flex justify-center items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150">
             Get Started!
             <svg
               xmlns="http://www.w3.org/2000/svg"

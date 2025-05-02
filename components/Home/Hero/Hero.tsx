@@ -46,7 +46,7 @@ const Hero = () => {
                 Lock Rivals, Rivals, Combat Warrior, and Anime Reborn? Blox
                 Fruit Hub delivers your favorite items instantly.
               </p>
-              <button className="hidden xl:flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer mt-8">
+              <button className="flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer mt-8 duration-300 hover:brightness-150">
                 Get Started!
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
