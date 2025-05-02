@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { IoIosArrowDown, IoMdArrowDropdown } from "react-icons/io";
 import { IoCart } from "react-icons/io5";
 import CartCard from "../ui/CartCard/CartCard";
+import MainCard from "../ui/MainCard/MainCard";
 const items = [
   { name: "Permanent Fruits", href: "#PermanentFruits" },
   { name: "Gamepass", href: "#Gamepass" },
@@ -19,9 +20,19 @@ const categories = [
 ];
 
 export default function StoreProducts() {
+  const [data, setData] = useState([]);
   const [activeSection, setActiveSection] = useState("Permanent Fruits");
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select one");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/data.json");
+      const data = await response.json();
+      setData(data);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const sections = document.querySelectorAll("section");
@@ -42,6 +53,14 @@ export default function StoreProducts() {
     );
     sections.forEach((section) => observer.observe(section));
     return () => sections.forEach((section) => observer.unobserve(section));
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/data.json");
+      const data = await response.json();
+      setData(data);
+    };
+    fetchData();
   }, []);
 
   return (
@@ -114,7 +133,7 @@ export default function StoreProducts() {
       </aside>
 
       {/* Product Grid */}
-      <main className="w-full lg:w-[55%]">
+      <main className="w-full lg:w-[60%]">
         <div className="sticky top-4 z-10 bg-[#0a0a09] flex justify-between">
           <div className="flex gap-4 text-white">
             {items.map((item, index) => {
@@ -160,7 +179,7 @@ export default function StoreProducts() {
                 />
               </button>
               <div
-                className={`absolute mt-1 w-full scrollbar-hide transition-all duration-300 ease-linear overflow-hidden 
+                className={`absolute drop-shadow-[0_0_2px_rgba(255,255,0,0.7)] mt-1 w-full scrollbar-hide transition-all duration-300 ease-linear overflow-hidden 
                     ${
                       isOpen
                         ? "opacity-100 max-h-[420px] scale-y-100"
@@ -172,7 +191,7 @@ export default function StoreProducts() {
                     (label) => (
                       <li
                         key={label}
-                        className={`text-xs sm:text-sm xl:text-lg p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize ${
+                        className={`text-xs sm:text-sm xl:text-lg p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize  ${
                           selected === label
                             ? "bg-[#FADA1B] text-[#0a0a09]"
                             : "hover:bg-[#FADA1B] "
@@ -196,17 +215,17 @@ export default function StoreProducts() {
         <section
           id="PermanentFruits"
           data-title="Permanent Fruits"
-          className="mb-24 scroll-mt-16 h-screen"
+          className="mb-24 scroll-mt-16"
         >
           <h2 className="text-[2.5rem] font-semibold mb-4">
             <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
               Permanent Fruits
             </span>
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <div className="h-32 bg-gray-800 rounded-lg flex items-center justify-center text-white">
-              card here
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+            {data.map((item, index) => (
+              <MainCard key={index} data={item} />
+            ))}
           </div>
         </section>
 
@@ -244,7 +263,7 @@ export default function StoreProducts() {
           </div>
         </section>
       </main>
-      <aside className="lg:sticky top-4 z-10 w-full lg:w-80 xl:w-[25%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6">
+      <aside className="lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6">
         <div>
           <div className="text-white flex justify-between items-center mb-4">
             <p className="flex gap-3 items-center">

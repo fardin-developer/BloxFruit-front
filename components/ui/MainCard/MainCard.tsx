@@ -60,13 +60,13 @@ const MainCard = ({ data }: { data: any }) => {
         }}
       >
         {/* Type badge */}
-        <div className="absolute top-2 left-3 z-10">
+        <div className="absolute  top-2 left-3 ">
           <Image
             src={currentStyle.typeImage}
             alt="type badge"
             width={400}
             height={400}
-            className="h-11 w-fit"
+            className="h-11 w-fit relative z-0"
           />
         </div>
 
@@ -79,7 +79,7 @@ const MainCard = ({ data }: { data: any }) => {
         ></div>
 
         {/* Shadow + Main image */}
-        <div className="relative">
+        <div className="relative ">
           <Image
             src={image}
             alt="Shadow"
@@ -92,7 +92,7 @@ const MainCard = ({ data }: { data: any }) => {
             alt="Main"
             width={400}
             height={400}
-            className="relative z-10 transition-all duration-300 group-hover:scale-105 mt-4"
+            className="relative z-0 transition-all duration-300 group-hover:scale-105 mt-4"
           />
         </div>
       </div>
