@@ -10,7 +10,7 @@ export default function CartSidebar() {
     const cartItems = useSelector((state: RootState) => state.cart.cartItems);
     const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   return (
-    <div>
+    <div className="">
       <div>
         <div className="text-white flex justify-between items-center mb-4">
           <p className="flex gap-3 items-center">
@@ -21,7 +21,7 @@ export default function CartSidebar() {
           </button>
         </div>
         {/* Cart Card */}
-        <div className="space-y-4">
+        <div className="space-y-4 h-[50vh] overflow-y-auto custom-scroll">
           {cartItems.map((item) => (
             <CartCard key={item.id} id={item.id} />
           ))}
