@@ -84,8 +84,8 @@ export default function CheckoutForm() {
           {/* Client Info */}
           <div className="space-y-4">
             <h1 className="text-lg">Client Information</h1>
-            <div className="flex items-center">
-              <label className="block text-sm font-semibold w-52 pl-6 py-[17.5px] border-b rgb-border-checkout">
+            <div className="sm:flex items-center">
+              <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
                 Roblox Username
               </label>
               <input
@@ -94,8 +94,8 @@ export default function CheckoutForm() {
                 className="w-full px-4 py-4 bg-gradient-to-l to-[#fada1b26]  from-[#594d0026] text-yellow-400 placeholder-yellow-400 outline-none"
               />
             </div>
-            <div className="flex items-center">
-              <label className="block text-sm font-semibold w-52 pl-6 py-[17.5px] border-b rgb-border-checkout">
+            <div className="sm:flex items-center">
+              <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
                 Contact
               </label>
               <input
@@ -108,8 +108,8 @@ export default function CheckoutForm() {
           {/* Payment */}
           <div className="space-y-4">
             <h1 className="text-lg">Payment</h1>
-            <div className="flex items-center">
-              <label className="block text-sm font-semibold w-52 pl-6 py-3.5 border-b rgb-border-checkout">
+            <div className="sm:flex items-center">
+              <label className="block text-sm font-semibold w-52 sm:pl-6 py-3.5 sm:border-b rgb-border-checkout">
                 Credit Card Number
               </label>
               <div className="p-4 bg-gradient-to-l to-[#fada1b26] from-[#594d0026] w-full">
@@ -135,8 +135,8 @@ export default function CheckoutForm() {
                 />
               </div>
             </div>
-            <div className="flex items-center">
-              <label className="block text-sm font-semibold w-52 pl-6 py-[17.5px] border-b rgb-border-checkout">
+            <div className="sm:flex items-center">
+              <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
                 Security Code
               </label>
               <input
@@ -145,8 +145,8 @@ export default function CheckoutForm() {
                 className="w-full px-4 py-4 bg-gradient-to-l to-[#fada1b26]  from-[#594d0026] text-white placeholder-gray-300 outline-none"
               />
             </div>
-            <div className="flex items-center">
-              <label className="block text-sm font-semibold w-52 pl-6 py-[17.5px] border-b rgb-border-checkout">
+            <div className="sm:flex items-center">
+              <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
                 Name on Card
               </label>
               <input
@@ -159,8 +159,8 @@ export default function CheckoutForm() {
           {/* Remember Me */}
           <div className="space-y-4">
             <h1 className="text-lg">Personal Information</h1>
-            <div className="flex items-center">
-              <label className="block text-sm font-semibold w-52 pl-6 py-[17.5px] border-b rgb-border-checkout">
+            <div className="sm:flex items-center">
+              <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
                 Full Name
               </label>
               <input
@@ -169,8 +169,8 @@ export default function CheckoutForm() {
                 className="w-full px-4 py-4 bg-gradient-to-l to-[#fada1b26]  from-[#594d0026] text-white placeholder-gray-300 outline-none"
               />
             </div>
-            <div className="flex items-center">
-              <label className="block text-sm font-semibold w-52 pl-6 py-[17.5px] border-b rgb-border-checkout">
+            <div className="sm:flex items-center">
+              <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
                 Mobile Number
               </label>
               <input
