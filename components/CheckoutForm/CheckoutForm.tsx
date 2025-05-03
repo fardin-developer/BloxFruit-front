@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import bannerbackground from "@/public/images/bannerbackground.png";
 import paypal from "@/public/paypal.png";
 import gpay from "@/public/gpay.png";
+import acceptPayment from "@/public/accept-payment.png";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import Image from "next/image";
@@ -82,7 +83,7 @@ export default function CheckoutForm() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Client Info */}
-          <div className="space-y-4">
+          <div className="space-y-4 mb-10">
             <h1 className="text-lg">Client Information</h1>
             <div className="sm:flex items-center">
               <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
@@ -106,11 +107,14 @@ export default function CheckoutForm() {
             </div>
           </div>
           {/* Payment */}
-          <div className="space-y-4">
-            <h1 className="text-lg">Payment</h1>
+          <div className="space-y-4 mb-10">
+            <div className="flex items-center justify-between">
+              <h1 className="text-lg">Payment</h1>
+              <Image src={acceptPayment} alt="acceptPayment" width={200} height={20} />
+            </div>
             <div className="sm:flex items-center">
               <label className="block text-sm font-semibold w-52 sm:pl-6 py-3.5 sm:border-b rgb-border-checkout">
-                Credit Card Number
+                <span>Credit Card Number</span>
               </label>
               <div className="p-4 bg-gradient-to-l to-[#fada1b26] from-[#594d0026] w-full">
                 <Controller
@@ -157,7 +161,7 @@ export default function CheckoutForm() {
             </div>
           </div>
           {/* Remember Me */}
-          <div className="space-y-4">
+          <div className="space-y-4 mb-10">
             <h1 className="text-lg">Personal Information</h1>
             <div className="sm:flex items-center">
               <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
