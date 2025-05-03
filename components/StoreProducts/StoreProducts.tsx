@@ -6,6 +6,7 @@ import { IoIosArrowDown, IoMdArrowDropdown } from "react-icons/io";
 import { IoCart } from "react-icons/io5";
 import CartCard from "../ui/CartCard/CartCard";
 import MainCard from "../ui/MainCard/MainCard";
+import CartSidebar from "./CartSidebar";
 const items = [
   { name: "Permanent Fruits", href: "#PermanentFruits" },
   { name: "Gamepass", href: "#Gamepass" },
@@ -264,46 +265,7 @@ export default function StoreProducts() {
         </section>
       </main>
       <aside className="lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6">
-        <div>
-          <div className="text-white flex justify-between items-center mb-4">
-            <p className="flex gap-3 items-center">
-              <IoCart size={24} /> Cart
-            </p>
-            <button className="text-[#FADA1B] text-sm hover:underline">
-              Clear All
-            </button>
-          </div>
-          {/* Cart Card */}
-          <div className="space-y-4">
-            <CartCard />
-            <CartCard />
-            <CartCard />
-            <CartCard />
-          </div>
-        </div>
-        {/* Checkout */}
-        <div>
-          <div className="flex justify-between items-center my-5">
-            <p className="text-[#FADA1B]">Total</p>
-            <p>$120</p>
-          </div>
-          <button className="w-full flex justify-center items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150">
-            Checkout
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="ml-2"
-            >
-              <path
-                d="M4 11V13H16V15H18V13H20V11H18V9H16V11H4ZM14 7H16V9H14V7ZM14 7H12V5H14V7ZM14 17H16V15H14V17ZM14 17H12V19H14V17Z"
-                fill="#0F1016"
-              />
-            </svg>
-          </button>
-        </div>
+        <CartSidebar />
       </aside>
     </div>
   );

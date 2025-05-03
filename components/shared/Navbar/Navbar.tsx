@@ -7,6 +7,8 @@ import { TbCoinBitcoinFilled, TbShoppingBag } from "react-icons/tb";
 import us from "@/public/images/us.png";
 import Link from "next/link";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Store", href: "/gamestore" },
@@ -16,6 +18,7 @@ const navItems = [
 const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
   return (
     <nav className="bg-[#080705] border-b border-[#e4e4e414] ">
@@ -72,7 +75,7 @@ const Navbar = () => {
             <div className="relative">
               <TbShoppingBag size={24} className="text-black/70 text-xl" />
               <span className="absolute -top-1 -right-1 bg-[#772DFF] text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
-                24
+                {cartItems.length}
               </span>
             </div>
           </div>

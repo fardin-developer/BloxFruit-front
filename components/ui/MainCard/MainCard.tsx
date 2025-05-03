@@ -9,9 +9,11 @@ import "./MainCard.css";
 import Image from "next/image";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { TbShoppingCart } from "react-icons/tb";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/app/store/slices/cartSlice";
 
 const MainCard = ({ data }: { data: any }) => {
-  const { category, image, discountPrice, regularPrice, name, type } = data;
+  const {id, category, image, discountPrice, regularPrice, name, type } = data;
 
   // Styles based on type
   const typeStyles: any = {
@@ -48,6 +50,20 @@ const MainCard = ({ data }: { data: any }) => {
   };
 
   const currentStyle = typeStyles[type] || typeStyles["common"];
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id: id,
+        name: name,
+        price: discountPrice,
+        image: image,
+        quantity: 1,
+      })
+    )
+  }
 
   return (
     <div
@@ -123,7 +139,7 @@ const MainCard = ({ data }: { data: any }) => {
           >
             Buy now
           </button>
-          <button className="p-3.5 bg-white/10 rounded-sm cursor-pointer">
+          <button onClick={handleAddToCart} className="p-3.5 bg-white/10 rounded-sm cursor-pointer">
             <TbShoppingCart size={20} />
           </button>
         </div>

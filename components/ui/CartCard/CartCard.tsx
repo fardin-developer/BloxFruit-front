@@ -2,8 +2,17 @@
 import Image from "next/image";
 import React from "react";
 import cardBg from "@/public/mainCardImages/card-bg.png";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { decrementQty, incrementQty } from "@/app/store/slices/cartSlice";
 
-export default function CartCard() {
+export default function CartCard({ id }: { id: string }) {
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state: RootState) =>
+    state.cart.cartItems.find((item) => item.id === id)
+  );
+  console.log(cartItem);
+  if (!cartItem) return null;
   return (
     <div className="flex items-center justify-between bg-[#0c0c09] text-white rounded-xl p-4 shadow-inner w-full max-w-md">
       {/* Image */}
@@ -16,7 +25,7 @@ export default function CartCard() {
         ></div>
 
         <Image
-          src="/mainCardImages/common.png"
+          src={cartItem.image}
           alt="Product"
           width={500}
           height={500}
@@ -27,18 +36,18 @@ export default function CartCard() {
       {/* Details */}
       <div className="flex-1 px-4">
         <h4 className="text-sm font-semibold leading-tight uppercase">
-          MACHINE GUN 3000 RIGERT BLUE
+          {cartItem.name}
         </h4>
-        <p className="text-yellow-400 text-sm mt-1">$120 per ps</p>
+        <p className="text-yellow-400 text-sm mt-1">${cartItem.price} per ps</p>
       </div>
 
       {/* Quantity controls */}
       <div className="flex flex-col items-center gap-1">
-        <button className="w-6 h-6 text-black bg-white rounded border border-white hover:bg-yellow-300 transition text-sm font-bold">
+        <button onClick={()=>dispatch(incrementQty(id))} className="w-6 h-6 text-black bg-white rounded border border-white hover:bg-yellow-300 transition text-sm font-bold">
           +
         </button>
-        <span className="text-sm font-bold">01</span>
-        <button className="w-6 h-6 text-yellow-400 border border-yellow-400 rounded hover:bg-yellow-400 hover:text-black transition text-sm font-bold">
+        <span className="text-sm font-bold">{cartItem.quantity}</span>
+        <button onClick={()=>dispatch(decrementQty(id))} className="w-6 h-6 text-yellow-400 border border-yellow-400 rounded hover:bg-yellow-400 hover:text-black transition text-sm font-bold">
           -
         </button>
       </div>
