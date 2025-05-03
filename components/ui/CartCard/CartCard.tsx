@@ -14,7 +14,7 @@ export default function CartCard({ id }: { id: string }) {
   console.log(cartItem);
   if (!cartItem) return null;
   return (
-    <div className="flex items-center justify-between bg-[#0c0c09] text-white rounded-xl p-4 shadow-inner w-full max-w-md">
+    <div className="flex items-center justify-between bg-[#0c0c09] text-white rounded-xl p-4 shadow-inner w-full lg:max-w-md">
       {/* Image */}
       <div className="relative w-20 h-20 rounded-lg overflow-hidden border border-amber-300">
         <div

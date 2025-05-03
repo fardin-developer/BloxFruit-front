@@ -1,17 +1,11 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { IoIosArrowDown, IoMdArrowDropdown } from "react-icons/io";
-import { IoCart } from "react-icons/io5";
-import CartCard from "../ui/CartCard/CartCard";
+import {IoMdArrowDropdown } from "react-icons/io";
 import MainCard from "../ui/MainCard/MainCard";
 import CartSidebar from "./CartSidebar";
-const items = [
-  { name: "Permanent Fruits", href: "#PermanentFruits" },
-  { name: "Gamepass", href: "#Gamepass" },
-  { name: "Others section", href: "#OthersSection" },
-];
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
 
 const categories = [
   { value: "All", label: "All" },
@@ -20,11 +14,19 @@ const categories = [
   { value: "old", label: "Old" },
 ];
 
+const items = [
+  { name: "Permanent Fruits", href: "#PermanentFruits" },
+  { name: "Gamepass", href: "#Gamepass" },
+  { name: "Others section", href: "#OthersSection" },
+];
+
 export default function StoreProducts() {
   const [data, setData] = useState([]);
   const [activeSection, setActiveSection] = useState("Permanent Fruits");
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select one");
+
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,7 +69,11 @@ export default function StoreProducts() {
   return (
     <div className="flex flex-col lg:flex-row  gap-6">
       {/* Sidebar */}
-      <aside className="lg:sticky top-4 z-10 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6">
+      <aside
+        className={`lg:sticky top-4 z-10 w-full lg:w-80  h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 ${
+          cartItems.length > 0 ? "xl:w-[20%]" : "xl:w-[30%]"
+        }`}
+      >
         {/* Filter header */}
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Filter</h2>
@@ -134,7 +140,7 @@ export default function StoreProducts() {
       </aside>
 
       {/* Product Grid */}
-      <main className="w-full lg:w-[60%]">
+      <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
         <div className="sticky top-4 z-10 bg-[#0a0a09] flex justify-between">
           <div className="flex gap-4 text-white">
             {items.map((item, index) => {
@@ -223,7 +229,11 @@ export default function StoreProducts() {
               Permanent Fruits
             </span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+          <div
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
+              cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+            }`}
+          >
             {data.map((item, index) => (
               <MainCard key={index} data={item} />
             ))}
@@ -264,7 +274,11 @@ export default function StoreProducts() {
           </div>
         </section>
       </main>
-      <aside className="lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6">
+      <aside
+        className={`lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 ${
+          cartItems.length > 0 ? "block transition-all duration-300" : "hidden"
+        }`}
+      >
         <CartSidebar />
       </aside>
     </div>
