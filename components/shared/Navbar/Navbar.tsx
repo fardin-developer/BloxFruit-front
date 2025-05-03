@@ -9,7 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 const navItems = [
   { name: "Home", href: "/" },
-  { name: "Store", href: "/store" },
+  { name: "Store", href: "/gamestore" },
   { name: "Checkout", href: "/checkout" },
 ];
 
