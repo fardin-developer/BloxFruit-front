@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 @font-face {
   font-family: "Oxanium";
   src: url("/fonts/Oxanium-VariableFont_wght.ttf") format("opentype");
@@ -15,34 +14,37 @@ html {
   scroll-behavior: smooth;
 }
 
-
-
 /* *******************Custom********************* */
 
-.grad-btn{
+.grad-btn {
   border-radius: 8px;
-  background: linear-gradient(90deg, #FADA1B 0%, #FFF 100%);
+  background: linear-gradient(90deg, #fada1b 0%, #fff 100%);
 }
 
-.test{
-  background: #e4e4e414;
+.test {
+  background: linear-gradient(90deg, #fada1b26 0%, #594d0026 100%);
 }
 
-.card-bg{
-  background: radial-gradient(1199.24% 50% at 50% 48.72%, rgba(250, 218, 27, 0.04) 0%, rgba(108, 93, 211, 0.04) 100%), #0A0A09;
+.card-bg {
+  background: radial-gradient(
+      1199.24% 50% at 50% 48.72%,
+      rgba(250, 218, 27, 0.04) 0%,
+      rgba(108, 93, 211, 0.04) 100%
+    ),
+    #0a0a09;
 }
-
-
 
 .rgb-border {
-  border-image: linear-gradient(to right, #4a4529,  #4a45291f) 1;
+  border-image: linear-gradient(to right, #4a4529, #4a45291f) 1;
+}
+.rgb-border-checkout {
+  border-image: linear-gradient(to right, #4a45291f, #4a4529) 1;
 }
 .selects-border {
-  border-image: linear-gradient(to right, #fad81b41,  #4a45291f) 1;
+  border-image: linear-gradient(to right, #fad81b41, #4a45291f) 1;
 }
 
 .custom-scroll {
-  
   scrollbar-color: #e0e0e0;
 }
 
@@ -55,7 +57,6 @@ html {
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  background-color: #FADA1B;
-  border-radius:0;
- 
+  background-color: #fada1b;
+  border-radius: 0;
 }

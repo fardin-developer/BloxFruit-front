@@ -6,6 +6,7 @@ import MainCard from "../ui/MainCard/MainCard";
 import CartSidebar from "./CartSidebar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
+import FilterCard from "../ui/FilterCard/FilterCard";
 
 const categories = [
   { value: "All", label: "All" },
@@ -70,11 +71,10 @@ export default function StoreProducts() {
     <div className="flex flex-col lg:flex-row  gap-6">
       {/* Sidebar */}
       <aside
-        className={`lg:sticky top-4 z-10 w-full lg:w-80  h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 ${
+        className={`lg:sticky -top-[71px] z-10 w-full lg:w-80  h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 ${
           cartItems.length > 0 ? "xl:w-[20%]" : "xl:w-[30%]"
         }`}
       >
-        {/* Filter header */}
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Filter</h2>
           <button className="text-[#FADA1B] text-sm hover:underline">
@@ -83,31 +83,9 @@ export default function StoreProducts() {
         </div>
 
         {/* Game List */}
-        <div className="space-y-3 ">
-          {[...Array(2)].map((_, i) => (
-            <div
-              key={i}
-              className="flex items-center bg-[#0c0c09] gap-3 p-4 rounded-md cursor-pointer transition-all border border-transparent hover:border-[#FADA1B]"
-            >
-              <Image
-                src="/cardsImage/ourgames2.png"
-                alt="Game"
-                width={80}
-                height={80}
-                className="rounded-lg"
-              />
-              <div className="flex">
-                <div className="flex-1">
-                  <p className="text-lg font-medium">Game Name</p>
-                  <p className="text-sm text-gray-400 leading-tight">
-                    Use all your skills to command an astonishing...
-                  </p>
-                </div>
-                <p className="text-sm text-[#FADA1B] whitespace-nowrap">
-                  15 items
-                </p>
-              </div>
-            </div>
+        <div className="space-y-3 h-[30vh] overflow-y-auto custom-scroll ">
+          {[...Array(6)].map((_, i) => (
+            <FilterCard key={i} />
           ))}
         </div>
 
@@ -118,7 +96,7 @@ export default function StoreProducts() {
             {["Common", "Uncommon", "Rare", "Legendary", "Mythical"].map(
               (rarity, idx) => (
                 <label key={idx} className="flex items-center gap-2">
-                  <input type="checkbox" className="accent-[#FADA1B]" />
+                  <input type="checkbox" className="accent-[#FADA1B] w-4 h-4 " />
                   <span className={rarity === "Common" ? "text-[#FADA1B]" : ""}>
                     {rarity}
                   </span>
