@@ -54,14 +54,14 @@ export default function CheckoutForm() {
 
   return (
     <div
-      className="max-w-[1320px] mx-auto text-white flex items-center justify-center bg-cover bg-center relative"
+      className="max-w-[1320px] mx-auto text-white flex items-center justify-center bg-cover bg-center relative "
       style={{
         backgroundImage: `url(${bannerbackground.src})`,
       }}
     >
       <div className="absolute inset-0 bg-black/60 z-0"></div>
       <div className="w-full  bg-[#0a0a0a00] p-8 sm:p-10-lg shadow-lg space-y-8 z-20">
-        <h2 className="text-[2.5rem] font-medium text-center bg-gradient-to-r from-yellow-400 to-yellow-100 text-transparent bg-clip-text tracking-wide uppercase">
+        <h2 className="text-[1.2rem] sm:text-[2.5rem] font-medium text-center bg-gradient-to-r from-yellow-400 to-yellow-100 text-transparent bg-clip-text tracking-wide uppercase">
           Express Checkout
         </h2>
 
@@ -203,11 +203,11 @@ export default function CheckoutForm() {
           <p className="text-xs text-center text-gray-400">
             Your info will be saved to a Shop account. By continuing, you agree
             to Shop’s{" "}
-            <a href="#" className="underline text-white">
+            <a href="#" className="underline text-yellow-400">
               Terms of Service
             </a>{" "}
             and acknowledge the{" "}
-            <a href="#" className="underline text-white">
+            <a href="#" className="underline text-yellow-400">
               Privacy Policy
             </a>
             .
