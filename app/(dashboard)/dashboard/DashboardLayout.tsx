@@ -128,7 +128,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="flex-shrink-0">
               <Image
                 className="w-10 h-10 rounded-full"
-                src=""
+                src="/images/us.png"
                 width={40}
                 height={40}
                 alt="User"
