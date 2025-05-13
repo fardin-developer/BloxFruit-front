@@ -1,4 +1,4 @@
-import OverviewComponents from "@/components/Dashoard/OverviewComponents/OverviewComponents";
+import OverviewComponents from "@/components/Dashboard/OverviewComponents/OverviewComponents";
 import React from "react";
 
 export default function Overview() {

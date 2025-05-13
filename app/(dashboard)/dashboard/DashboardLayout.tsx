@@ -4,32 +4,28 @@ import { RxDashboard } from "react-icons/rx";
 import logo from "@/public/logo.svg";
 import Link from "next/link";
 import Image from "next/image";
-import { HiOutlineUsers } from "react-icons/hi2";
-import { PiHospitalThin } from "react-icons/pi";
-import { CgNotes } from "react-icons/cg";
-import { RiSettingsLine } from "react-icons/ri";
+import { RiProductHuntLine, RiSettingsLine } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
-import { on } from "events";
-import { LiaProceduresSolid } from "react-icons/lia";
 import { TbSocial } from "react-icons/tb";
+import { PiShoppingBagLight } from "react-icons/pi";
 
 // Menu and Bottom items
 const menuItems = [
-  { href: "/dashboard", icon: <RxDashboard size={18} />, label: "Overview" },
+  { href: "/dashboard", icon: <RxDashboard size={24} />, label: "Overview" },
   {
     href: "/dashboard/products",
-    icon: <HiOutlineUsers size={18} />,
+    icon: <RiProductHuntLine size={24} />,
     label: "Products",
   },
-  { href: "/dashboard/Orders", icon: <LiaProceduresSolid  size={18} />, label: "Orders" },
-  { href: "/dashboard/others", icon: <TbSocial size={18} />, label: "Others" },
+  { href: "/dashboard/orders", icon: <PiShoppingBagLight  size={24} />, label: "Orders" },
+  { href: "#", icon: <TbSocial size={24} />, label: "Others" },
 ];
 
 const bottomMenu = [
   {
     href: "/dashboard/settings",
-    icon: <RiSettingsLine size={18} />,
+    icon: <RiSettingsLine size={24} />,
     label: "Settings",
   },
 ];
@@ -49,7 +45,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         )?.label || "Dashboard";
 
     return (
-      <div className="bg-[#080705] text-main p-4 flex items-center justify-between border-b border-[#191817]">
+      <div className="bg-[#080705] text-main px-4 py-6 flex items-center justify-between border-b border-[#191817]">
         <div className="font-semibold text-yellow-400 text-2xl">{currentPage}</div>
       </div>
     );
@@ -71,7 +67,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         } lg:translate-x-0`}
       >
         {/* Logo */}
-        <div className="flex items-center py-8 pl-12">
+        <div className="flex items-center pt-1 pb-2 pl-12">
           <Link href="/">
             <Image src={logo} alt="logo" width={100} height={100} className="w-full" />
           </Link>
