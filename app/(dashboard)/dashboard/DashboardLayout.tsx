@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         )?.label || "Dashboard";
 
     return (
-      <div className="bg-[#080705] text-main px-4 py-6 flex items-center justify-between border-b border-[#191817]">
+      <div className="bg-[#080705] text-main px-4 pb-2 lg:py-6 flex items-center justify-between border-b border-[#191817]">
         <div className="font-semibold text-yellow-400 text-2xl">{currentPage}</div>
       </div>
     );
