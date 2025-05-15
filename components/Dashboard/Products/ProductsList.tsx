@@ -45,7 +45,10 @@ const ProductsList = () => {
   const tableActions = (row: any) => {
     return (
       <div className="flex gap-2">
-        <button className="bg-[#80fa1d] hover:brightness-150 text-black font-bold px-4 py-2 duration-300 cursor-pointer flex items-center gap-1">
+        <button className="bg-[#80fa1d] hover:brightness-150 group text-black font-bold px-4 py-2 duration-300 cursor-pointer flex items-center gap-1 relative">
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <div className="w-full h-full group-hover:bg-[radial-gradient(white_1px,transparent_1px)] [background-size:5px_5px] opacity-100 " />
+          </div>
           <MdEdit className="text-xl" />
           Update
         </button>
