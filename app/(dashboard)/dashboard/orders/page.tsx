@@ -1,7 +1,10 @@
+import OrdersList from '@/components/Dashboard/OrdersList/OrdersList'
 import React from 'react'
 
 export default function Orders() {
   return (
-    <div>this is Orders page</div>
+    <div>
+        <OrdersList />
+    </div>
   )
 }
