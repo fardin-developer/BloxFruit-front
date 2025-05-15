@@ -8,6 +8,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import image from "@/public/mainCardImages/legendary.png";
 import image2 from "@/public/mainCardImages/common.png";
 import image3 from "@/public/mainCardImages/uncommon.png";
+import Link from "next/link";
 
 const products = [
   {
@@ -62,9 +63,9 @@ const ProductsList = () => {
   return (
     <div className="relative">
       <h1 className="text-2xl font-bold mb-4">Products List</h1>
-      <button className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-2 duration-300 cursor-pointer absolute top-0 right-0">
+      <Link href="/dashboard/add-fruits" className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-2 duration-300 cursor-pointer absolute top-0 right-0">
         <FaPlus />
-      </button>
+      </Link>
       <DynamicTable columns={columns} data={products} actions={tableActions} />
     </div>
   );
