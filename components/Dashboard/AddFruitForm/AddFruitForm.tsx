@@ -66,12 +66,12 @@ export default function FruitForm() {
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className=" bg-[#09090b] p-4">
-          <div className="w-1/3 rounded-xl">
+          <div className="xl:w-1/3 rounded-xl mb-2">
             <label className="block mb-2 text-[#fada1d]">Image Upload</label>
 
             <label
               htmlFor="imageUpload"
-              className="cursor-pointer w-full max-w-sm border-1 border-dashed border-[#fada1d] rounded-lg p-6 flex flex-col items-center justify-center text-yellow-400 hover:bg-yellow-50 transition text-center"
+              className="cursor-pointer w-full max-w-sm border-1 border-dashed border-[#fada1d] rounded-lg p-6 flex flex-col items-center justify-center text-yellow-400 hover:bg-zinc-900 transition text-center"
             >
               {preview ? (
                 <Image
@@ -106,37 +106,48 @@ export default function FruitForm() {
               <label className="block mb-2 text-[#fada1d]">Name</label>
               <input
                 {...register("name")}
+                placeholder="Fruit Name"
                 required
                 className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3"
               />
             </div>
-
             <div>
               <label className="block mb-2 text-[#fada1d]">Type</label>
-              <input
+              <select
                 {...register("type")}
                 required
-                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3"
-              />
+                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
+              >
+                <option value="">Select Type</option>
+                <option value="rare">Rare</option>
+                <option value="common">Common</option>
+                <option value="uncommon">Uncommon</option>
+                <option value="legendary">Legendary</option>
+                <option value="mythical">Mythical</option>
+              </select>
             </div>
-
             <div>
               <label className="block mb-2 text-[#fada1d]">Category</label>
-              <input
+              <select
                 {...register("category")}
                 required
-                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3"
-              />
+                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
+              >
+                <option value="">Select Category</option>
+                <option value="permanent">Permanent Fruits</option>
+                <option value="gamepass">Gamepass</option>
+                <option value="others">Others</option>
+              </select>
             </div>
-
             <div>
               <label className="block mb-2 text-[#fada1d]">Regular Price</label>
               <input
                 type="number"
                 step="0.01"
+                placeholder="Price"
                 {...register("regularPrice")}
                 required
-                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3"
+                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
             </div>
             <div>
@@ -144,19 +155,22 @@ export default function FruitForm() {
                 <input
                   type="checkbox"
                   {...register("showDiscount")}
-                  className="w-6 h-6 border-yellow-200 border-2 rounded-md bg-transparent "
+                  className="w-5 h-5 accent-[#FADA1B] border-yellow-200 border-2 rounded-md bg-red-500 "
                 />
-                <label>Show Discount Price</label>
+                <label className="text-[#fada1d]">Show Discount Price</label>
               </div>
 
               {showDiscount && (
                 <div>
-                  <label className="block mb-2 text-[#fada1d]">Discount Price</label>
+                  <label className="block mb-2 text-[#fada1d]">
+                    Discount Price
+                  </label>
                   <input
                     type="number"
                     step="0.01"
+                    placeholder="Discount Price"
                     {...register("discountPrice")}
-                    className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3"
+                    className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   />
                 </div>
               )}
@@ -167,9 +181,9 @@ export default function FruitForm() {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="flex items-center gap-2 p-2 w-fit bg-green-600 text-white py-3 rounded font-medium hover:bg-green-700 transition"
+            className="flex items-center gap-2 p-2 w-fit bg-[#fada1d] text-gray-900 font-bold py-3 rounded hover:brightness-125 transition cursor-pointer "
           >
-            <PlusIcon className="w-4 h-4" />
+            <PlusIcon className="w-4 h-4 text-2xl" />
             Add Fruit
           </button>
         </div>
