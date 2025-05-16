@@ -84,7 +84,9 @@ export default function FruitForm() {
                 />
               ) : (
                 <>
-                  <div className="text-3xl mb-2"><IoMdPhotos /></div>
+                  <div className="text-3xl mb-2">
+                    <IoMdPhotos />
+                  </div>
                   <p className="text-sm font-medium">Click to browse</p>
                   <p className="text-xs text-gray-400">
                     Recommended size: 600 × 400px
@@ -178,7 +180,6 @@ export default function FruitForm() {
             </div>
           </div>
         </div>
-
         <div className="flex justify-end">
           <button
             type="submit"

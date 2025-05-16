@@ -21,7 +21,7 @@ const items = [
   { name: "Others section", href: "#OthersSection" },
 ];
 
-export default function StoreProducts() {
+export default function  StoreProducts() {
   const [data, setData] = useState([]);
   const [activeSection, setActiveSection] = useState("Permanent Fruits");
   const [isOpen, setIsOpen] = useState(false);
