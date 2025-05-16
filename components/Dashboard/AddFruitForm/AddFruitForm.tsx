@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { PlusIcon } from "lucide-react";
+import { IoMdPhotos } from "react-icons/io";
 
 type FormValues = {
   name: string;
@@ -37,7 +38,7 @@ export default function FruitForm() {
     formData.append("type", data.type);
     formData.append("category", data.category);
     formData.append("regularPrice", data.regularPrice.toString());
-    formData.append("showDiscount", data.showDiscount.toString());
+    // formData.append("showDiscount", data.showDiscount.toString());
     if (data.discountPrice) {
       formData.append("discountPrice", data.discountPrice.toString());
     }
@@ -71,7 +72,7 @@ export default function FruitForm() {
 
             <label
               htmlFor="imageUpload"
-              className="cursor-pointer w-full max-w-sm border-1 border-dashed border-[#fada1d] rounded-lg p-6 flex flex-col items-center justify-center text-yellow-400 hover:bg-zinc-900 transition text-center"
+              className="cursor-pointer w-full max-w-sm border-1 border-dashed border-[#fad91d67] rounded-lg p-6 flex flex-col items-center justify-center text-yellow-400 hover:bg-zinc-900 transition text-center"
             >
               {preview ? (
                 <Image
@@ -83,7 +84,7 @@ export default function FruitForm() {
                 />
               ) : (
                 <>
-                  <div className="text-3xl mb-2">📷</div>
+                  <div className="text-3xl mb-2"><IoMdPhotos /></div>
                   <p className="text-sm font-medium">Click to browse</p>
                   <p className="text-xs text-gray-400">
                     Recommended size: 600 × 400px
@@ -108,7 +109,7 @@ export default function FruitForm() {
                 {...register("name")}
                 placeholder="Fruit Name"
                 required
-                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3"
+                className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-3"
               />
             </div>
             <div>
@@ -116,7 +117,7 @@ export default function FruitForm() {
               <select
                 {...register("type")}
                 required
-                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
+                className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
               >
                 <option value="">Select Type</option>
                 <option value="rare">Rare</option>
@@ -131,7 +132,7 @@ export default function FruitForm() {
               <select
                 {...register("category")}
                 required
-                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
+                className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
               >
                 <option value="">Select Category</option>
                 <option value="permanent">Permanent Fruits</option>
@@ -147,7 +148,7 @@ export default function FruitForm() {
                 placeholder="Price"
                 {...register("regularPrice")}
                 required
-                className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-3 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
             </div>
             <div>
@@ -170,7 +171,7 @@ export default function FruitForm() {
                     step="0.01"
                     placeholder="Discount Price"
                     {...register("discountPrice")}
-                    className="w-full border border-[#fada1d] focus:outline-none text-yellow-600 rounded px-4 py-3 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                    className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-3 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   />
                 </div>
               )}
