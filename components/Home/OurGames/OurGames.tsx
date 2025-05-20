@@ -51,7 +51,7 @@ export default function OurGames() {
         <div className="sm:flex justify-between items-center">
           <div className="flex justify-between my-3 items-center">
             <p className="text-white">
-              Total Price 70.99ETH
+              Total Price $70.99
             </p>
             <span className="text-3xl px-4 text-[#2F2A38]">|</span>
             <p className="text-white md:pr-6">

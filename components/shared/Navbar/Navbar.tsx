@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
+import { HiCurrencyDollar } from "react-icons/hi";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Store", href: "/gamestore" },
@@ -81,7 +82,7 @@ const Navbar = () => {
 
           <div className="hidden xl:flex mr-8">
             <div className="relative bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] flex items-center px-4 py-2 pr-12">
-              <TbCoinBitcoinFilled size={24} className="text-yellow-500 mr-2" />
+              <HiCurrencyDollar size={24} className="text-yellow-500 mr-2" />
               <span className="text-white text-sm font-semibold mr-1">
                 US Dollar
               </span>
