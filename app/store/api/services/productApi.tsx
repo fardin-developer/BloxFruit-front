@@ -10,8 +10,21 @@ export const productApi = baseApi.injectEndpoints({
       providesTags: ["products"],
     }),
 
-    
+    addProduct: build.mutation({
+      query: (formData) => ({
+        url: "/dashboard/product",
+        method: "POST",
+        body: formData,
+      }),
+    }),
+
+    deleteProduct: build.mutation({
+      query: (id) => ({
+        url: `/dashboard/products/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetProductsQuery } = productApi;
+export const { useGetProductsQuery, useAddProductMutation, useDeleteProductMutation } = productApi;

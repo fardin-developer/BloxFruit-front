@@ -6,15 +6,40 @@ import React from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import Link from "next/link";
-import { useGetProductsQuery } from "@/app/store/api/services/productApi";
+import { useDeleteProductMutation, useGetProductsQuery } from "@/app/store/api/services/productApi";
 
 const ProductsList = () => {
-  const { data: products, isLoading } = useGetProductsQuery(undefined);
+  const { data: products, isLoading, refetch } = useGetProductsQuery(undefined);
+  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
   const productsData = products?.data;
   console.log(productsData);
 
+  const handleDelete =  async (id:string)=>{
+    if(confirm("Are you sure you want to delete this product?")){
+    const res = await deleteProduct(id)
+    if(res.data?.success){
+        alert("Product deleted successfully");
+        refetch();
+      }
+    }
+  };
+
+  const dateFormatter = (date:string)=>{
+    return new Date(date).toLocaleString();
+  }
+
+  const priceFormatter = (price:number)=>{
+    return `$${price}`;
+  }
+
+  const formattedData = productsData?.map((product:any)=>({
+    ...product,
+    regularPrice: priceFormatter(product.regularPrice),
+    created_at: dateFormatter(product.created_at),
+  }));
+
   const columns: TableColumn[] = [
-    { key: "image_url", label: "Image", type: "image" },
+    { key: "imageUrl", label: "Image", type: "image" },
     { key: "name", label: "Product Name", type: "text" },
     { key: "type", label: "Rarity", type: "text" },
     { key: "regularPrice", label: "Price", type: "text" },
@@ -31,7 +56,7 @@ const ProductsList = () => {
           <MdEdit className="text-xl" />
           Update
         </button>
-        <button className="bg-[#fa4242] hover:brightness-150 text-black font-bold px-4 py-2 duration-300 cursor-pointer flex items-center gap-1">
+        <button onClick={()=>handleDelete(row.id)} className="bg-[#fa4242] hover:brightness-150 text-black font-bold px-4 py-2 duration-300 cursor-pointer flex items-center gap-1">
           <MdDelete className="text-xl" />
           Delete
         </button>
@@ -44,7 +69,7 @@ const ProductsList = () => {
       <Link href="/dashboard/add-fruits" className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-2 duration-300 cursor-pointer absolute top-0 right-0">
         <FaPlus />
       </Link>
-      <DynamicTable columns={columns} data={productsData} actions={tableActions} loading={isLoading} />
+      <DynamicTable columns={columns} data={formattedData} actions={tableActions} loading={isLoading} />
     </div>
   );
 };

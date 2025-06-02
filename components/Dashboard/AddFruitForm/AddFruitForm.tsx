@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { PlusIcon } from "lucide-react";
 import { IoMdPhotos } from "react-icons/io";
+import { useAddProductMutation } from "@/app/store/api/services/productApi";
 
 type FormValues = {
   name: string;
@@ -17,18 +18,25 @@ type FormValues = {
 };
 
 export default function FruitForm() {
-  const { register, handleSubmit, watch, reset } = useForm<FormValues>();
+  const [addProduct, { isLoading }] = useAddProductMutation();
+  const { register, handleSubmit, watch, reset, setValue } =
+    useForm<FormValues>();
   const showDiscount = watch("showDiscount");
   const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setSelectedFile(file);
+      setValue("image", e.target.files as FileList);
       const reader = new FileReader();
       reader.onloadend = () => setPreview(reader.result as string);
       reader.readAsDataURL(file);
     } else {
+      setSelectedFile(null);
       setPreview(null);
+      setValue("image", undefined);
     }
   };
 
@@ -38,25 +46,36 @@ export default function FruitForm() {
     formData.append("type", data.type);
     formData.append("category", data.category);
     formData.append("regularPrice", data.regularPrice.toString());
-    // formData.append("showDiscount", data.showDiscount.toString());
+
     if (data.discountPrice) {
       formData.append("discountPrice", data.discountPrice.toString());
     }
-    if (data.image && data.image[0]) {
-      formData.append("image", data.image[0]);
+    // Use selectedFile instead of data.image
+    if (selectedFile) {
+      formData.append("image", selectedFile);
     }
 
-    const res = await fetch("/api/fruits", {
-      method: "POST",
-      body: formData,
-    });
+    // Debug: Log FormData contents
+    console.log("FormData contents:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
 
-    if (res.ok) {
-      alert("Fruit submitted successfully!");
-      reset();
-      setPreview(null);
-    } else {
-      alert("Submission failed.");
+    try {
+      const res = await addProduct(formData);
+      console.log(res);
+
+      if (res.data?.success) {
+        alert("Fruit submitted successfully!");
+        reset();
+        setPreview(null);
+        setSelectedFile(null);
+      } else {
+        alert("Submission failed.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred during submission.");
     }
   };
 
@@ -99,9 +118,9 @@ export default function FruitForm() {
               id="imageUpload"
               type="file"
               accept="image/*"
-              {...register("image")}
               onChange={onImageChange}
               className="hidden"
+              required
             />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
@@ -183,10 +202,11 @@ export default function FruitForm() {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="flex items-center gap-2 p-2 w-fit bg-[#fada1d] text-gray-900 font-bold py-3 rounded hover:brightness-125 transition cursor-pointer "
+            disabled={isLoading}
+            className="flex items-center gap-2 p-2 w-fit bg-[#fada1d] text-gray-900 font-bold py-3 rounded hover:brightness-125 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <PlusIcon className="w-4 h-4 text-2xl" />
-            Add Fruit
+            {isLoading ? "Adding..." : "Add Fruit"}
           </button>
         </div>
       </form>
