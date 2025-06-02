@@ -5,9 +5,6 @@ import DynamicTable, {
 import React from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
-import image from "@/public/mainCardImages/legendary.png";
-import image2 from "@/public/mainCardImages/common.png";
-import image3 from "@/public/mainCardImages/uncommon.png";
 import Link from "next/link";
 import { useGetProductsQuery } from "@/app/store/api/services/productApi";
 
