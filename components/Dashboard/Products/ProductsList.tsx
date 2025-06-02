@@ -9,37 +9,18 @@ import image from "@/public/mainCardImages/legendary.png";
 import image2 from "@/public/mainCardImages/common.png";
 import image3 from "@/public/mainCardImages/uncommon.png";
 import Link from "next/link";
-
-const products = [
-  {
-    image_url: image,
-    name: "Product 1",
-    rarity: "Legendary",
-    price: "$100",
-    created_at: "2021-01-01 12:00:00",
-  },
-  {
-    image_url: image2,
-    name: "Product 2",
-    rarity: "Common",
-    price: "$100",
-    created_at: "2021-01-01 12:00:00",
-  },
-  {
-    image_url: image3,
-    name: "Product 3",
-    rarity: "Uncommon",
-    price: "$100",
-    created_at: "2021-01-01 12:00:00",
-  },
-];
+import { useGetProductsQuery } from "@/app/store/api/services/productApi";
 
 const ProductsList = () => {
+  const { data: products, isLoading } = useGetProductsQuery(undefined);
+  const productsData = products?.data;
+  console.log(productsData);
+
   const columns: TableColumn[] = [
     { key: "image_url", label: "Image", type: "image" },
     { key: "name", label: "Product Name", type: "text" },
-    { key: "rarity", label: "Rarity", type: "text" },
-    { key: "price", label: "Price", type: "text" },
+    { key: "type", label: "Rarity", type: "text" },
+    { key: "regularPrice", label: "Price", type: "text" },
     { key: "created_at", label: "Created Date & Time", type: "text" },
   ];
 
@@ -66,7 +47,7 @@ const ProductsList = () => {
       <Link href="/dashboard/add-fruits" className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-2 duration-300 cursor-pointer absolute top-0 right-0">
         <FaPlus />
       </Link>
-      <DynamicTable columns={columns} data={products} actions={tableActions} />
+      <DynamicTable columns={columns} data={productsData} actions={tableActions} loading={isLoading} />
     </div>
   );
 };
