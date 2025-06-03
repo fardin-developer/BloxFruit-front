@@ -115,7 +115,7 @@ const MainCard = ({ data }: { data: any }) => {
 
       {/* Info Section */}
       <div className="mt-3">
-        <p className="text-sm mb-2 text-[#9D99AD]">{category}</p>
+        <p className="text-sm mb-2 text-[#9D99AD] capitalize">{category}</p>
         <div className="flex items-center gap-1">
           <h2 className="text-lg text-white font-bold">{name}</h2>
           <RiVerifiedBadgeFill className="text-[#1d96ff]" />
@@ -126,10 +126,14 @@ const MainCard = ({ data }: { data: any }) => {
             <p className="text-xs text-[#9D99AD]">Regular Price</p>
             <h2 className="text-lg text-white">${regularPrice} Dollar</h2>
           </div>
-          <div className="space-y-2">
-            <p className="text-xs text-[#9D99AD]">Discount Price</p>
-            <h2 className="text-lg text-white">${discountPrice} Dollar</h2>
-          </div>
+          {
+            discountPrice && (
+              <div className="space-y-2">
+                <p className="text-xs text-[#9D99AD]">Discount Price</p>
+                <h2 className="text-lg text-white">${discountPrice} Dollar</h2>
+              </div>
+            )
+          }
         </div>
 
         {/* Action Buttons */}

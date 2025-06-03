@@ -1,18 +1,17 @@
 "use client"
+import { useGetProductsQuery } from '@/app/store/api/services/productApi';
 import MainCard from '@/components/ui/MainCard/MainCard'
 import { useEffect, useState } from 'react';
 
 
 export default function OurBestSell() {
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch("/data.json");
-            const data = await response.json();
-            setData(data);
-        };
-        fetchData();
-    }, []);
+    
+
+    const { data: products, isLoading } = useGetProductsQuery();
+    console.log(products?.data, "products");
+    const data = products?.data?.filter(item => item.category === "permanent");
+    
+
     return (
         <div className='max-w-[1320px] mx-auto px-4 2 mt-20'>
             <div className="mb-12 lg:flex items-center justify-between text-white">
@@ -49,7 +48,7 @@ export default function OurBestSell() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {
-                    data.map((item, index) => (
+                    data?.map((item, index) => (
                         <MainCard key={index} data={item} />
                     ))
                 }
