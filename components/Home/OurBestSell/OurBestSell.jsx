@@ -1,14 +1,9 @@
 "use client"
 import { useGetProductsQuery } from '@/app/store/api/services/productApi';
 import MainCard from '@/components/ui/MainCard/MainCard'
-import { useEffect, useState } from 'react';
-
 
 export default function OurBestSell() {
-    
-
     const { data: products, isLoading } = useGetProductsQuery();
-    console.log(products?.data, "products");
     const data = products?.data?.filter(item => item.category === "permanent");
     
 

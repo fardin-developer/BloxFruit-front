@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import {IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowDropdown } from "react-icons/io";
 import MainCard from "../ui/MainCard/MainCard";
 import CartSidebar from "./CartSidebar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import FilterCard from "../ui/FilterCard/FilterCard";
+import { useGetProductsQuery } from "@/app/store/api/services/productApi";
 
 const categories = [
   { value: "All", label: "All" },
@@ -21,22 +22,23 @@ const items = [
   { name: "Others section", href: "#OthersSection" },
 ];
 
-export default function  StoreProducts() {
-  const [data, setData] = useState([]);
+export default function StoreProducts() {
   const [activeSection, setActiveSection] = useState("Permanent Fruits");
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select one");
 
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("/data.json");
-      const data = await response.json();
-      setData(data);
-    };
-    fetchData();
-  }, []);
+  const { data: products, isLoading } = useGetProductsQuery(null);
+  const permanentData = products?.data?.filter(
+    (item: any) => item.category === "permanent"
+  );
+  const gamepassData = products?.data?.filter(
+    (item: any) => item.category === "gamepass"
+  );
+  const othersData = products?.data?.filter(
+    (item: any) => item.category === "others"
+  );
 
   useEffect(() => {
     const sections = document.querySelectorAll("section");
@@ -57,14 +59,6 @@ export default function  StoreProducts() {
     );
     sections.forEach((section) => observer.observe(section));
     return () => sections.forEach((section) => observer.unobserve(section));
-  }, []);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("/data.json");
-      const data = await response.json();
-      setData(data);
-    };
-    fetchData();
   }, []);
 
   return (
@@ -96,7 +90,10 @@ export default function  StoreProducts() {
             {["Common", "Uncommon", "Rare", "Legendary", "Mythical"].map(
               (rarity, idx) => (
                 <label key={idx} className="flex items-center gap-2">
-                  <input type="checkbox" className="accent-[#FADA1B] w-4 h-4 " />
+                  <input
+                    type="checkbox"
+                    className="accent-[#FADA1B] w-4 h-4 "
+                  />
                   <span className={rarity === "Common" ? "text-[#FADA1B]" : ""}>
                     {rarity}
                   </span>
@@ -212,7 +209,7 @@ export default function  StoreProducts() {
               cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
             }`}
           >
-            {data.map((item, index) => (
+            {permanentData?.map((item: any, index: number) => (
               <MainCard key={index} data={item} />
             ))}
           </div>
@@ -228,10 +225,14 @@ export default function  StoreProducts() {
               Gamepass
             </span>
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <div className="h-32 bg-gray-800 rounded-lg flex items-center justify-center text-white">
-              card here
-            </div>
+          <div
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
+              cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+            }`}
+          >
+            {gamepassData?.map((item: any, index: number) => (
+              <MainCard key={index} data={item} />
+            ))}
           </div>
         </section>
 
@@ -245,10 +246,14 @@ export default function  StoreProducts() {
               Others section
             </span>
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <div className="h-32 bg-gray-800 rounded-lg flex items-center justify-center text-white">
-              card here
-            </div>
+          <div
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
+              cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+            }`}
+          >
+            {othersData?.map((item: any, index: number) => (
+              <MainCard key={index} data={item} />
+            ))}
           </div>
         </section>
       </main>
