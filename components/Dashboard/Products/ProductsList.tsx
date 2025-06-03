@@ -36,8 +36,9 @@ const ProductsList = () => {
 
   const imageFormatter = (image:string)=>{
     const url = `${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`;
-    console.log('Generated image URL:', url);
-    return url;
+    console.log(url, "url");
+    console.log('Generated image URL:',encodeURI(url));
+    return encodeURI(url);
   }
 
   const formattedData = productsData?.map((product:any)=>({

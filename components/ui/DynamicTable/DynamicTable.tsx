@@ -79,7 +79,8 @@ const DynamicTable: React.FC<TableProps> = ({
                     {col.type === "image" ? (
                       typeof row[col.key] === "string" &&
                       row[col.key] !== "" ? (
-                        <Image
+                        <img
+                          crossOrigin="anonymous"
                           src={row[col.key]}
                           alt="Profile"
                           width={40}
@@ -88,7 +89,8 @@ const DynamicTable: React.FC<TableProps> = ({
                         />
                       ) : typeof row[col.key]?.src === "string" &&
                         row[col.key].src !== "" ? (
-                        <Image
+                        <img
+                          crossOrigin="anonymous"
                           src={row[col.key].src}
                           alt="Profile"
                           width={40}
