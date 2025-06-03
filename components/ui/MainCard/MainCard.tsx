@@ -58,7 +58,7 @@ const MainCard = ({ data }: { data: any }) => {
       addToCart({
         id: id,
         name: name,
-        price: discountPrice,
+        price: discountPrice ? discountPrice : regularPrice,
         image: image,
         quantity: 1,
       })
@@ -124,13 +124,13 @@ const MainCard = ({ data }: { data: any }) => {
         <div className="flex justify-between">
           <div className="space-y-2">
             <p className="text-xs text-[#9D99AD]">Regular Price</p>
-            <h2 className="text-lg text-white">${regularPrice} Dollar</h2>
+            <h2 className="text-lg text-white">${regularPrice}</h2>
           </div>
           {
             discountPrice && (
               <div className="space-y-2">
                 <p className="text-xs text-[#9D99AD]">Discount Price</p>
-                <h2 className="text-lg text-white">${discountPrice} Dollar</h2>
+                <h2 className="text-lg text-white">${discountPrice}</h2>
               </div>
             )
           }
