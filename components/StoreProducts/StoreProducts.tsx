@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import FilterCard from "../ui/FilterCard/FilterCard";
 import { useGetProductsQuery } from "@/app/store/api/services/productApi";
+import Loading from "../Loading/Loading";
 
 const categories = [
   { value: "All", label: "All" },
@@ -204,15 +205,19 @@ export default function StoreProducts() {
               Permanent Fruits
             </span>
           </h2>
-          <div
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
-              cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
-            }`}
-          >
-            {permanentData?.map((item: any, index: number) => (
-              <MainCard key={index} data={item} />
-            ))}
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
+                cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+              }`}
+            >
+              {permanentData?.map((item: any, index: number) => (
+                <MainCard key={index} data={item} />
+              ))}
+            </div>
+          )}
         </section>
 
         <section
@@ -225,15 +230,19 @@ export default function StoreProducts() {
               Gamepass
             </span>
           </h2>
-          <div
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
-              cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
-            }`}
-          >
-            {gamepassData?.map((item: any, index: number) => (
-              <MainCard key={index} data={item} />
-            ))}
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
+                cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+              }`}
+            >
+              {gamepassData?.map((item: any, index: number) => (
+                <MainCard key={index} data={item} />
+              ))}
+            </div>
+          )}
         </section>
 
         <section
@@ -246,15 +255,19 @@ export default function StoreProducts() {
               Others section
             </span>
           </h2>
-          <div
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
-              cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
-            }`}
-          >
-            {othersData?.map((item: any, index: number) => (
-              <MainCard key={index} data={item} />
-            ))}
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
+                cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+              }`}
+            >
+              {othersData?.map((item: any, index: number) => (
+                <MainCard key={index} data={item} />
+              ))}
+            </div>
+          )}
         </section>
       </main>
       <aside

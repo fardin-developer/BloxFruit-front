@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/components/Loading/Loading";
 import {
   Table,
   TableHeader,
@@ -60,7 +61,7 @@ const DynamicTable: React.FC<TableProps> = ({
                 colSpan={columns.length + (actions ? 2 : 1)}
                 className="text-center py-4 text-gray-500"
               >
-                Loading...
+                <Loading />
               </TableCell>
             </TableRow>
           ) : data?.length > 0 ? (
