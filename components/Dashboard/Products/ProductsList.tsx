@@ -7,8 +7,10 @@ import { FaPlus } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import Link from "next/link";
 import { useDeleteProductMutation, useGetProductsQuery } from "@/app/store/api/services/productApi";
+import { useRouter } from "next/navigation";
 
 const ProductsList = () => {
+  const router = useRouter()
   const { data: products, isLoading, refetch } = useGetProductsQuery(undefined);
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
   const productsData = products?.data;
@@ -39,7 +41,7 @@ const ProductsList = () => {
   }));
 
   const columns: TableColumn[] = [
-    { key: "imageUrl", label: "Image", type: "image" },
+    { key: "image-Url", label: "Image", type: "image" },
     { key: "name", label: "Product Name", type: "text" },
     { key: "type", label: "Rarity", type: "text" },
     { key: "regularPrice", label: "Price", type: "text" },
@@ -49,7 +51,7 @@ const ProductsList = () => {
   const tableActions = (row: any) => {
     return (
       <div className="flex gap-2">
-        <button className="bg-[#80fa1d] hover:brightness-150 group text-black font-bold px-4 py-2 duration-300 cursor-pointer flex items-center gap-1 relative">
+        <button onClick={()=>router.push(`/dashboard/add-fruits?id=${row.id}`)} className="bg-[#80fa1d] hover:brightness-150 group text-black font-bold px-4 py-2 duration-300 cursor-pointer flex items-center gap-1 relative">
           <div className="absolute inset-0 z-0 pointer-events-none">
             <div className="w-full h-full group-hover:bg-[radial-gradient(white_1px,transparent_1px)] [background-size:5px_5px] opacity-100 " />
           </div>

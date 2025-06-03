@@ -18,6 +18,21 @@ export const productApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getProductById: build.query({
+      query: (id) => ({
+        url: `/dashboard/products/${id}`,
+        method: "GET",
+      }),
+    }),
+
+    updateProduct: build.mutation({
+      query: ({id, formData}) => ({
+        url: `/dashboard/products/${id}`,
+        method: "PATCH",
+        body: formData,
+      }),
+    }),
+
     deleteProduct: build.mutation({
       query: (id) => ({
         url: `/dashboard/products/${id}`,
@@ -27,4 +42,4 @@ export const productApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, useAddProductMutation, useDeleteProductMutation } = productApi;
+export const { useGetProductsQuery, useAddProductMutation, useGetProductByIdQuery, useUpdateProductMutation, useDeleteProductMutation } = productApi;

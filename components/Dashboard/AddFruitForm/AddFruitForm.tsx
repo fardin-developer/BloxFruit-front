@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { PlusIcon } from "lucide-react";
 import { IoMdPhotos } from "react-icons/io";
-import { useAddProductMutation } from "@/app/store/api/services/productApi";
+import {
+  useAddProductMutation,
+  useGetProductByIdQuery,
+  useUpdateProductMutation,
+} from "@/app/store/api/services/productApi";
 
 type FormValues = {
   name: string;
@@ -17,8 +21,13 @@ type FormValues = {
   image?: FileList;
 };
 
-export default function FruitForm() {
+export default function FruitForm({ id }: { id: any }) {
+  console.log(id, "id");
+
   const [addProduct, { isLoading }] = useAddProductMutation();
+  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+  const { data: product, isLoading: isLoadingProduct } =
+    useGetProductByIdQuery(id);
   const { register, handleSubmit, watch, reset, setValue } =
     useForm<FormValues>();
   const showDiscount = watch("showDiscount");
@@ -40,6 +49,16 @@ export default function FruitForm() {
     }
   };
 
+  useEffect(() => {
+    if (product) {
+      setValue("name", product.data.name);
+      setValue("type", product.data.type);
+      setValue("category", product.data.category);
+      setValue("regularPrice", product.data.regularPrice);
+      setValue("image", product.data.imageUrl);
+    }
+  }, [product]);
+
   const onSubmit = async (data: FormValues) => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -50,19 +69,17 @@ export default function FruitForm() {
     if (data.discountPrice) {
       formData.append("discountPrice", data.discountPrice.toString());
     }
-    // Use selectedFile instead of data.image
     if (selectedFile) {
       formData.append("image", selectedFile);
     }
 
-    // Debug: Log FormData contents
     console.log("FormData contents:");
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
     }
 
     try {
-      const res = await addProduct(formData);
+      const res = id ? await updateProduct({id,formData}) : await addProduct(formData);
       console.log(res);
 
       if (res.data?.success) {
@@ -206,7 +223,15 @@ export default function FruitForm() {
             className="flex items-center gap-2 p-2 w-fit bg-[#fada1d] text-gray-900 font-bold py-3 rounded hover:brightness-125 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <PlusIcon className="w-4 h-4 text-2xl" />
-            {isLoading ? "Adding..." : "Add Fruit"}
+            {id ? (
+              <span className="">
+                {isUpdating ? "Updating..." : "Update"}
+              </span>
+            ) : (
+              <span className="">
+                {isLoading ? "Adding..." : "Add Fruit"}
+              </span>
+            )}
           </button>
         </div>
       </form>
