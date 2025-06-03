@@ -19,7 +19,7 @@ const menuItems = [
     label: "Products",
   },
   { href: "/dashboard/orders", icon: <PiShoppingBagLight  size={24} />, label: "Orders" },
-  { href: "#", icon: <TbSocial size={24} />, label: "Others" },
+  // { href: "#", icon: <TbSocial size={24} />, label: "Others" },
 ];
 
 const bottomMenu = [
@@ -121,7 +121,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             );
           })}
           <div className="flex items-center p-4">
-            <div className="flex-shrink-0">
+            {/* <div className="flex-shrink-0">
               <Image
                 className="w-10 h-10 rounded-full"
                 src="/images/us.png"
@@ -133,7 +133,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="ml-3">
               <p className="text-sm text-[#fada1b] font-medium">John Doe</p>
               <p className="text-xs text-[#fada1b]">john.doe@example.com</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

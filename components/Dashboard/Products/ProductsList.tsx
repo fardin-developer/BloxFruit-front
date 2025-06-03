@@ -54,6 +54,7 @@ const ProductsList = () => {
     { key: "type", label: "Rarity", type: "text" },
     { key: "regularPrice", label: "Price", type: "text" },
     { key: "created_at", label: "Created Date & Time", type: "text" },
+    { key: "category", label: "Category", type: "text" },
   ];
 
   const tableActions = (row: any) => {
