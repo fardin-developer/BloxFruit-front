@@ -34,14 +34,22 @@ const ProductsList = () => {
     return `$${price}`;
   }
 
+  const imageFormatter = (image:string)=>{
+    const url = `${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`;
+    console.log('Generated image URL:', url);
+    return url;
+  }
+
   const formattedData = productsData?.map((product:any)=>({
     ...product,
     regularPrice: priceFormatter(product.regularPrice),
     created_at: dateFormatter(product.created_at),
+    imageUrl: imageFormatter(product.imageUrl),
   }));
 
+
   const columns: TableColumn[] = [
-    { key: "image-Url", label: "Image", type: "image" },
+    { key: "imageUrl", label: "Image", type: "image" },
     { key: "name", label: "Product Name", type: "text" },
     { key: "type", label: "Rarity", type: "text" },
     { key: "regularPrice", label: "Price", type: "text" },
