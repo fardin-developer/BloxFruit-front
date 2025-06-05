@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FaDiscord } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { TbCoinBitcoinFilled, TbShoppingBag } from "react-icons/tb";
@@ -20,6 +20,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const router = useRouter();
 
   return (
     <nav className="bg-[#080705] border-b border-[#e4e4e414] ">
@@ -71,8 +72,8 @@ const Navbar = () => {
             <FaDiscord size={48} />
           </a>
 
-          <div className="flex justify-center items-center rounded-full bg-gradient-to-l to-[#FADA1B] from-[#FFF] w-12 h-12">
-            <div className="relative">
+          <div onClick={()=>router.push("/gamestore")} className="flex justify-center items-center rounded-full bg-gradient-to-l to-[#FADA1B] from-[#FFF] w-12 h-12 cursor-pointer">
+            <div  className="relative ">
               <TbShoppingBag size={24} className="text-black/70 text-xl" />
               <span className="absolute -top-1 -right-1 bg-[#772DFF] text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
                 {cartItems.length}
