@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/store/slices/cartSlice";
 
 const MainCard = ({ data }: { data: any }) => {
-  const {id, category, image, discountPrice, regularPrice, name, type } = data;
+  const {id, category, imageUrl, discountPrice, regularPrice, name, type } = data;
 
   // Styles based on type
   const typeStyles: any = {
@@ -53,6 +53,8 @@ const MainCard = ({ data }: { data: any }) => {
 
   const dispatch = useDispatch();
 
+  const image = `${process.env.NEXT_PUBLIC_IMAGE_URL}${imageUrl}`;
+
   const handleAddToCart = () => {
     dispatch(
       addToCart({
@@ -82,7 +84,7 @@ const MainCard = ({ data }: { data: any }) => {
             alt="type badge"
             width={400}
             height={400}
-            className="h-11 w-fit relative z-0"
+            className="h-11 w-fit relative z-20"
           />
         </div>
 
@@ -124,7 +126,7 @@ const MainCard = ({ data }: { data: any }) => {
         <div className="flex justify-between">
           <div className="space-y-2">
             <p className="text-xs text-[#9D99AD]">Regular Price</p>
-            <h2 className="text-lg text-white">${regularPrice}</h2>
+            <h2 className={`text-lg text-white ${discountPrice ? "line-through" : ""}`}>${regularPrice}</h2>
           </div>
           {
             discountPrice && (
