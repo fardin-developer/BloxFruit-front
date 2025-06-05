@@ -8,6 +8,7 @@ import acceptPayment from "@/public/accept-payment.png";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 interface FormValues {
   username: string;
@@ -17,6 +18,9 @@ interface FormValues {
 }
 
 export default function CheckoutForm() {
+  const searchParams = useSearchParams();
+  const total = searchParams.get('total') || '0.00';
+
   const {
     control,
     handleSubmit,
@@ -40,6 +44,7 @@ export default function CheckoutForm() {
       billing_details: {
         name: data.fullName,
         email: data.email,
+        
       },
     });
 
@@ -66,6 +71,12 @@ export default function CheckoutForm() {
           Express Checkout
         </h2>
 
+        {/* Total Amount Display */}
+        <div className="text-center mb-8">
+          <p className="text-lg text-[#FADA1B]">Total Amount to Pay</p>
+          <p className="text-3xl font-bold text-white">${total}</p>
+        </div>
+
         <div className="flex justify-center gap-3">
           <button className="bg-yellow-400 text-white px-5 py-2 font-semibold rounded-lg cursor-pointer">
             <Image src={paypal} alt="paypal" width={80} height={80} />
@@ -81,7 +92,7 @@ export default function CheckoutForm() {
           <hr className="w-full rgb-border" />
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* Client Info */}
           <div className="space-y-4 mb-10">
             <h1 className="text-lg">Client Information</h1>
@@ -139,28 +150,8 @@ export default function CheckoutForm() {
                 />
               </div>
             </div>
-            <div className="sm:flex items-center">
-              <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
-                Security Code
-              </label>
-              <input
-                type="text"
-                placeholder="Enter card security code"
-                className="w-full px-4 py-4 bg-gradient-to-l to-[#fada1b26]  from-[#594d0026] text-white placeholder-gray-300 outline-none"
-              />
-            </div>
-            <div className="sm:flex items-center">
-              <label className="block text-sm font-semibold w-52 sm:pl-6 py-[17.5px] sm:border-b rgb-border-checkout">
-                Name on Card
-              </label>
-              <input
-                type="text"
-                placeholder="Enter card name"
-                className="w-full px-4 py-4 bg-gradient-to-l to-[#fada1b26]  from-[#594d0026] text-white placeholder-gray-300 outline-none"
-              />
-            </div>
           </div>
-          {/* Remember Me */}
+          {/* Personal Information */}
           <div className="space-y-4 mb-10">
             <h1 className="text-lg">Personal Information</h1>
             <div className="sm:flex items-center">
@@ -189,7 +180,7 @@ export default function CheckoutForm() {
             type="submit"
             className="w-full flex items-center justify-center font-bold grad-btn hover:opacity-90 text-black px-8 py-3  text-base cursor-pointer duration-300 hover:brightness-150"
           >
-            {loading ? "Processing..." : "Pay Now"}
+            {loading ? "Processing..." : `Pay $${total} Now`}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -206,7 +197,7 @@ export default function CheckoutForm() {
           </button>
           <p className="text-xs text-center text-gray-400">
             Your info will be saved to a Shop account. By continuing, you agree
-            to Shop’s{" "}
+            to Shop's{" "}
             <a href="#" className="underline text-yellow-400">
               Terms of Service
             </a>{" "}

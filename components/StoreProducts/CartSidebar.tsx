@@ -4,11 +4,18 @@ import CartCard from "../ui/CartCard/CartCard";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { clearCart } from "@/app/store/slices/cartSlice";
+import { useRouter } from "next/navigation";
 
 export default function CartSidebar() {
+    const router = useRouter();
     const dispatch = useDispatch();
     const cartItems = useSelector((state: RootState) => state.cart.cartItems);
     const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+    const handleCheckout = () => {
+      router.push(`/checkout?total=${totalPrice.toFixed(2)}`);
+    };
+
   return (
     <div className="">
       <div>
@@ -33,7 +40,10 @@ export default function CartSidebar() {
           <p className="text-[#FADA1B]">Total</p>
           <p>${totalPrice.toFixed(2)}</p>
         </div>
-        <button className="w-full flex justify-center items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150">
+        <button 
+          onClick={handleCheckout}
+          className="w-full flex justify-center items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150"
+        >
           Checkout
           <svg
             xmlns="http://www.w3.org/2000/svg"
