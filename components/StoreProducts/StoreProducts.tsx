@@ -10,7 +10,7 @@ import FilterCard from "../ui/FilterCard/FilterCard";
 import { useGetProductsQuery } from "@/app/store/api/services/productApi";
 import Loading from "../Loading/Loading";
 
-const categories = [
+const sort = [
   { value: "All", label: "All" },
   { value: "new", label: "New" },
   { value: "old", label: "Old" },
@@ -36,6 +36,23 @@ export default function StoreProducts() {
 
   const { data: products, isLoading } = useGetProductsQuery(null);
 
+  // Sort function
+  const sortProducts = (products: any[], sortType: string) => {
+    if (!products) return [];
+    
+    const sortedProducts = [...products];
+    if (sortType === "new") {
+      return sortedProducts.sort((a, b) => 
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+    } else if (sortType === "old") {
+      return sortedProducts.sort((a, b) => 
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      );
+    }
+    return sortedProducts;
+  };
+
   // Filter function
   const filterProducts = (products: any[]) => {
     return products.filter((product) => {
@@ -59,27 +76,30 @@ export default function StoreProducts() {
     });
   };
 
-  // Apply filters to each category
+  // Apply filters and sorting to each category
   const permanentData = useMemo(() => {
     const filtered = products?.data?.filter(
       (item: any) => item.category === "permanent"
     );
-    return filterProducts(filtered || []);
-  }, [products, selectedRarities, priceRange, selectedGames]);
+    const filteredProducts = filterProducts(filtered || []);
+    return sortProducts(filteredProducts, selected === "new" ? "new" : selected === "old" ? "old" : "");
+  }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
   const gamepassData = useMemo(() => {
     const filtered = products?.data?.filter(
       (item: any) => item.category === "gamepass"
     );
-    return filterProducts(filtered || []);
-  }, [products, selectedRarities, priceRange, selectedGames]);
+    const filteredProducts = filterProducts(filtered || []);
+    return sortProducts(filteredProducts, selected === "new" ? "new" : selected === "old" ? "old" : "");
+  }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
   const othersData = useMemo(() => {
     const filtered = products?.data?.filter(
       (item: any) => item.category === "others"
     );
-    return filterProducts(filtered || []);
-  }, [products, selectedRarities, priceRange, selectedGames]);
+    const filteredProducts = filterProducts(filtered || []);
+    return sortProducts(filteredProducts, selected === "new" ? "new" : selected === "old" ? "old" : "");
+  }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
   // Handle rarity selection
   const handleRarityChange = (rarity: string) => {
@@ -245,7 +265,7 @@ export default function StoreProducts() {
                     }`}
               >
                 <ul>
-                  {["Select one", ...categories.map((s) => s.label)].map(
+                  {["Select one", ...sort.map((s) => s.label)].map(
                     (label) => (
                       <li
                         key={label}
