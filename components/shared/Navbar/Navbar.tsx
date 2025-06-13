@@ -73,7 +73,7 @@ const Navbar = () => {
           </a>
 
           <div onClick={()=>router.push("/gamestore")} className="flex justify-center items-center rounded-full bg-gradient-to-l to-[#FADA1B] from-[#FFF] w-12 h-12 cursor-pointer">
-            <div  className="relative ">
+            <div  className="relative">
               <TbShoppingBag size={24} className="text-black/70 text-xl" />
               <span className="absolute -top-1 -right-1 bg-[#772DFF] text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
                 {cartItems.length}

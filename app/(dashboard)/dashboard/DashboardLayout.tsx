@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { RxDashboard } from "react-icons/rx";
-import logo from "@/public/logo.svg";
 import Link from "next/link";
 import Image from "next/image";
 import { RiProductHuntLine, RiSettingsLine } from "react-icons/ri";
@@ -69,7 +68,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Logo */}
         <div className="flex items-center pt-1 pb-2 pl-12">
           <Link href="/">
-            <Image src={logo} alt="logo" width={100} height={100} className="w-full" />
+            <Image src="/logo.svg" alt="logo" width={100} height={100} className="w-full" />
           </Link>
         </div>
 
