@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import MainCard from "../ui/MainCard/MainCard";
 import CartSidebar from "./CartSidebar";
@@ -12,7 +12,6 @@ import Loading from "../Loading/Loading";
 
 const categories = [
   { value: "All", label: "All" },
-  { value: "popular", label: "Popular" },
   { value: "new", label: "New" },
   { value: "old", label: "Old" },
 ];
@@ -30,16 +29,80 @@ export default function StoreProducts() {
 
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
+  // Add new filter states
+  const [selectedRarities, setSelectedRarities] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([1, 11110]);
+  const [selectedGames, setSelectedGames] = useState<string[]>([]);
+
   const { data: products, isLoading } = useGetProductsQuery(null);
-  const permanentData = products?.data?.filter(
-    (item: any) => item.category === "permanent"
-  );
-  const gamepassData = products?.data?.filter(
-    (item: any) => item.category === "gamepass"
-  );
-  const othersData = products?.data?.filter(
-    (item: any) => item.category === "others"
-  );
+
+  // Filter function
+  const filterProducts = (products: any[]) => {
+    return products.filter((product) => {
+      // Filter by rarity
+      if (selectedRarities.length > 0 && !selectedRarities.includes(product.type)) {
+        return false;
+      }
+
+      // Filter by price range
+      const price = parseFloat(product.regularPrice);
+      if (price < priceRange[0] || price > priceRange[1]) {
+        return false;
+      }
+
+      // Filter by game (if implemented)
+      if (selectedGames.length > 0 && !selectedGames.includes(product.game)) {
+        return false;
+      }
+
+      return true;
+    });
+  };
+
+  // Apply filters to each category
+  const permanentData = useMemo(() => {
+    const filtered = products?.data?.filter(
+      (item: any) => item.category === "permanent"
+    );
+    return filterProducts(filtered || []);
+  }, [products, selectedRarities, priceRange, selectedGames]);
+
+  const gamepassData = useMemo(() => {
+    const filtered = products?.data?.filter(
+      (item: any) => item.category === "gamepass"
+    );
+    return filterProducts(filtered || []);
+  }, [products, selectedRarities, priceRange, selectedGames]);
+
+  const othersData = useMemo(() => {
+    const filtered = products?.data?.filter(
+      (item: any) => item.category === "others"
+    );
+    return filterProducts(filtered || []);
+  }, [products, selectedRarities, priceRange, selectedGames]);
+
+  // Handle rarity selection
+  const handleRarityChange = (rarity: string) => {
+    setSelectedRarities(prev => 
+      prev.includes(rarity)
+        ? prev.filter(r => r !== rarity)
+        : [...prev, rarity]
+    );
+  };
+
+  // Handle price range change
+  const handlePriceRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    setPriceRange(prev => [prev[0], value]);
+  };
+
+  // Clear all filters
+  const clearAllFilters = () => {
+    setSelectedRarities([]);
+    setPriceRange([1, 11110]);
+    setSelectedGames([]);
+    setSelected("Select one");
+  };
 
   useEffect(() => {
     const sections = document.querySelectorAll("section");
@@ -72,7 +135,10 @@ export default function StoreProducts() {
       >
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Filter</h2>
-          <button className="text-[#FADA1B] text-sm hover:underline">
+          <button 
+            onClick={clearAllFilters}
+            className="text-[#FADA1B] text-sm hover:underline"
+          >
             Clear All
           </button>
         </div>
@@ -93,9 +159,11 @@ export default function StoreProducts() {
                 <label key={idx} className="flex items-center gap-2">
                   <input
                     type="checkbox"
-                    className="accent-[#FADA1B] w-4 h-4 "
+                    className="accent-[#FADA1B] w-4 h-4"
+                    checked={selectedRarities.includes(rarity.toLowerCase())}
+                    onChange={() => handleRarityChange(rarity.toLowerCase())}
                   />
-                  <span className={rarity === "Common" ? "text-[#FADA1B]" : ""}>
+                  <span className={selectedRarities.includes(rarity.toLowerCase()) ? "text-[#FADA1B]" : ""}>
                     {rarity}
                   </span>
                 </label>
@@ -107,10 +175,17 @@ export default function StoreProducts() {
         {/* Price Range */}
         <div className="bg-[#0c0c09] p-4 rounded-lg">
           <h3 className="text-sm font-semibold mb-3">Price Range</h3>
-          <input type="range" className="w-full accent-[#FADA1B]" />
+          <input 
+            type="range" 
+            className="w-full accent-[#FADA1B]"
+            min={1}
+            max={1000}
+            value={priceRange[1]}
+            onChange={handlePriceRangeChange}
+          />
           <div className="flex justify-between text-xs text-gray-400 mt-1">
-            <span>$1</span>
-            <span>$11110</span>
+            <span>${priceRange[0]}</span>
+            <span>${priceRange[1]}</span>
           </div>
         </div>
       </aside>
