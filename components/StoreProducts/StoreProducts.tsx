@@ -330,9 +330,15 @@ export default function StoreProducts() {
                 cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
               }`}
             >
-              {permanentData?.map((item: any, index: number) => (
-                <MainCard key={index} data={item} />
-              ))}
+              {permanentData.length > 0 ? (
+                permanentData?.map((item: any, index: number) => (
+                  <MainCard key={index} data={item} />
+                ))
+              ) : (
+                <div className="flex justify-center items-center h-96 w-full col-span-full">
+                  <h2 className="text-2xl font-semibold text-white text-center">No data found</h2>
+                </div>
+              )}
             </div>
           )}
         </section>
@@ -355,9 +361,15 @@ export default function StoreProducts() {
                 cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
               }`}
             >
-              {gamepassData?.map((item: any, index: number) => (
-                <MainCard key={index} data={item} />
-              ))}
+              {gamepassData.length > 0 ? (
+                gamepassData?.map((item: any, index: number) => (
+                  <MainCard key={index} data={item} />
+                ))
+              ) : (
+                <div className="flex justify-center items-center h-96 w-full col-span-full">
+                  <h2 className="text-2xl font-semibold text-white text-center">No data found</h2>
+                </div>
+              )}
             </div>
           )}
         </section>
@@ -380,9 +392,15 @@ export default function StoreProducts() {
                 cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
               }`}
             >
-              {othersData?.map((item: any, index: number) => (
-                <MainCard key={index} data={item} />
-              ))}
+              {othersData.length > 0 ? (
+                othersData?.map((item: any, index: number) => (
+                  <MainCard key={index} data={item} />
+                ))
+              ) : (
+                <div className="flex justify-center items-center h-96 w-full col-span-full">
+                  <h2 className="text-2xl font-semibold text-white text-center">No data found</h2>
+                </div>
+              )}
             </div>
           )}
         </section>
