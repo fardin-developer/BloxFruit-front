@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState, useMemo } from "react";
-import { IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowDropdown, IoMdClose } from "react-icons/io";
 import MainCard from "../ui/MainCard/MainCard";
 import CartSidebar from "./CartSidebar";
 import { useSelector } from "react-redux";
@@ -162,14 +162,14 @@ export default function StoreProducts() {
 
       {/* Sidebar */}
       <aside
-        className={`lg:sticky top-4 z-10 w-full lg:w-80 h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 
+        className={`lg:sticky top-4 z-10 w-full lg:w-80 h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6  
           ${cartItems.length > 0 ? "xl:w-[20%]" : "xl:w-[30%]"}
           ${isFilterOpen ? "fixed inset-0 z-50 lg:relative" : "hidden lg:block"}
         `}
       >
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Filter</h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <button 
               onClick={clearAllFilters}
               className="text-[#FADA1B] text-sm hover:underline"
@@ -180,7 +180,7 @@ export default function StoreProducts() {
               onClick={() => setIsFilterOpen(false)}
               className="lg:hidden text-white text-sm hover:text-[#FADA1B]"
             >
-              Close
+              <IoMdClose size={24}/>
             </button>
           </div>
         </div>
