@@ -9,6 +9,11 @@ import { RootState } from "@/app/store/store";
 import FilterCard from "../ui/FilterCard/FilterCard";
 import { useGetProductsQuery } from "@/app/store/api/services/productApi";
 import Loading from "../Loading/Loading";
+import image1 from "@/public/cardsImage/ourgames.png";
+import image2 from "@/public/cardsImage/ourgames2.png";
+import image3 from "@/public/cardsImage/ourgames3.jpg";
+import image4 from "@/public/cardsImage/ourgames4.png";
+import image5 from "@/public/cardsImage/ourgames5.png";
 
 const sort = [
   { value: "All", label: "All" },
@@ -20,6 +25,36 @@ const items = [
   { name: "Permanent Fruits", href: "#PermanentFruits" },
   { name: "Gamepass", href: "#Gamepass" },
   { name: "Others section", href: "#OthersSection" },
+];
+
+const gameNames = [
+  {
+    name: "Blox Fruits",
+    description: "Blox Fruits are one of the four main ways to.",
+    image: image1,
+  },
+  {
+    name: "Blue Lock Rivals",
+    description: "Blue Lock Rivals, a free-to-play Roblox game.",
+    image: image2,
+  },
+  {
+    name: "Rivals",
+    description: "RIVALS is a first-person shooter game on",
+    image: image3,
+  },
+  {
+    name: "Combat Warrior",
+    description:
+      "Combat Warriors is a fighting experience. Players compete and fight.",
+    image: image3,
+  },
+  {
+    name: "Anime Reborn",
+    description:
+      "Anime Reborn refers to two different things: a popular tower defense game.",
+    image: image4,
+  },
 ];
 
 export default function StoreProducts() {
@@ -40,15 +75,17 @@ export default function StoreProducts() {
   // Sort function
   const sortProducts = (products: any[], sortType: string) => {
     if (!products) return [];
-    
+
     const sortedProducts = [...products];
     if (sortType === "new") {
-      return sortedProducts.sort((a, b) => 
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      return sortedProducts.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
     } else if (sortType === "old") {
-      return sortedProducts.sort((a, b) => 
-        new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      return sortedProducts.sort(
+        (a, b) =>
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
       );
     }
     return sortedProducts;
@@ -58,7 +95,10 @@ export default function StoreProducts() {
   const filterProducts = (products: any[]) => {
     return products.filter((product) => {
       // Filter by rarity
-      if (selectedRarities.length > 0 && !selectedRarities.includes(product.type)) {
+      if (
+        selectedRarities.length > 0 &&
+        !selectedRarities.includes(product.type)
+      ) {
         return false;
       }
 
@@ -83,7 +123,10 @@ export default function StoreProducts() {
       (item: any) => item.category === "permanent"
     );
     const filteredProducts = filterProducts(filtered || []);
-    return sortProducts(filteredProducts, selected === "new" ? "new" : selected === "old" ? "old" : "");
+    return sortProducts(
+      filteredProducts,
+      selected === "new" ? "new" : selected === "old" ? "old" : ""
+    );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
   const gamepassData = useMemo(() => {
@@ -91,7 +134,10 @@ export default function StoreProducts() {
       (item: any) => item.category === "gamepass"
     );
     const filteredProducts = filterProducts(filtered || []);
-    return sortProducts(filteredProducts, selected === "new" ? "new" : selected === "old" ? "old" : "");
+    return sortProducts(
+      filteredProducts,
+      selected === "new" ? "new" : selected === "old" ? "old" : ""
+    );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
   const othersData = useMemo(() => {
@@ -99,14 +145,17 @@ export default function StoreProducts() {
       (item: any) => item.category === "others"
     );
     const filteredProducts = filterProducts(filtered || []);
-    return sortProducts(filteredProducts, selected === "new" ? "new" : selected === "old" ? "old" : "");
+    return sortProducts(
+      filteredProducts,
+      selected === "new" ? "new" : selected === "old" ? "old" : ""
+    );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
   // Handle rarity selection
   const handleRarityChange = (rarity: string) => {
-    setSelectedRarities(prev => 
+    setSelectedRarities((prev) =>
       prev.includes(rarity)
-        ? prev.filter(r => r !== rarity)
+        ? prev.filter((r) => r !== rarity)
         : [...prev, rarity]
     );
   };
@@ -114,7 +163,7 @@ export default function StoreProducts() {
   // Handle price range change
   const handlePriceRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    setPriceRange(prev => [prev[0], value]);
+    setPriceRange((prev) => [prev[0], value]);
   };
 
   // Clear all filters
@@ -156,7 +205,9 @@ export default function StoreProducts() {
         <span>Filter</span>
         <IoMdArrowDropdown
           size={20}
-          className={`transform duration-300 ${isFilterOpen ? "rotate-180" : ""}`}
+          className={`transform duration-300 ${
+            isFilterOpen ? "rotate-180" : ""
+          }`}
         />
       </button>
 
@@ -170,25 +221,25 @@ export default function StoreProducts() {
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Filter</h2>
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={clearAllFilters}
               className="text-[#FADA1B] text-sm hover:underline"
             >
               Clear All
             </button>
-            <button 
+            <button
               onClick={() => setIsFilterOpen(false)}
               className="lg:hidden text-white text-sm hover:text-[#FADA1B]"
             >
-              <IoMdClose size={24}/>
+              <IoMdClose size={24} />
             </button>
           </div>
         </div>
 
         {/* Game List */}
         <div className="space-y-3 h-[30vh] overflow-y-auto custom-scroll ">
-          {[...Array(6)].map((_, i) => (
-            <FilterCard key={i} />
+          {gameNames.map((item, index) => (
+            <FilterCard key={index} data={item} />
           ))}
         </div>
 
@@ -205,7 +256,13 @@ export default function StoreProducts() {
                     checked={selectedRarities.includes(rarity.toLowerCase())}
                     onChange={() => handleRarityChange(rarity.toLowerCase())}
                   />
-                  <span className={selectedRarities.includes(rarity.toLowerCase()) ? "text-[#FADA1B]" : ""}>
+                  <span
+                    className={
+                      selectedRarities.includes(rarity.toLowerCase())
+                        ? "text-[#FADA1B]"
+                        : ""
+                    }
+                  >
                     {rarity}
                   </span>
                 </label>
@@ -217,8 +274,8 @@ export default function StoreProducts() {
         {/* Price Range */}
         <div className="bg-[#0c0c09] p-4 rounded-lg">
           <h3 className="text-sm font-semibold mb-3">Price Range</h3>
-          <input 
-            type="range" 
+          <input
+            type="range"
             className="w-full accent-[#FADA1B]"
             min={1}
             max={1000}
@@ -287,24 +344,22 @@ export default function StoreProducts() {
                     }`}
               >
                 <ul>
-                  {["Select one", ...sort.map((s) => s.label)].map(
-                    (label) => (
-                      <li
-                        key={label}
-                        className={`text-xs sm:text-sm xl:text-lg p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize  ${
-                          selected === label
-                            ? "bg-[#FADA1B] text-[#0a0a09]"
-                            : "hover:bg-[#FADA1B] "
-                        }`}
-                        onClick={() => {
-                          setSelected(label);
-                          setIsOpen(false);
-                        }}
-                      >
-                        {label}
-                      </li>
-                    )
-                  )}
+                  {["Select one", ...sort.map((s) => s.label)].map((label) => (
+                    <li
+                      key={label}
+                      className={`text-xs sm:text-sm xl:text-lg p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize  ${
+                        selected === label
+                          ? "bg-[#FADA1B] text-[#0a0a09]"
+                          : "hover:bg-[#FADA1B] "
+                      }`}
+                      onClick={() => {
+                        setSelected(label);
+                        setIsOpen(false);
+                      }}
+                    >
+                      {label}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -336,7 +391,9 @@ export default function StoreProducts() {
                 ))
               ) : (
                 <div className="flex justify-center items-center h-96 w-full col-span-full">
-                  <h2 className="text-2xl font-semibold text-white text-center">No data found</h2>
+                  <h2 className="text-2xl font-semibold text-white text-center">
+                    No data found
+                  </h2>
                 </div>
               )}
             </div>
@@ -367,7 +424,9 @@ export default function StoreProducts() {
                 ))
               ) : (
                 <div className="flex justify-center items-center h-96 w-full col-span-full">
-                  <h2 className="text-2xl font-semibold text-white text-center">No data found</h2>
+                  <h2 className="text-2xl font-semibold text-white text-center">
+                    No data found
+                  </h2>
                 </div>
               )}
             </div>
@@ -398,7 +457,9 @@ export default function StoreProducts() {
                 ))
               ) : (
                 <div className="flex justify-center items-center h-96 w-full col-span-full">
-                  <h2 className="text-2xl font-semibold text-white text-center">No data found</h2>
+                  <h2 className="text-2xl font-semibold text-white text-center">
+                    No data found
+                  </h2>
                 </div>
               )}
             </div>
