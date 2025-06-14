@@ -26,12 +26,13 @@ export default function StoreProducts() {
   const [activeSection, setActiveSection] = useState("Permanent Fruits");
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select one");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
   // Add new filter states
   const [selectedRarities, setSelectedRarities] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([1, 11110]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000]);
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
 
   const { data: products, isLoading } = useGetProductsQuery(null);
@@ -119,7 +120,7 @@ export default function StoreProducts() {
   // Clear all filters
   const clearAllFilters = () => {
     setSelectedRarities([]);
-    setPriceRange([1, 11110]);
+    setPriceRange([1, 1000]);
     setSelectedGames([]);
     setSelected("Select one");
   };
@@ -146,21 +147,42 @@ export default function StoreProducts() {
   }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row  gap-6">
+    <div className="flex flex-col lg:flex-row gap-6 ">
+      {/* Mobile Filter Button */}
+      <button
+        onClick={() => setIsFilterOpen(!isFilterOpen)}
+        className="lg:hidden fixed bottom-4 right-4 z-50 bg-[#FADA1B] text-black px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
+      >
+        <span>Filter</span>
+        <IoMdArrowDropdown
+          size={20}
+          className={`transform duration-300 ${isFilterOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
       {/* Sidebar */}
       <aside
-        className={`lg:sticky -top-[71px] z-10 w-full lg:w-80  h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 ${
-          cartItems.length > 0 ? "xl:w-[20%]" : "xl:w-[30%]"
-        }`}
+        className={`lg:sticky top-4 z-10 w-full lg:w-80 h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 
+          ${cartItems.length > 0 ? "xl:w-[20%]" : "xl:w-[30%]"}
+          ${isFilterOpen ? "fixed inset-0 z-50 lg:relative" : "hidden lg:block"}
+        `}
       >
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Filter</h2>
-          <button 
-            onClick={clearAllFilters}
-            className="text-[#FADA1B] text-sm hover:underline"
-          >
-            Clear All
-          </button>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={clearAllFilters}
+              className="text-[#FADA1B] text-sm hover:underline"
+            >
+              Clear All
+            </button>
+            <button 
+              onClick={() => setIsFilterOpen(false)}
+              className="lg:hidden text-white text-sm hover:text-[#FADA1B]"
+            >
+              Close
+            </button>
+          </div>
         </div>
 
         {/* Game List */}
@@ -212,7 +234,7 @@ export default function StoreProducts() {
 
       {/* Product Grid */}
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
-        <div className="sticky top-4 z-10 bg-[#0a0a09] flex justify-between">
+        <div className="sticky top-4 z-10 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
           <div className="flex gap-4 text-white">
             {items.map((item, index) => {
               const isActive = activeSection === item.name;
@@ -220,7 +242,7 @@ export default function StoreProducts() {
                 <a
                   key={index}
                   href={item.href}
-                  className="relative px-10 py-2.5 border-x border-transparent text-center group overflow-hidden"
+                  className="relative px-2 md:px-10 py-2.5 border-x border-transparent text-center group overflow-hidden"
                 >
                   {isActive && (
                     <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
@@ -304,8 +326,8 @@ export default function StoreProducts() {
             <Loading />
           ) : (
             <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
-                cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
               }`}
             >
               {permanentData?.map((item: any, index: number) => (
@@ -318,7 +340,7 @@ export default function StoreProducts() {
         <section
           id="Gamepass"
           data-title="Gamepass"
-          className="mb-24 scroll-mt-16 h-screen"
+          className="mb-24 scroll-mt-16"
         >
           <h2 className="text-[2.5rem] font-semibold mb-4">
             <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
@@ -329,8 +351,8 @@ export default function StoreProducts() {
             <Loading />
           ) : (
             <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
-                cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
               }`}
             >
               {gamepassData?.map((item: any, index: number) => (
@@ -354,8 +376,8 @@ export default function StoreProducts() {
             <Loading />
           ) : (
             <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 ${
-                cartItems.length > 0 ? "lg:grid-cols-3" : "xl:grid-cols-4"
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
               }`}
             >
               {othersData?.map((item: any, index: number) => (

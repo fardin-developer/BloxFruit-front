@@ -78,7 +78,7 @@ const MainCard = ({ data }: { data: any }) => {
         }}
       >
         {/* Type badge */}
-        <div className="absolute  top-2 left-3 ">
+        <div className="absolute top-2 left-3 z-0">
           <Image
             src={currentStyle.typeImage}
             alt="type badge"
