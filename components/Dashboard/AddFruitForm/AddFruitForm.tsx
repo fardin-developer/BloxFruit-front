@@ -175,6 +175,10 @@ export default function FruitForm({ id }: { id: any }) {
                 <option value="">Select Category</option>
                 <option value="permanent">Permanent Fruits</option>
                 <option value="gamepass">Gamepass</option>
+                <option value="blue-lock-rivals">Blue Lock Rivals</option>
+                <option value="rivals">Rivals</option>
+                <option value="combat-warrior">Combat Warrior</option>
+                <option value="anime-reborn">Anime Reborn</option>
                 <option value="others">Others</option>
               </select>
             </div>
