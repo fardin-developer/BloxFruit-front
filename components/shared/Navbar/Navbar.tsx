@@ -157,7 +157,7 @@ const Navbar = () => {
           ))}
 
           <div className="flex items-center justify-between bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] px-4 py-2 rounded-md mt-6">
-            <TbCoinBitcoinFilled size={20} className="text-yellow-500" />
+          <HiCurrencyDollar size={24} className="text-yellow-500 mr-2" />
             <span className="text-white text-sm font-semibold">US Dollar</span>
             <Image
               src={us}

@@ -21,7 +21,7 @@ const Hero = () => {
               className="hidden lg:block aspect-square lg:h-[500px] xl:h-[600px] 2xl:h-[800px] z-10"
             />
           </div>
-          <div className="h-32 w-full bg-[#0e0c15] absolute -bottom-10 xl:-bottom-5 right-0 blur-sm"></div>
+          <div className="h-32 w-full bg-[#100b19] absolute -bottom-10 xl:-bottom-5 right-0 blur-sm"></div>
           <div className="relative ">
             <div className="lg:-ml-[22.9%] 2xl:-ml-[32.9%] px-4 xl:px-0">
               <span className="text-[1.2rem]  xl:text-[1.5rem] font-medium bg-gradient-to-l to-[#FADA1B] via-[#fad81bc0] from-white bg-clip-text text-transparent ">
