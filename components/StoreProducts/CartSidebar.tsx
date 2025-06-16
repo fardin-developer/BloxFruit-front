@@ -7,14 +7,17 @@ import { clearCart } from "@/app/store/slices/cartSlice";
 import { useRouter } from "next/navigation";
 
 export default function CartSidebar() {
-    const router = useRouter();
-    const dispatch = useDispatch();
-    const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-    const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
-    const handleCheckout = () => {
-      router.push(`/checkout?total=${totalPrice.toFixed(2)}`);
-    };
+  const handleCheckout = () => {
+    router.push(`/checkout?total=${totalPrice.toFixed(2)}`);
+  };
 
   return (
     <div className="">
@@ -23,24 +26,33 @@ export default function CartSidebar() {
           <p className="flex gap-3 items-center">
             <IoCart size={24} /> Cart
           </p>
-          <button onClick={()=>dispatch(clearCart())} className="text-[#FADA1B] text-sm hover:underline">
+          <button
+            onClick={() => dispatch(clearCart())}
+            className="text-[#FADA1B] text-sm hover:underline"
+          >
             Clear All
           </button>
         </div>
         {/* Cart Card */}
-        <div className="space-y-4 h-[50vh] overflow-y-auto custom-scroll">
-          {cartItems.map((item) => (
-            <CartCard key={item.id} id={item.id} />
-          ))}
-        </div>
+        {cartItems.length === 0 ? (
+          <div className="text-white text-center h-96 flex justify-center items-center">
+            <p>No items in cart</p>
+          </div>
+        ) : (
+          <div className="space-y-4 h-[50vh] overflow-y-auto custom-scroll">
+            {cartItems.map((item) => (
+              <CartCard key={item.id} id={item.id} />
+            ))}
+          </div>
+        )}
       </div>
       {/* Checkout */}
       <div>
         <div className="flex justify-between items-center my-5">
           <p className="text-[#FADA1B]">Total</p>
-          <p>${totalPrice.toFixed(2)}</p>
+          <p className="text-white">${totalPrice.toFixed(2)}</p>
         </div>
-        <button 
+        <button
           onClick={handleCheckout}
           className="w-full flex justify-center items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150"
         >
