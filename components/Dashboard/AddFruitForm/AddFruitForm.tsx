@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { PlusIcon } from "lucide-react";
 import { IoMdPhotos } from "react-icons/io";
+import { toast } from "sonner";
 import {
   useAddProductMutation,
   useGetProductByIdQuery,
@@ -34,6 +35,7 @@ export default function FruitForm({ id }: { id: any }) {
   const showDiscount = watch("showDiscount");
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
 
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -56,10 +58,21 @@ export default function FruitForm({ id }: { id: any }) {
       setValue("type", product.data.type);
       setValue("category", product.data.category);
       setValue("regularPrice", product.data.regularPrice);
-      setValue("image", product.data.imageUrl);
-      setValue("games_name", product.data.games);
+      setValue("games_name", product.data.games_name);
+      
+      // Handle discount price
+      if (product.data.discountPrice) {
+        setValue("showDiscount", true);
+        setValue("discountPrice", product.data.discountPrice);
+      }
+      
+      // Handle existing image
+      if (product.data.imageUrl) {
+        setExistingImageUrl(product.data.imageUrl);
+        setPreview(product.data.imageUrl);
+      }
     }
-  }, [product]);
+  }, [product, setValue]);
 
   const onSubmit = async (data: FormValues) => {
     const formData = new FormData();
@@ -86,23 +99,26 @@ export default function FruitForm({ id }: { id: any }) {
       console.log(res);
 
       if (res.data?.success) {
-        alert("Fruit submitted successfully!");
-        reset();
-        setPreview(null);
-        setSelectedFile(null);
+        toast.success(id ? "Product updated successfully!" : "Product added successfully!");
+        if (!id) {
+          reset();
+          setPreview(null);
+          setSelectedFile(null);
+          setExistingImageUrl(null);
+        }
       } else {
-        alert("Submission failed.");
+        toast.error(res.data?.message);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("An error occurred during submission.");
+      toast.error("An error occurred during submission.");
     }
   };
 
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-2 text-yellow-500">
-        Add New Fruit
+        {id ? "Update Fruit" : "Add New Fruit"}
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className=" bg-[#09090b] p-4">
@@ -114,7 +130,9 @@ export default function FruitForm({ id }: { id: any }) {
               className="cursor-pointer w-full max-w-sm border-1 border-dashed border-[#fad91d67] rounded-lg p-6 flex flex-col items-center justify-center text-yellow-400 hover:bg-zinc-900 transition text-center"
             >
               {preview ? (
-                <Image
+                <img
+                  loading="lazy"
+                  crossOrigin="anonymous"
                   src={preview}
                   alt="Preview"
                   width={160}
@@ -140,7 +158,7 @@ export default function FruitForm({ id }: { id: any }) {
               accept="image/*"
               onChange={onImageChange}
               className="hidden"
-              required
+              required={!id}
             />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
@@ -237,7 +255,7 @@ export default function FruitForm({ id }: { id: any }) {
         <div className="flex justify-end">
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || isUpdating}
             className="flex items-center gap-2 p-2 w-fit bg-[#fada1d] text-gray-900 font-bold py-3 rounded hover:brightness-125 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <PlusIcon className="w-4 h-4 text-2xl" />
