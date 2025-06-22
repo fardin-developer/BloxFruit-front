@@ -32,33 +32,33 @@ const gameNames = [
     name: "Blox Fruits",
     description: "Blox Fruits are one of the four main ways to.",
     image: image1,
-    gameId: "blox-fruits"
+    gameId: "blox-fruits",
   },
   {
     name: "Blue Lock Rivals",
     description: "Blue Lock Rivals, a free-to-play Roblox game.",
     image: image2,
-    gameId: "blue-lock-rivals"
+    gameId: "blue-lock-rivals",
   },
   {
     name: "Rivals",
     description: "RIVALS is a first-person shooter game on",
     image: image3,
-    gameId: "rivals"
+    gameId: "rivals",
   },
   {
     name: "Combat Warrior",
     description:
       "Combat Warriors is a fighting experience. Players compete and fight.",
     image: image3,
-    gameId: "combat-warrior"
+    gameId: "combat-warrior",
   },
   {
     name: "Anime Reborn",
     description:
       "Anime Reborn refers to two different things: a popular tower defense game.",
     image: image4,
-    gameId: "anime-reborn"
+    gameId: "anime-reborn",
   },
 ];
 
@@ -114,7 +114,10 @@ export default function StoreProducts() {
       }
 
       // Filter by game (using games_name field)
-      if (selectedGames.length > 0 && !selectedGames.includes(product.games_name)) {
+      if (
+        selectedGames.length > 0 &&
+        !selectedGames.includes(product.games_name)
+      ) {
         return false;
       }
 
@@ -125,7 +128,8 @@ export default function StoreProducts() {
   // Apply filters and sorting to each category (only for Blox Fruits)
   const permanentData = useMemo(() => {
     const filtered = products?.data?.filter(
-      (item: any) => item.category === "permanent" && item.games_name === "blox-fruits"
+      (item: any) =>
+        item.category === "permanent" && item.games_name === "blox-fruits"
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -136,7 +140,8 @@ export default function StoreProducts() {
 
   const gamepassData = useMemo(() => {
     const filtered = products?.data?.filter(
-      (item: any) => item.category === "gamepass" && item.games_name === "blox-fruits"
+      (item: any) =>
+        item.category === "gamepass" && item.games_name === "blox-fruits"
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -147,7 +152,8 @@ export default function StoreProducts() {
 
   const othersData = useMemo(() => {
     const filtered = products?.data?.filter(
-      (item: any) => item.category === "others" && item.games_name === "blox-fruits"
+      (item: any) =>
+        item.category === "others" && item.games_name === "blox-fruits"
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -159,7 +165,9 @@ export default function StoreProducts() {
   // Get data for other games (non-Blox Fruits)
   const otherGamesData = useMemo(() => {
     const filtered = products?.data?.filter(
-      (item: any) => item.games_name !== "blox-fruits" && selectedGames.includes(item.games_name)
+      (item: any) =>
+        item.games_name !== "blox-fruits" &&
+        selectedGames.includes(item.games_name)
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -170,7 +178,9 @@ export default function StoreProducts() {
 
   // Check if Blox Fruits is selected
   const isBloxFruitsSelected = selectedGames.includes("blox-fruits");
-  const hasOtherGamesSelected = selectedGames.some(game => game !== "blox-fruits");
+  const hasOtherGamesSelected = selectedGames.some(
+    (game) => game !== "blox-fruits"
+  );
 
   // Handle game selection (single selection only)
   const handleGameChange = (gameId: string) => {
@@ -196,7 +206,7 @@ export default function StoreProducts() {
   const clearAllFilters = () => {
     setSelectedRarities([]);
     setPriceRange([1, 1000]);
-    setSelectedGames(["blox-fruits"]); 
+    setSelectedGames(["blox-fruits"]);
     setSelected("Select one");
   };
 
@@ -271,9 +281,9 @@ export default function StoreProducts() {
         {/* Game List */}
         <div className="space-y-3 h-[30vh] overflow-y-auto custom-scroll pr-2 ">
           {gameNames.map((item, index) => (
-            <FilterCard 
-              key={index} 
-              data={item} 
+            <FilterCard
+              key={index}
+              data={item}
               isSelected={selectedGames.includes(item.gameId)}
               onToggle={() => handleGameChange(item.gameId)}
             />
@@ -328,80 +338,86 @@ export default function StoreProducts() {
 
       {/* Product Grid */}
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
-        <div className="sticky top-4 z-10 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
-          <div className="flex gap-4 text-white">
-            {items.map((item, index) => {
-              const isActive = activeSection === item.name;
-              return (
-                <a
-                  key={index}
-                  href={item.href}
-                  className="relative px-2 md:px-10 py-2.5 border-x border-transparent text-center group overflow-hidden"
-                >
-                  {isActive && (
-                    <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
-                  )}
-                  <span
-                    className={`relative z-10 block text-xs xl:text-lg ${
-                      isActive ? "text-[#FBDE6E]" : "text-white/60"
-                    }`}
+        {selectedGames.includes("blox-fruits") ? (
+          <div className="sticky top-4 z-10 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
+            <div className="flex gap-4 text-white">
+              {items.map((item, index) => {
+                const isActive = activeSection === item.name;
+                return (
+                  <a
+                    key={index}
+                    href={item.href}
+                    className="relative px-2 md:px-10 py-2.5 border-x border-transparent text-center group overflow-hidden"
                   >
-                    {item.name}
-                  </span>
-                  {isActive && (
-                    <>
-                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-36 h-[1px] bg-yellow-500 rounded-full z-10" />
-                    </>
-                  )}
-                </a>
-              );
-            })}
-          </div>
-          <div className="flex items-center gap-2.5 pr-2">
-            <div className="relative z-10 w-36 text-white bg-gradient-to-l from-[#4a45291f] to-[#fad81b41] p-[1px] rounded-sm">
-              <button
-                className="text-xs px-2 sm:text-sm xl:text-lg w-full flex justify-between items-center rounded-sm bg-[#0a0a09] selects-border cursor-pointer  duration-300"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                {selected}
-                <IoMdArrowDropdown
-                  size={24}
-                  className={`text-xs sm:text-sm xl:text-lg duration-300 transform ${
-                    isOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                />
-              </button>
-              <div
-                className={`absolute drop-shadow-[0_0_2px_rgba(255,255,0,0.7)] mt-1 w-full scrollbar-hide transition-all duration-300 ease-linear overflow-hidden 
+                    {isActive && (
+                      <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
+                    )}
+                    <span
+                      className={`relative z-10 block text-xs xl:text-lg ${
+                        isActive ? "text-[#FBDE6E]" : "text-white/60"
+                      }`}
+                    >
+                      {item.name}
+                    </span>
+                    {isActive && (
+                      <>
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-36 h-[1px] bg-yellow-500 rounded-full z-10" />
+                      </>
+                    )}
+                  </a>
+                );
+              })}
+            </div>
+            <div className="flex items-center gap-2.5 pr-2">
+              <div className="relative z-10 w-36 text-white bg-gradient-to-l from-[#4a45291f] to-[#fad81b41] p-[1px] rounded-sm">
+                <button
+                  className="text-xs px-2 sm:text-sm xl:text-lg w-full flex justify-between items-center rounded-sm bg-[#0a0a09] selects-border cursor-pointer  duration-300"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  {selected}
+                  <IoMdArrowDropdown
+                    size={24}
+                    className={`text-xs sm:text-sm xl:text-lg duration-300 transform ${
+                      isOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </button>
+                <div
+                  className={`absolute drop-shadow-[0_0_2px_rgba(255,255,0,0.7)] mt-1 w-full scrollbar-hide transition-all duration-300 ease-linear overflow-hidden 
                     ${
                       isOpen
                         ? "opacity-100 max-h-[420px] scale-y-100"
                         : "opacity-100 max-h-0 scale-y-95"
                     }`}
-              >
-                <ul>
-                  {["Select one", ...sort.map((s) => s.label)].map((label) => (
-                    <li
-                      key={label}
-                      className={`text-xs sm:text-sm xl:text-lg p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize  ${
-                        selected === label
-                          ? "bg-[#FADA1B] text-[#0a0a09]"
-                          : "hover:bg-[#FADA1B] "
-                      }`}
-                      onClick={() => {
-                        setSelected(label);
-                        setIsOpen(false);
-                      }}
-                    >
-                      {label}
-                    </li>
-                  ))}
-                </ul>
+                >
+                  <ul>
+                    {["Select one", ...sort.map((s) => s.label)].map(
+                      (label) => (
+                        <li
+                          key={label}
+                          className={`text-xs sm:text-sm xl:text-lg p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize  ${
+                            selected === label
+                              ? "bg-[#FADA1B] text-[#0a0a09]"
+                              : "hover:bg-[#FADA1B] "
+                          }`}
+                          onClick={() => {
+                            setSelected(label);
+                            setIsOpen(false);
+                          }}
+                        >
+                          {label}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
 
         {/* Sections */}
         {isBloxFruitsSelected && (
@@ -510,9 +526,9 @@ export default function StoreProducts() {
         {/* Other Games Section */}
         {hasOtherGamesSelected && (
           <section className="mb-24 scroll-mt-16">
-            <h2 className="text-[2.5rem] font-semibold mb-4">
-              <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
-                Other Games
+            <h2 className="text-2xl md:text-[2.5rem] font-semibold mb-4">
+              <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text uppercase">
+                {selectedGames.map((game) => game)}
               </span>
             </h2>
             {isLoading ? (
