@@ -14,6 +14,7 @@ import { addToCart } from "@/app/store/slices/cartSlice";
 
 const MainCard = ({ data }: { data: any }) => {
   const {id, category, imageUrl, discountPrice, regularPrice, name, type } = data;
+  console.log(data);
 
   // Styles based on type
   const typeStyles: any = {
@@ -53,15 +54,13 @@ const MainCard = ({ data }: { data: any }) => {
 
   const dispatch = useDispatch();
 
-  const image = `${process.env.NEXT_PUBLIC_IMAGE_URL}${imageUrl}`;
-
   const handleAddToCart = () => {
     dispatch(
       addToCart({
         id: id,
         name: name,
         price: discountPrice ? discountPrice : regularPrice,
-        image: image,
+        image: imageUrl,
         quantity: 1,
       })
     )
@@ -98,15 +97,17 @@ const MainCard = ({ data }: { data: any }) => {
 
         {/* Shadow + Main image */}
         <div className="relative ">
-          <Image
-            src={image}
+          <img
+            crossOrigin="anonymous"
+            src={imageUrl}
             alt="Shadow"
             width={400}
             height={400}
             className="absolute aspect-3/4 -top-9 left-5 w-64 h-64 object-cover blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
           />
-          <Image
-            src={image}
+          <img
+            crossOrigin="anonymous"
+            src={imageUrl}
             alt="Main"
             width={400}
             height={400}

@@ -35,7 +35,8 @@ const ProductsList = () => {
   }
 
   const imageFormatter = (image:string)=>{
-    const url = `${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`;
+    // const url = `${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`;
+    const url = `${image}`;
     console.log(url, "url");
     console.log('Generated image URL:',encodeURI(url));
     return encodeURI(url);

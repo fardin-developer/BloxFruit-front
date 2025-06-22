@@ -11,8 +11,12 @@ export default function CartCard({ id }: { id: string }) {
   const cartItem = useSelector((state: RootState) =>
     state.cart.cartItems.find((item) => item.id === id)
   );
-  console.log(cartItem);
+  
   if (!cartItem) return null;
+  
+ 
+
+  console.log(cartItem);
   return (
     <div className="flex items-center justify-between bg-[#0c0c09] text-white rounded-xl p-4 shadow-inner w-full lg:max-w-md ">
       {/* Image */}
@@ -24,8 +28,9 @@ export default function CartCard({ id }: { id: string }) {
           }}
         ></div>
 
-        <Image
-          src={cartItem.image}
+        <img
+          crossOrigin="anonymous"
+          src={cartItem?.image || ""}
           alt="Product"
           width={500}
           height={500}

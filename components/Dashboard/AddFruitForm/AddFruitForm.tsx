@@ -19,6 +19,7 @@ type FormValues = {
   showDiscount: boolean;
   discountPrice?: number;
   image?: FileList;
+  games?: string;
 };
 
 export default function FruitForm({ id }: { id: any }) {
@@ -56,6 +57,7 @@ export default function FruitForm({ id }: { id: any }) {
       setValue("category", product.data.category);
       setValue("regularPrice", product.data.regularPrice);
       setValue("image", product.data.imageUrl);
+      setValue("games", product.data.games);
     }
   }, [product]);
 
@@ -140,7 +142,7 @@ export default function FruitForm({ id }: { id: any }) {
               required
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
             <div>
               <label className="block mb-2 text-[#fada1d]">Name</label>
               <input
@@ -175,14 +177,25 @@ export default function FruitForm({ id }: { id: any }) {
                 <option value="">Select Category</option>
                 <option value="permanent">Permanent Fruits</option>
                 <option value="gamepass">Gamepass</option>
-                <option value="blue-lock-rivals">Blue Lock Rivals</option>
-                <option value="rivals">Rivals</option>
-                <option value="combat-warrior">Combat Warrior</option>
-                <option value="anime-reborn">Anime Reborn</option>
                 <option value="others">Others</option>
               </select>
             </div>
             <div>
+              <label className="block mb-2 text-[#fada1d]">Games</label>
+              <select
+                {...register("games")}
+                required
+                className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
+              >
+                <option value="">Select Games</option>
+                <option value="blox-fruits">Blox Fruits</option>
+                <option value="blue-lock-rivals">Blue Lock Rivals</option>
+                <option value="rivals">Rivals</option>
+                <option value="combat-warrior">Combat Warrior</option>
+                <option value="anime-reborn">Anime Reborn</option>
+              </select>
+            </div>
+            <div className="sm:col-span-2">
               <label className="block mb-2 text-[#fada1d]">Regular Price</label>
               <input
                 type="number"
