@@ -19,7 +19,7 @@ type FormValues = {
   showDiscount: boolean;
   discountPrice?: number;
   image?: FileList;
-  games?: string;
+  games_name?: string;
 };
 
 export default function FruitForm({ id }: { id: any }) {
@@ -57,7 +57,7 @@ export default function FruitForm({ id }: { id: any }) {
       setValue("category", product.data.category);
       setValue("regularPrice", product.data.regularPrice);
       setValue("image", product.data.imageUrl);
-      setValue("games", product.data.games);
+      setValue("games_name", product.data.games);
     }
   }, [product]);
 
@@ -67,6 +67,7 @@ export default function FruitForm({ id }: { id: any }) {
     formData.append("type", data.type);
     formData.append("category", data.category);
     formData.append("regularPrice", data.regularPrice.toString());
+    formData.append("games_name", data.games_name || "");
 
     if (data.discountPrice) {
       formData.append("discountPrice", data.discountPrice.toString());
@@ -183,7 +184,7 @@ export default function FruitForm({ id }: { id: any }) {
             <div>
               <label className="block mb-2 text-[#fada1d]">Games</label>
               <select
-                {...register("games")}
+                {...register("games_name")}
                 required
                 className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
               >

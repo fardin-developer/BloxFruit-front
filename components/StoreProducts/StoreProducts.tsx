@@ -32,28 +32,33 @@ const gameNames = [
     name: "Blox Fruits",
     description: "Blox Fruits are one of the four main ways to.",
     image: image1,
+    gameId: "blox-fruits"
   },
   {
     name: "Blue Lock Rivals",
     description: "Blue Lock Rivals, a free-to-play Roblox game.",
     image: image2,
+    gameId: "blue-lock-rivals"
   },
   {
     name: "Rivals",
     description: "RIVALS is a first-person shooter game on",
     image: image3,
+    gameId: "rivals"
   },
   {
     name: "Combat Warrior",
     description:
       "Combat Warriors is a fighting experience. Players compete and fight.",
     image: image3,
+    gameId: "combat-warrior"
   },
   {
     name: "Anime Reborn",
     description:
       "Anime Reborn refers to two different things: a popular tower defense game.",
     image: image4,
+    gameId: "anime-reborn"
   },
 ];
 
@@ -68,7 +73,7 @@ export default function StoreProducts() {
   // Add new filter states
   const [selectedRarities, setSelectedRarities] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000]);
-  const [selectedGames, setSelectedGames] = useState<string[]>([]);
+  const [selectedGames, setSelectedGames] = useState<string[]>(["blox-fruits"]);
 
   const { data: products, isLoading } = useGetProductsQuery(null);
 
@@ -108,8 +113,8 @@ export default function StoreProducts() {
         return false;
       }
 
-      // Filter by game (if implemented)
-      if (selectedGames.length > 0 && !selectedGames.includes(product.game)) {
+      // Filter by game (using games_name field)
+      if (selectedGames.length > 0 && !selectedGames.includes(product.games_name)) {
         return false;
       }
 
@@ -117,10 +122,10 @@ export default function StoreProducts() {
     });
   };
 
-  // Apply filters and sorting to each category
+  // Apply filters and sorting to each category (only for Blox Fruits)
   const permanentData = useMemo(() => {
     const filtered = products?.data?.filter(
-      (item: any) => item.category === "permanent"
+      (item: any) => item.category === "permanent" && item.games_name === "blox-fruits"
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -131,7 +136,7 @@ export default function StoreProducts() {
 
   const gamepassData = useMemo(() => {
     const filtered = products?.data?.filter(
-      (item: any) => item.category === "gamepass"
+      (item: any) => item.category === "gamepass" && item.games_name === "blox-fruits"
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -142,7 +147,7 @@ export default function StoreProducts() {
 
   const othersData = useMemo(() => {
     const filtered = products?.data?.filter(
-      (item: any) => item.category === "others"
+      (item: any) => item.category === "others" && item.games_name === "blox-fruits"
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -150,6 +155,27 @@ export default function StoreProducts() {
       selected === "new" ? "new" : selected === "old" ? "old" : ""
     );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
+
+  // Get data for other games (non-Blox Fruits)
+  const otherGamesData = useMemo(() => {
+    const filtered = products?.data?.filter(
+      (item: any) => item.games_name !== "blox-fruits" && selectedGames.includes(item.games_name)
+    );
+    const filteredProducts = filterProducts(filtered || []);
+    return sortProducts(
+      filteredProducts,
+      selected === "new" ? "new" : selected === "old" ? "old" : ""
+    );
+  }, [products, selectedRarities, priceRange, selectedGames, selected]);
+
+  // Check if Blox Fruits is selected
+  const isBloxFruitsSelected = selectedGames.includes("blox-fruits");
+  const hasOtherGamesSelected = selectedGames.some(game => game !== "blox-fruits");
+
+  // Handle game selection (single selection only)
+  const handleGameChange = (gameId: string) => {
+    setSelectedGames([gameId]); // Only select one game at a time
+  };
 
   // Handle rarity selection
   const handleRarityChange = (rarity: string) => {
@@ -170,30 +196,36 @@ export default function StoreProducts() {
   const clearAllFilters = () => {
     setSelectedRarities([]);
     setPriceRange([1, 1000]);
-    setSelectedGames([]);
+    setSelectedGames(["blox-fruits"]); 
     setSelected("Select one");
   };
 
   useEffect(() => {
-    const sections = document.querySelectorAll("section");
+    // Only observe sections when Blox Fruits is selected
+    if (isBloxFruitsSelected) {
+      const sections = document.querySelectorAll("section");
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionTitle = entry.target.getAttribute("data-title");
-            if (sectionTitle) setActiveSection(sectionTitle);
-          }
-        });
-      },
-      {
-        threshold: 0.5,
-        rootMargin: "0px 0px -40% 0px",
-      }
-    );
-    sections.forEach((section) => observer.observe(section));
-    return () => sections.forEach((section) => observer.unobserve(section));
-  }, []);
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const sectionTitle = entry.target.getAttribute("data-title");
+              if (sectionTitle) setActiveSection(sectionTitle);
+            }
+          });
+        },
+        {
+          threshold: 0.5,
+          rootMargin: "0px 0px -40% 0px",
+        }
+      );
+      sections.forEach((section) => observer.observe(section));
+      return () => sections.forEach((section) => observer.unobserve(section));
+    } else {
+      // Reset active section when not showing Blox Fruits sections
+      setActiveSection("Permanent Fruits");
+    }
+  }, [isBloxFruitsSelected]);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 ">
@@ -237,9 +269,14 @@ export default function StoreProducts() {
         </div>
 
         {/* Game List */}
-        <div className="space-y-3 h-[30vh] overflow-y-auto custom-scroll ">
+        <div className="space-y-3 h-[30vh] overflow-y-auto custom-scroll pr-2 ">
           {gameNames.map((item, index) => (
-            <FilterCard key={index} data={item} />
+            <FilterCard 
+              key={index} 
+              data={item} 
+              isSelected={selectedGames.includes(item.gameId)}
+              onToggle={() => handleGameChange(item.gameId)}
+            />
           ))}
         </div>
 
@@ -367,104 +404,140 @@ export default function StoreProducts() {
         </div>
 
         {/* Sections */}
-        <section
-          id="PermanentFruits"
-          data-title="Permanent Fruits"
-          className="mb-24 scroll-mt-16"
-        >
-          <h2 className="text-[2.5rem] font-semibold mb-4">
-            <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
-              Permanent Fruits
-            </span>
-          </h2>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
-                cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
-              }`}
+        {isBloxFruitsSelected && (
+          <>
+            <section
+              id="PermanentFruits"
+              data-title="Permanent Fruits"
+              className="mb-24 scroll-mt-16"
             >
-              {permanentData.length > 0 ? (
-                permanentData?.map((item: any, index: number) => (
-                  <MainCard key={index} data={item} />
-                ))
+              <h2 className="text-[2.5rem] font-semibold mb-4">
+                <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
+                  Permanent Fruits
+                </span>
+              </h2>
+              {isLoading ? (
+                <Loading />
               ) : (
-                <div className="flex justify-center items-center h-96 w-full col-span-full">
-                  <h2 className="text-2xl font-semibold text-white text-center">
-                    No data found
-                  </h2>
+                <div
+                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                    cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
+                  }`}
+                >
+                  {permanentData.length > 0 ? (
+                    permanentData?.map((item: any, index: number) => (
+                      <MainCard key={index} data={item} />
+                    ))
+                  ) : (
+                    <div className="flex justify-center items-center h-96 w-full col-span-full">
+                      <h2 className="text-2xl font-semibold text-white text-center">
+                        No data found
+                      </h2>
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-          )}
-        </section>
+            </section>
 
-        <section
-          id="Gamepass"
-          data-title="Gamepass"
-          className="mb-24 scroll-mt-16"
-        >
-          <h2 className="text-[2.5rem] font-semibold mb-4">
-            <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
-              Gamepass
-            </span>
-          </h2>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
-                cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
-              }`}
+            <section
+              id="Gamepass"
+              data-title="Gamepass"
+              className="mb-24 scroll-mt-16"
             >
-              {gamepassData.length > 0 ? (
-                gamepassData?.map((item: any, index: number) => (
-                  <MainCard key={index} data={item} />
-                ))
+              <h2 className="text-[2.5rem] font-semibold mb-4">
+                <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
+                  Gamepass
+                </span>
+              </h2>
+              {isLoading ? (
+                <Loading />
               ) : (
-                <div className="flex justify-center items-center h-96 w-full col-span-full">
-                  <h2 className="text-2xl font-semibold text-white text-center">
-                    No data found
-                  </h2>
+                <div
+                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                    cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
+                  }`}
+                >
+                  {gamepassData.length > 0 ? (
+                    gamepassData?.map((item: any, index: number) => (
+                      <MainCard key={index} data={item} />
+                    ))
+                  ) : (
+                    <div className="flex justify-center items-center h-96 w-full col-span-full">
+                      <h2 className="text-2xl font-semibold text-white text-center">
+                        No data found
+                      </h2>
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-          )}
-        </section>
+            </section>
 
-        <section
-          id="OthersSection"
-          data-title="Others section"
-          className="scroll-mt-16 h-screen"
-        >
-          <h2 className="text-[2.5rem] font-semibold mb-4">
-            <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
-              Others section
-            </span>
-          </h2>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
-                cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
-              }`}
+            <section
+              id="OthersSection"
+              data-title="Others section"
+              className="scroll-mt-16 h-screen"
             >
-              {othersData.length > 0 ? (
-                othersData?.map((item: any, index: number) => (
-                  <MainCard key={index} data={item} />
-                ))
+              <h2 className="text-[2.5rem] font-semibold mb-4">
+                <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
+                  Others section
+                </span>
+              </h2>
+              {isLoading ? (
+                <Loading />
               ) : (
-                <div className="flex justify-center items-center h-96 w-full col-span-full">
-                  <h2 className="text-2xl font-semibold text-white text-center">
-                    No data found
-                  </h2>
+                <div
+                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                    cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
+                  }`}
+                >
+                  {othersData.length > 0 ? (
+                    othersData?.map((item: any, index: number) => (
+                      <MainCard key={index} data={item} />
+                    ))
+                  ) : (
+                    <div className="flex justify-center items-center h-96 w-full col-span-full">
+                      <h2 className="text-2xl font-semibold text-white text-center">
+                        No data found
+                      </h2>
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
-          )}
-        </section>
+            </section>
+          </>
+        )}
+
+        {/* Other Games Section */}
+        {hasOtherGamesSelected && (
+          <section className="mb-24 scroll-mt-16">
+            <h2 className="text-[2.5rem] font-semibold mb-4">
+              <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
+                Other Games
+              </span>
+            </h2>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <div
+                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                  cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
+                }`}
+              >
+                {otherGamesData.length > 0 ? (
+                  otherGamesData?.map((item: any, index: number) => (
+                    <MainCard key={index} data={item} />
+                  ))
+                ) : (
+                  <div className="flex justify-center items-center h-96 w-full col-span-full">
+                    <h2 className="text-2xl font-semibold text-white text-center">
+                      No data found
+                    </h2>
+                  </div>
+                )}
+              </div>
+            )}
+          </section>
+        )}
       </main>
       <aside
         className={`lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 ${

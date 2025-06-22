@@ -48,7 +48,7 @@ export default function OurGames() {
         <h1 className="text-3xl xl:text-5xl font-medium uppercase">
           Our <span className="text-[#FADA1B]">Games</span>
         </h1>
-        <div className="sm:flex justify-between items-center">
+        {/* <div className="sm:flex justify-between items-center">
           <div className="flex justify-between my-3 items-center">
             <p className="text-white">
               Total Price $70.99
@@ -74,7 +74,7 @@ export default function OurGames() {
               />
             </svg>
           </button>
-        </div>
+        </div> */}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-12 gap-6">
         {data.map((item, index) => {

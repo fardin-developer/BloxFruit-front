@@ -39,7 +39,7 @@ export default function CartSidebar() {
             <p>No items in cart</p>
           </div>
         ) : (
-          <div className="space-y-4 h-[50vh] overflow-y-auto custom-scroll">
+          <div className="space-y-4 h-[50vh] overflow-y-auto custom-scroll pr-2">
             {cartItems.map((item) => (
               <CartCard key={item.id} id={item.id} />
             ))}
