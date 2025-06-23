@@ -59,13 +59,13 @@ export default function FruitForm({ id }: { id: any }) {
       setValue("category", product.data.category);
       setValue("regularPrice", product.data.regularPrice);
       setValue("games_name", product.data.games_name);
-      
+
       // Handle discount price
       if (product.data.discountPrice) {
         setValue("showDiscount", true);
         setValue("discountPrice", product.data.discountPrice);
       }
-      
+
       // Handle existing image
       if (product.data.imageUrl) {
         setExistingImageUrl(product.data.imageUrl);
@@ -95,11 +95,15 @@ export default function FruitForm({ id }: { id: any }) {
     }
 
     try {
-      const res = id ? await updateProduct({id,formData}) : await addProduct(formData);
+      const res = id
+        ? await updateProduct({ id, formData })
+        : await addProduct(formData);
       console.log(res);
 
       if (res.data?.success) {
-        toast.success(id ? "Product updated successfully!" : "Product added successfully!");
+        toast.success(
+          id ? "Product updated successfully!" : "Product added successfully!"
+        );
         if (!id) {
           reset();
           setPreview(null);
@@ -107,9 +111,9 @@ export default function FruitForm({ id }: { id: any }) {
           setExistingImageUrl(null);
         }
       } else {
-        toast.error(res.data?.message);
+        toast.error("Unauthorized");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting form:", error);
       toast.error("An error occurred during submission.");
     }
@@ -260,13 +264,9 @@ export default function FruitForm({ id }: { id: any }) {
           >
             <PlusIcon className="w-4 h-4 text-2xl" />
             {id ? (
-              <span className="">
-                {isUpdating ? "Updating..." : "Update"}
-              </span>
+              <span className="">{isUpdating ? "Updating..." : "Update"}</span>
             ) : (
-              <span className="">
-                {isLoading ? "Adding..." : "Add Fruit"}
-              </span>
+              <span className="">{isLoading ? "Adding..." : "Add Fruit"}</span>
             )}
           </button>
         </div>

@@ -1,16 +1,36 @@
 "use client";
+import { useLoginMutation } from "@/app/store/api/services/AuthApi";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/app/store/slices/authSlice";
 
 const LoginForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log("Login data:", data);
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  const onSubmit = async (data: any) => {
+    try {
+      const userData = await login(data).unwrap();
+      dispatch(
+        setCredentials({ user: userData, token: userData.authorization.token })
+      );
+      toast.success("Login successful");
+      router.push("/dashboard");
+    } catch (error: any) {
+      toast.error(
+        error.data?.message?.message || "Login failed, please try again"
+      );
+    }
   };
 
   return (
@@ -29,38 +49,45 @@ const LoginForm = () => {
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-white mb-2">Email</label>
+            <label className="block text-sm font-medium text-white mb-2">
+              Email
+            </label>
             <input
               type="email"
               {...register("email", { required: "Email is required" })}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-[#fada1d] text-white"
+              className="w-full px-4 py-2 border border-gray-700 rounded-lg focus:outline-none focus:border-[#fada1d] text-white"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message as string}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm">
+                {errors.email.message as string}
+              </p>
+            )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-2">Password</label>
+            <label className="block text-sm font-medium text-white mb-2">
+              Password
+            </label>
             <input
               type="password"
               {...register("password", { required: "Password is required" })}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-[#fada1d] text-white"
+              className="w-full px-4 py-2 border border-gray-700 rounded-lg focus:outline-none focus:border-[#fada1d] text-white"
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message as string}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm">
+                {errors.password.message as string}
+              </p>
+            )}
           </div>
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isLoading}
             className="w-full bg-[#fada1d] text-black font-semibold py-2 rounded-lg hover:bg-yellow-400 transition"
           >
-            {isSubmitting ? "Logging in..." : "Login"}
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        {/* Footer */}
-        {/* <p className="text-center text-sm text-gray-600 mt-6">
-          Don’t have an account? <a href="/signup" className="text-[#fada1d] font-medium hover:underline">Sign up</a>
-        </p> */}
       </div>
     </div>
   );
