@@ -25,7 +25,7 @@ const LoginForm = () => {
         setCredentials({ user: userData, token: userData.authorization.token })
       );
       toast.success("Login successful");
-      router.push("/dashboard");
+      router.push("/dashboard/products");
     } catch (error: any) {
       toast.error(
         error.data?.message?.message || "Login failed, please try again"

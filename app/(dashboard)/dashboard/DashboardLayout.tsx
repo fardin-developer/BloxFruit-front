@@ -8,10 +8,11 @@ import { usePathname } from "next/navigation";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { TbSocial } from "react-icons/tb";
 import { PiShoppingBagLight } from "react-icons/pi";
+import { logOut } from "@/app/store/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 // Menu and Bottom items
 const menuItems = [
-  { href: "/dashboard", icon: <RxDashboard size={24} />, label: "Overview" },
   {
     href: "/dashboard/products",
     icon: <RiProductHuntLine size={24} />,
@@ -21,17 +22,12 @@ const menuItems = [
   // { href: "#", icon: <TbSocial size={24} />, label: "Others" },
 ];
 
-const bottomMenu = [
-  {
-    href: "/dashboard/settings",
-    icon: <RiSettingsLine size={24} />,
-    label: "Settings",
-  },
-];
+
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -100,40 +96,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </nav>
 
         {/* Bottom menu */}
-        <div className="absolute bottom-0 w-full">
-          {bottomMenu.map((item, index) => {
-            const isActive = pathname === item.href;
-            return (
-              <div className="px-2 py-1" key={index}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center text-base font-medium px-4 py-3 rounded-md gap-1 ${
-                    isActive
-                      ? "grad-btn hover:brightness-150 duration-300 font-bold hover:font-extrabold"
-                      : "text-yellow-400 hover:text-black hover:bg-[#fada1b] duration-300"
-                  }`}
-                >
-                  {item.icon}
-                  {item.label}
-                </Link>
-              </div>
-            );
-          })}
-          <div className="flex items-center p-4">
-            {/* <div className="flex-shrink-0">
-              <Image
-                className="w-10 h-10 rounded-full"
-                src="/images/us.png"
-                width={40}
-                height={40}
-                alt="User"
-              />
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-[#fada1b] font-medium">John Doe</p>
-              <p className="text-xs text-[#fada1b]">john.doe@example.com</p>
-            </div> */}
-          </div>
+        <div className="absolute bottom-0 w-full px-4 mb-6">
+          <button onClick={() => dispatch(logOut())} className="flex items-center text-base font-medium px-4 py-3 rounded-md text-white hover:bg-[#fada1b] duration-300 gap-1 w-full cursor-pointer">Logout</button>
         </div>
       </div>
 
