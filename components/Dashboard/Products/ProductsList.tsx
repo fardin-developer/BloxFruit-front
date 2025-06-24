@@ -3,7 +3,7 @@ import DynamicTable, {
   TableColumn,
 } from "@/components/ui/DynamicTable/DynamicTable";
 import React, { useState, useMemo } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSearch } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import Link from "next/link";
 import { useDeleteProductMutation, useGetProductsQuery } from "@/app/store/api/services/productApi";
@@ -17,6 +17,7 @@ const ProductsList = () => {
   const productsData = products?.data;
   
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 10;
 
   console.log(productsData);
@@ -57,18 +58,34 @@ const ProductsList = () => {
     })) || [];
   }, [productsData]);
 
-  // Calculate pagination
-  const totalItems = allFormattedData.length;
+  // Filter data based on search term
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return allFormattedData;
+    }
+    return allFormattedData.filter((product: any) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [allFormattedData, searchTerm]);
+
+  // Calculate pagination for filtered data
+  const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   
   // Get current page data
-  const currentPageData = allFormattedData.slice(startIndex, endIndex);
+  const currentPageData = filteredData.slice(startIndex, endIndex);
 
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  // Handle search change
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page when searching
   };
 
   const columns: TableColumn[] = [
@@ -100,10 +117,37 @@ const ProductsList = () => {
 
   return (
     <div className="relative">
-      <h1 className="text-2xl font-bold mb-4">Products List</h1>
-      <Link href="/dashboard/add-fruits" className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-2 duration-300 cursor-pointer absolute top-0 right-0">
-        <FaPlus />
-      </Link>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+        <h1 className="text-2xl font-bold text-[#fada1d]">Products List</h1>
+        
+        {/* Search Input */}
+        <div className="relative max-w-md w-full">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search products by name..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="w-full px-4 py-3 pl-12 bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] focus:outline-none focus:border-[#fada1d] text-[#fada1d] placeholder-[#fada1d]/60 rounded-lg transition-all duration-300"
+            />
+            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#fada1d]/60" />
+          </div>
+        </div>
+
+        <Link href="/dashboard/add-fruits" className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-3 duration-300 cursor-pointer flex items-center gap-2 font-bold rounded-lg transition-all">
+          <FaPlus />
+          Add Product
+        </Link>
+      </div>
+      
+      {/* Search Results Info */}
+      {searchTerm && (
+        <div className="mb-4 p-3 bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] rounded-lg">
+          <p className="text-[#fada1d] text-sm">
+            Found <span className="font-bold">{totalItems}</span> product{totalItems !== 1 ? 's' : ''} matching "{searchTerm}"
+          </p>
+        </div>
+      )}
       
       <DynamicTable 
         columns={columns} 
@@ -121,6 +165,19 @@ const ProductsList = () => {
           itemsPerPage={itemsPerPage}
           totalItems={totalItems}
         />
+      )}
+
+      {/* No Results Message */}
+      {!isLoading && searchTerm && totalItems === 0 && (
+        <div className="text-center py-8">
+          <p className="text-[#fada1d] text-lg">No products found matching "{searchTerm}"</p>
+          <button 
+            onClick={() => setSearchTerm("")}
+            className="mt-2 text-[#fada1d]/80 hover:text-[#fada1d] underline"
+          >
+            Clear search
+          </button>
+        </div>
       )}
     </div>
   );
