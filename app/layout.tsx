@@ -36,7 +36,17 @@ export default function RootLayout({
         <Provider>
           <Suspense>{children}</Suspense>
         </Provider>
-        <Toaster position="top-center"  />
+        <Toaster
+          position="top-right"
+          richColors
+          toastOptions={{
+            style: {
+              background: "#080705", 
+              color: "#fada1d", 
+              border: "1px solid #fada1d",
+            },
+          }}
+        />
       </body>
     </html>
   );

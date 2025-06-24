@@ -11,6 +11,7 @@ import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { TbShoppingCart } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/app/store/slices/cartSlice";
+import { toast } from "sonner";
 
 const MainCard = ({ data }: { data: any }) => {
   const {id, category, imageUrl, discountPrice, regularPrice, name, type } = data;
@@ -64,6 +65,7 @@ const MainCard = ({ data }: { data: any }) => {
         quantity: 1,
       })
     )
+    toast.success("Added to cart")
   }
 
   return (
