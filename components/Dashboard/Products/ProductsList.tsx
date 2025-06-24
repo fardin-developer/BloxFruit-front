@@ -41,7 +41,6 @@ const ProductsList = () => {
   }
 
   const imageFormatter = (image:string)=>{
-    // const url = `${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`;
     const url = `${image}`;
     console.log(url, "url");
     console.log('Generated image URL:',encodeURI(url));
@@ -128,13 +127,13 @@ const ProductsList = () => {
               placeholder="Search products by name..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="w-full px-4 py-3 pl-12 bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] focus:outline-none focus:border-[#fada1d] text-[#fada1d] placeholder-[#fada1d]/60 rounded-lg transition-all duration-300"
+              className="w-full px-4 py-3 pl-12 bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] focus:outline-none focus:border-[#fada1d] text-[#fada1d] placeholder-[#fada1d]/60  transition-all duration-300"
             />
             <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#fada1d]/60" />
           </div>
         </div>
 
-        <Link href="/dashboard/add-fruits" className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-3 duration-300 cursor-pointer flex items-center gap-2 font-bold rounded-lg transition-all">
+        <Link href="/dashboard/add-fruits" className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-3 duration-300 cursor-pointer flex items-center gap-2 font-bold transition-all">
           <FaPlus />
           Add Product
         </Link>
