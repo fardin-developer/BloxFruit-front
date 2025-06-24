@@ -2,18 +2,23 @@
 import DynamicTable, {
   TableColumn,
 } from "@/components/ui/DynamicTable/DynamicTable";
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import Link from "next/link";
 import { useDeleteProductMutation, useGetProductsQuery } from "@/app/store/api/services/productApi";
 import { useRouter } from "next/navigation";
+import Pagination from "@/components/ui/Pagination/Pagination";
 
 const ProductsList = () => {
   const router = useRouter()
   const { data: products, isLoading, refetch } = useGetProductsQuery(undefined);
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
   const productsData = products?.data;
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   console.log(productsData);
 
   const handleDelete =  async (id:string)=>{
@@ -42,13 +47,29 @@ const ProductsList = () => {
     return encodeURI(url);
   }
 
-  const formattedData = productsData?.map((product:any)=>({
-    ...product,
-    regularPrice: priceFormatter(product.regularPrice),
-    created_at: dateFormatter(product.created_at),
-    imageUrl: imageFormatter(product.imageUrl),
-  }));
+  // Format all data first
+  const allFormattedData = useMemo(() => {
+    return productsData?.map((product:any)=>({
+      ...product,
+      regularPrice: priceFormatter(product.regularPrice),
+      created_at: dateFormatter(product.created_at),
+      imageUrl: imageFormatter(product.imageUrl),
+    })) || [];
+  }, [productsData]);
 
+  // Calculate pagination
+  const totalItems = allFormattedData.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  
+  // Get current page data
+  const currentPageData = allFormattedData.slice(startIndex, endIndex);
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const columns: TableColumn[] = [
     { key: "imageUrl", label: "Image", type: "image" },
@@ -76,13 +97,31 @@ const ProductsList = () => {
       </div>
     );
   };
+
   return (
     <div className="relative">
       <h1 className="text-2xl font-bold mb-4">Products List</h1>
       <Link href="/dashboard/add-fruits" className="bg-[#fada1d] hover:brightness-150 text-black px-4 py-2 duration-300 cursor-pointer absolute top-0 right-0">
         <FaPlus />
       </Link>
-      <DynamicTable columns={columns} data={formattedData} actions={tableActions} loading={isLoading} />
+      
+      <DynamicTable 
+        columns={columns} 
+        data={currentPageData} 
+        actions={tableActions} 
+        loading={isLoading} 
+      />
+      
+      {/* Pagination */}
+      {!isLoading && totalItems > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          itemsPerPage={itemsPerPage}
+          totalItems={totalItems}
+        />
+      )}
     </div>
   );
 };
