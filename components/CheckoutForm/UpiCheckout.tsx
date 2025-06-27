@@ -25,20 +25,29 @@ const UpiCheckout = () => {
   const total = searchParams.get("total") || "0.00";
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  
   const { register, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data: any) => {
-    console.log(data);
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("email", data.email);
-    formData.append("phone", data.phone);
-    formData.append("address", data.address);
-    formData.append("amount", total);
 
-    const response = await createPaymentIntent(formData).unwrap();
-    console.log(response);
+    const payload = {
+    name: data.name,
+    email: data.email,
+    phone: data.phone,
+    address: "none", // optional address
+    amount: total, // from the URL query parameter
+    description: data.description || "", // optional description
+    notes: data.notes || "", // optional notes
+    items: cartItems.map((item: any) => ({
+      productId: item.id,
+      quantity: item.quantity,
+    })),
+  };
+    const response = await createPaymentIntent(payload).unwrap();
+    if(response.success){
+      window.location.href = response.data.payment_url;
+    } else {
+      alert("Failed to create payment intent. Please try again.");
+    }
   };
 
   return (
@@ -84,7 +93,7 @@ const UpiCheckout = () => {
                 Roblox Username
               </label>
               <input
-                {...register("name", { required: true })}
+                {...register("roblox_username", { required: true })}
                 placeholder="Enter your username"
                 className="w-full px-4 py-4 bg-gradient-to-l to-[#fada1b26]  from-[#594d0026] text-yellow-400 placeholder-yellow-400 outline-none"
               />
