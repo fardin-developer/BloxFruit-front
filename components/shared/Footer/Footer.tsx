@@ -1,23 +1,28 @@
-"use client"
+"use client";
 import React from "react";
 import { FaDiscord, FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
 import { useSubscribeToEmailMutation } from "@/app/store/api/services/emailSubscriptionApi";
 import { toast } from "sonner";
+
 const Footer = () => {
   const [subscribeToEmail, { isLoading }] = useSubscribeToEmailMutation();
 
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const response = await subscribeToEmail({ email }).unwrap();
+    const email = formData.get("email") as string;
+    try {
+      const response = await subscribeToEmail({ email }).unwrap();
 
-    if (response.success) {
-      toast.success("Email subscribed successfully");
-    } else {
-      toast.error("Email subscription failed");
+      if (response.success) {
+        toast.success("Email subscribed successfully");
+      } else {
+        toast.error("failed to subscribe");
+      }
+    } catch (error: any) {
+      toast.error(error.data.message.message);
     }
   };
   return (
