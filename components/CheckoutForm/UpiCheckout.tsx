@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import bannerbackground from "@/public/images/bannerbackground.png";
@@ -7,6 +7,8 @@ import gpay from "@/public/gpay.png";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useCreatePaymentIntentMutation } from "@/app/store/api/services/paymentApi";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
 
 interface UpiCheckoutProps {
   total: number;
@@ -15,26 +17,29 @@ interface UpiCheckoutProps {
 }
 
 const UpiCheckout = () => {
-    const searchParams = useSearchParams();
-    const [createPaymentIntent, {isLoading:isLoadingPayment}] = useCreatePaymentIntentMutation();
-  const total = searchParams.get('total') || '0.00';
-    const { register, handleSubmit } = useForm();
-    const [isLoading, setIsLoading] = useState(false);
-    const onSubmit = async (data: any) => {
-        console.log(data);
-        const formData = new FormData();
-        formData.append('name', data.name);
-        formData.append('email', data.email);
-        formData.append('phone', data.phone);
-        formData.append('address', data.address);
-        formData.append('amount', total);
+  const searchParams = useSearchParams();
+  const [createPaymentIntent, { isLoading: isLoadingPayment }] =
+    useCreatePaymentIntentMutation();
+  const total = searchParams.get("total") || "0.00";
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const { register, handleSubmit } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = async (data: any) => {
+    console.log(data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("address", data.address);
+    formData.append("amount", total);
 
-        const response = await createPaymentIntent(formData).unwrap();
-        console.log(response);
-    }
+    const response = await createPaymentIntent(formData).unwrap();
+    console.log(response);
+  };
 
-    return (
-        <div
+  return (
+    <div
       className="max-w-[1320px] mx-auto text-white flex items-center justify-center bg-cover bg-center relative "
       style={{
         backgroundImage: `url(${bannerbackground.src})`,
@@ -93,7 +98,6 @@ const UpiCheckout = () => {
             </div>
           </div>
 
-          
           {/* Personal Information */}
           <div className="space-y-4 mb-10">
             <h1 className="text-lg">Personal Information</h1>
@@ -153,7 +157,7 @@ const UpiCheckout = () => {
         </form>
       </div>
     </div>
-    );
+  );
 };
 
 export default UpiCheckout;
