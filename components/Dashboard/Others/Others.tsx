@@ -29,7 +29,7 @@ const Others = () => {
 
     return (
         <div>
-            <DynamicTable columns={columns} data={subscribersData} />
+            <DynamicTable columns={columns} data={subscribersData} loading={isLoading} />
         </div>
     );
 };
