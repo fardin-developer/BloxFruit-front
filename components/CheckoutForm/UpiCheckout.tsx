@@ -18,11 +18,14 @@ interface UpiCheckoutProps {
 
 const UpiCheckout = () => {
   const searchParams = useSearchParams();
+
   const [createPaymentIntent, { isLoading: isLoadingPayment }] =
     useCreatePaymentIntentMutation();
+
   const total = searchParams.get("total") || "0.00";
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  
   const { register, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data: any) => {
