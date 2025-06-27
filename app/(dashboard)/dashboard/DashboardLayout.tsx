@@ -19,7 +19,7 @@ const menuItems = [
     label: "Products",
   },
   { href: "/dashboard/orders", icon: <PiShoppingBagLight  size={24} />, label: "Orders" },
-  // { href: "#", icon: <TbSocial size={24} />, label: "Others" },
+  { href: "/dashboard/others", icon: <TbSocial size={24} />, label: "Others" },
 ];
 
 

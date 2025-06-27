@@ -62,7 +62,7 @@ const Footer = () => {
                 type="submit"
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-sm bg-gradient-to-l to-[#FADA1B] from-[#FFF] text-black px-4 py-2 rounded-sm font-semibold cursor-pointer"
               >
-                Subscribe
+                {isLoading ? "Subscribing..." : "Subscribe"}
               </button>
             </form>
             <div className="text-xs text-[#F0F0F0] mt-4">
