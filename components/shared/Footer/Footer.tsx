@@ -1,8 +1,25 @@
+"use client"
 import React from "react";
 import { FaDiscord, FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
+import { useSubscribeToEmailMutation } from "@/app/store/api/services/emailSubscriptionApi";
+import { toast } from "sonner";
 const Footer = () => {
+  const [subscribeToEmail, { isLoading }] = useSubscribeToEmailMutation();
+
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const response = await subscribeToEmail({ email }).unwrap();
+
+    if (response.success) {
+      toast.success("Email subscribed successfully");
+    } else {
+      toast.error("Email subscription failed");
+    }
+  };
   return (
     <footer className=" text-white  border-t border-[#e4e4e414]">
       <div className="max-w-[1616px] mx-auto px-4 2 py-10">
@@ -28,12 +45,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Logo + Newsletter */}
           <div>
-            <p className="mb-3 text-[1.5rem]">Don’t miss our latest News</p>
-            <form className="flex relative">
+            <p className="mb-3 text-[1.5rem]">Don't miss our latest News</p>
+            <form className="flex relative" onSubmit={handleSubscribe}>
               <input
                 type="email"
                 placeholder="Email address"
                 className="bg-[#15131d] text-white p-3 rounded-lg w-full outline-none"
+                name="email"
               />
               <button
                 type="submit"
