@@ -339,7 +339,7 @@ export default function StoreProducts() {
       {/* Product Grid */}
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
         {selectedGames.includes("blox-fruits") ? (
-          <div className="sticky top-4 z-10 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
+          <div className="sticky top-0 md:top-4 z-10 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
             <div className="flex gap-4 text-white">
               {items.map((item, index) => {
                 const isActive = activeSection === item.name;

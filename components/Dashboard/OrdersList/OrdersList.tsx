@@ -7,6 +7,7 @@ import image from "@/public/mainCardImages/legendary.png";
 import image2 from "@/public/mainCardImages/common.png";
 import image3 from "@/public/mainCardImages/uncommon.png";
 import { MdCheckCircle } from "react-icons/md";
+import { useGetOrdersQuery } from "@/app/store/api/services/orderApi";
 const products = [
   {
     image_url: image,
@@ -34,6 +35,13 @@ const products = [
   },
 ];
 const OrdersList = () => {
+  const { data: orders, isLoading } = useGetOrdersQuery(null);
+  const ordersData = orders?.data;
+console.log(ordersData);
+const items  =  ordersData?.map((item:any)=>{
+
+  
+}) 
   const columns: TableColumn[] = [
     { key: "image_url", label: "Image", type: "image" },
     { key: "name", label: "Procedures Name", type: "text" },
@@ -56,7 +64,7 @@ const OrdersList = () => {
   return (
     <div className="">
       <h1 className="text-2xl font-bold mb-4">Orders List</h1>
-      <DynamicTable columns={columns} data={products} actions={tableActions} />
+      <DynamicTable columns={columns} data={products} actions={tableActions} loading={isLoading} />
     </div>
   );
 };
