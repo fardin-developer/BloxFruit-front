@@ -21,12 +21,6 @@ const sort = [
   { value: "old", label: "Old" },
 ];
 
-const items = [
-  { name: "Permanent Fruits", href: "#PermanentFruits" },
-  { name: "Gamepass", href: "#Gamepass" },
-  { name: "Others section", href: "#OthersSection" },
-];
-
 const gameNames = [
   {
     name: "Blox Fruits",
@@ -65,9 +59,9 @@ const gameNames = [
 // Game-category mapping for navigation
 const gameCategories = {
   "blox-fruits": [
-    { name: "Permanent Fruits", href: "#PermanentFruits" },
+    { name: "Permanent Fruit", href: "#PermanentFruit" },
     { name: "Gamepass", href: "#Gamepass" },
-    { name: "Others section", href: "#OthersSection" },
+    { name: "Others", href: "#Others" },
   ],
   "rivals": [
     { name: "Best Sellers", href: "#BestSellers" },
@@ -96,8 +90,31 @@ const gameCategories = {
   ],
 };
 
+// Category mapping function to handle different category formats
+const getCategoryMapping = (categoryName: string) => {
+  const categoryMap: { [key: string]: string[] } = {
+    "Permanent Fruit": ["Permanent Fruit", "permanent", "permanent fruit"],
+    "Gamepass": ["Gamepass", "gamepass", "Game Pass"],
+    "Others": ["Others", "others", "Other"],
+    "Best Sellers": ["Best Sellers", "best sellers", "bestsellers"],
+    "Bundles": ["Bundles", "bundles"],
+    "Keys": ["Keys", "keys"],
+    "Styles": ["Styles", "styles"],
+    "Flows": ["Flows", "flows"],
+    "Aether": ["Aether", "aether"],
+    "Credits": ["Credits", "credits"],
+    "Shards": ["Shards", "shards"],
+    "Stones": ["Stones", "stones"],
+    "Potions": ["Potions", "potions"],
+    "Gold": ["Gold", "gold"],
+    "Gems": ["Gems", "gems"],
+  };
+  
+  return categoryMap[categoryName] || [categoryName];
+};
+
 export default function StoreProducts() {
-  const [activeSection, setActiveSection] = useState("Permanent Fruits");
+  const [activeSection, setActiveSection] = useState("Permanent Fruit");
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("Select one");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -161,9 +178,13 @@ export default function StoreProducts() {
 
   // Apply filters and sorting to each category (only for Blox Fruits)
   const permanentData = useMemo(() => {
+    const categoryMappings = getCategoryMapping("Permanent Fruit");
     const filtered = products?.data?.filter(
       (item: any) =>
-        item.category === "permanent" && item.games_name === "blox-fruits"
+        item.games_name === "blox-fruits" &&
+        categoryMappings.some(mapping => 
+          item.category?.toLowerCase() === mapping.toLowerCase()
+        )
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -173,9 +194,13 @@ export default function StoreProducts() {
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
   const gamepassData = useMemo(() => {
+    const categoryMappings = getCategoryMapping("Gamepass");
     const filtered = products?.data?.filter(
       (item: any) =>
-        item.category === "gamepass" && item.games_name === "blox-fruits"
+        item.games_name === "blox-fruits" &&
+        categoryMappings.some(mapping => 
+          item.category?.toLowerCase() === mapping.toLowerCase()
+        )
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -185,9 +210,13 @@ export default function StoreProducts() {
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
   const othersData = useMemo(() => {
+    const categoryMappings = getCategoryMapping("Others");
     const filtered = products?.data?.filter(
       (item: any) =>
-        item.category === "others" && item.games_name === "blox-fruits"
+        item.games_name === "blox-fruits" &&
+        categoryMappings.some(mapping => 
+          item.category?.toLowerCase() === mapping.toLowerCase()
+        )
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
@@ -212,9 +241,13 @@ export default function StoreProducts() {
 
   // Get data for each category of selected games
   const getCategoryData = (gameId: string, category: string) => {
+    const categoryMappings = getCategoryMapping(category);
     const filtered = products?.data?.filter(
       (item: any) =>
-        item.games_name === gameId && item.category === category
+        item.games_name === gameId && 
+        categoryMappings.some(mapping => 
+          item.category?.toLowerCase() === mapping.toLowerCase()
+        )
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(

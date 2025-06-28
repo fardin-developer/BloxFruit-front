@@ -26,9 +26,9 @@ type FormValues = {
 // Game-category mapping
 const gameCategories = {
   "blox-fruits": [
-    "Permanent Fruits",
+    "Permanent Fruit",
     "Gamepass",
-    "Other"
+    "Others"
   ],
   "rivals": [
     "Best Sellers",
@@ -152,7 +152,7 @@ export default function FruitForm({ id }: { id: any }) {
           id ? "Product updated successfully!" : "Product added successfully!"
         );
         if (!id) {
-          reset();
+          // reset();
           setPreview(null);
           setSelectedFile(null);
           setExistingImageUrl(null);
