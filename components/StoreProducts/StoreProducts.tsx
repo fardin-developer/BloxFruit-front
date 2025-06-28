@@ -442,7 +442,7 @@ export default function StoreProducts() {
                       <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
                     )}
                     <span
-                      className={`relative z-10 block text-xs  ${
+                      className={`relative z-10 block text-xs ${
                         isActive ? "text-[#FBDE6E]" : "text-white/60"
                       }`}
                     >
