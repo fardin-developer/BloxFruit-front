@@ -270,6 +270,8 @@ export default function StoreProducts() {
   // Handle game selection (single selection only)
   const handleGameChange = (gameId: string) => {
     setSelectedGames([gameId]); // Only select one game at a time
+    // Scroll to top when game changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Handle rarity selection
@@ -281,13 +283,11 @@ export default function StoreProducts() {
     );
   };
 
-  // Handle price range change
   const handlePriceRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     setPriceRange((prev) => [prev[0], value]);
   };
 
-  // Clear all filters
   const clearAllFilters = () => {
     setSelectedRarities([]);
     setPriceRange([1, 1000]);
@@ -296,7 +296,6 @@ export default function StoreProducts() {
   };
 
   useEffect(() => {
-    // Observe sections when any game is selected
     if (selectedGames.length > 0) {
       const sections = document.querySelectorAll("section");
 
@@ -317,8 +316,13 @@ export default function StoreProducts() {
       sections.forEach((section) => observer.observe(section));
       return () => sections.forEach((section) => observer.unobserve(section));
     } else {
-      // Reset active section when no games are selected
       setActiveSection("");
+    }
+  }, [selectedGames]);
+
+  useEffect(() => {
+    if (selectedGames.length > 0) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [selectedGames]);
 
