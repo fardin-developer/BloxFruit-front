@@ -35,10 +35,10 @@ const UpiCheckout = () => {
     name: data.roblox_username,
     email: data.email,
     phone: data.phone,
-    address: "none", // optional address
-    amount: total, // from the URL query parameter
-    description: data.description || "", // optional description
-    notes: data.notes || "", // optional notes
+    address: "none",  
+    amount: total,  
+    description: data.description || "",  
+    notes: data.notes || "", 
     items: cartItems.map((item: any) => ({
       productId: item.id,
       quantity: item.quantity,
@@ -72,14 +72,14 @@ const UpiCheckout = () => {
           <p className="text-3xl font-bold text-white">${total}</p>
         </div>
 
-        <div className="flex justify-center gap-3">
+        {/* <div className="flex justify-center gap-3">
           <button className="bg-yellow-400 text-white px-5 py-2 font-semibold rounded-lg cursor-pointer">
             <Image src={paypal} alt="paypal" width={80} height={80} />
           </button>
           <button className="bg-white text-black px-5 py-2 font-semibold rounded-lg cursor-pointer">
             <Image src={gpay} alt="gpay" width={80} height={80} />
           </button>
-        </div>
+        </div> */}
 
         <div className="flex items-center">
           <hr className="w-full rgb-border scale-x-[-1]" />

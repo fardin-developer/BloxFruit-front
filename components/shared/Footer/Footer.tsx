@@ -5,6 +5,7 @@ import Image from "next/image";
 import logo from "@/public/logo.svg";
 import { useSubscribeToEmailMutation } from "@/app/store/api/services/emailSubscriptionApi";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const Footer = () => {
   const [subscribeToEmail, { isLoading }] = useSubscribeToEmailMutation();
@@ -90,7 +91,7 @@ const Footer = () => {
                 <a href="#">Instagram</a>
               </li>
               <li>
-                <a href="#">FAQ</a>
+                <a href="#faq">FAQ</a>
               </li>
             </ul>
           </div>
@@ -100,13 +101,10 @@ const Footer = () => {
             <h3 className="font-semibold mb-3">All Pages</h3>
             <ul className="space-y-8 text-gray-300">
               <li>
-                <a href="#">Home</a>
+                <Link href="/">Home</Link>
               </li>
               <li>
-                <a href="#">Store</a>
-              </li>
-              <li>
-                <a href="#">Checkout</a>
+                <Link href="/gamestore">Store</Link>
               </li>
             </ul>
           </div>

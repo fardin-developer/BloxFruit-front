@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 
 interface OrderDetailsModalProps {
@@ -10,11 +10,31 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   order,
   onClose,
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
   const orderItems = order?.items;
 
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 ">
-      <div className="bg-[#080705] p-6 rounded-lg shadow-lg max-w-4xl w-full relative border border-[#fada1d]">
+    <div 
+      className={`fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 transition-all duration-300 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
+      <div 
+        className={`bg-[#080705] p-6 rounded-lg shadow-lg max-w-4xl w-full relative border border-[#fada1d] transition-all duration-300 transform ${
+          isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+        }`}
+      >
         <h2 className="text-xl font-bold text-center uppercase text-[#fada1d]">
           Order Details
         </h2>
@@ -37,6 +57,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                         crossOrigin="anonymous"
                         src={
                           process.env.NEXT_PUBLIC_IMAGE_URL +
+                          "/storage/product/" +
                           item?.product?.image
                         }
                         alt=""
@@ -99,8 +120,8 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
           </div>
         </div>
         <button
-          onClick={onClose}
-          className="bg-red-500 absolute top-5 right-5 text-white p-1 md:p-2 cursor-pointer"
+          onClick={handleClose}
+          className="bg-red-500 absolute top-5 right-5 text-white p-1 md:p-2 cursor-pointer hover:bg-red-600 transition-colors duration-200"
         >
           <IoClose size={20} />
         </button>
