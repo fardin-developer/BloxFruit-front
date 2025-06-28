@@ -9,6 +9,14 @@ import { baseApi } from "../baseApi";
                 method: "GET",
             }),
         }),
+
+        updateOrderStatus: builder.mutation({
+            query: ({ order_id, status }) => ({
+                url: `/upi-payment/order-delivery/${order_id}`,
+                method: "PUT",
+                body: { status },
+            }),
+        }),
     }),
  });
 

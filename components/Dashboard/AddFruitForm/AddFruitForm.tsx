@@ -23,6 +23,40 @@ type FormValues = {
   games_name?: string;
 };
 
+// Game-category mapping
+const gameCategories = {
+  "blox-fruits": [
+    "Permanent Fruits",
+    "Gamepass",
+    "Other"
+  ],
+  "rivals": [
+    "Best Sellers",
+    "Bundles",
+    "Keys",
+    "Others"
+  ],
+  "blue-lock-rivals": [
+    "Gamepass",
+    "Styles",
+    "Flows"
+  ],
+  "combat-warrior": [
+    "Gamepass",
+    "Aether",
+    "Credits"
+  ],
+  "anime-reborn": [
+    "Gamepass",
+    "Shards",
+    "Keys",
+    "Stones",
+    "Potions",
+    "Gold",
+    "Gems"
+  ]
+};
+
 export default function FruitForm({ id }: { id: any }) {
   console.log(id, "id");
 
@@ -33,9 +67,15 @@ export default function FruitForm({ id }: { id: any }) {
   const { register, handleSubmit, watch, reset, setValue } =
     useForm<FormValues>();
   const showDiscount = watch("showDiscount");
+  const selectedGame = watch("games_name");
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
+
+  // Get categories for selected game
+  const getCategoriesForGame = (gameName: string) => {
+    return gameCategories[gameName as keyof typeof gameCategories] || [];
+  };
 
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -73,6 +113,13 @@ export default function FruitForm({ id }: { id: any }) {
       }
     }
   }, [product, setValue]);
+
+  // Reset category when game changes
+  useEffect(() => {
+    if (selectedGame) {
+      setValue("category", "");
+    }
+  }, [selectedGame, setValue]);
 
   const onSubmit = async (data: FormValues) => {
     const formData = new FormData();
@@ -191,19 +238,6 @@ export default function FruitForm({ id }: { id: any }) {
               </select>
             </div>
             <div>
-              <label className="block mb-2 text-[#fada1d]">Category</label>
-              <select
-                {...register("category")}
-                required
-                className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b]"
-              >
-                <option value="">Select Category</option>
-                <option value="permanent">Permanent Fruits</option>
-                <option value="gamepass">Gamepass</option>
-                <option value="others">Others</option>
-              </select>
-            </div>
-            <div>
               <label className="block mb-2 text-[#fada1d]">Games</label>
               <select
                 {...register("games_name")}
@@ -216,6 +250,24 @@ export default function FruitForm({ id }: { id: any }) {
                 <option value="rivals">Rivals</option>
                 <option value="combat-warrior">Combat Warrior</option>
                 <option value="anime-reborn">Anime Reborn</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-2 text-[#fada1d]">Category</label>
+              <select
+                {...register("category")}
+                required
+                disabled={!selectedGame}
+                className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <option value="">
+                  {selectedGame ? "Select Category" : "Select Game First"}
+                </option>
+                {selectedGame && getCategoriesForGame(selectedGame).map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="sm:col-span-2">
