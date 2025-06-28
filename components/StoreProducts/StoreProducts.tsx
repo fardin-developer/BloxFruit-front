@@ -16,9 +16,8 @@ import image4 from "@/public/cardsImage/ourgames4.png";
 import image5 from "@/public/cardsImage/ourgames5.png";
 
 const sort = [
-  { value: "All", label: "All" },
-  { value: "new", label: "New" },
-  { value: "old", label: "Old" },
+  { value: "high", label: "High to Low" },
+  { value: "low", label: "Low to High" },
 ];
 
 const gameNames = [
@@ -116,7 +115,7 @@ const getCategoryMapping = (categoryName: string) => {
 export default function StoreProducts() {
   const [activeSection, setActiveSection] = useState("Permanent Fruit");
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("Select one");
+  const [selected, setSelected] = useState("High to Low");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
@@ -133,15 +132,13 @@ export default function StoreProducts() {
     if (!products) return [];
 
     const sortedProducts = [...products];
-    if (sortType === "new") {
+    if (sortType === "high") {
       return sortedProducts.sort(
-        (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        (a, b) => parseFloat(b.regularPrice) - parseFloat(a.regularPrice)
       );
-    } else if (sortType === "old") {
+    } else if (sortType === "low") {
       return sortedProducts.sort(
-        (a, b) =>
-          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        (a, b) => parseFloat(a.regularPrice) - parseFloat(b.regularPrice)
       );
     }
     return sortedProducts;
@@ -189,7 +186,7 @@ export default function StoreProducts() {
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
       filteredProducts,
-      selected === "new" ? "new" : selected === "old" ? "old" : ""
+      selected === "High to Low" ? "high" : selected === "Low to High" ? "low" : "high"
     );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
@@ -221,7 +218,7 @@ export default function StoreProducts() {
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
       filteredProducts,
-      selected === "new" ? "new" : selected === "old" ? "old" : ""
+      selected === "High to Low" ? "high" : selected === "Low to High" ? "low" : "high"
     );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
@@ -235,7 +232,7 @@ export default function StoreProducts() {
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
       filteredProducts,
-      selected === "new" ? "new" : selected === "old" ? "old" : ""
+      selected === "High to Low" ? "high" : selected === "Low to High" ? "low" : "high"
     );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
@@ -252,7 +249,7 @@ export default function StoreProducts() {
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
       filteredProducts,
-      selected === "new" ? "new" : selected === "old" ? "old" : ""
+      selected === "High to Low" ? "high" : selected === "Low to High" ? "low" : "high"
     );
   };
 
@@ -295,7 +292,7 @@ export default function StoreProducts() {
     setSelectedRarities([]);
     setPriceRange([1, 1000]);
     setSelectedGames(["blox-fruits"]);
-    setSelected("Select one");
+    setSelected("High to Low");
   };
 
   useEffect(() => {
@@ -441,7 +438,7 @@ export default function StoreProducts() {
                       <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
                     )}
                     <span
-                      className={`relative z-10 block text-xs xl:text-lg ${
+                      className={`relative z-10 block text-xs  ${
                         isActive ? "text-[#FBDE6E]" : "text-white/60"
                       }`}
                     >
@@ -450,7 +447,7 @@ export default function StoreProducts() {
                     {isActive && (
                       <>
                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-36 h-[1px] bg-yellow-500 rounded-full z-10" />
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[50%] h-[1px] bg-yellow-500 rounded-full z-10" />
                       </>
                     )}
                   </a>
@@ -460,7 +457,7 @@ export default function StoreProducts() {
             <div className="flex items-center gap-2.5 pr-2">
               <div className="relative z-10 w-36 text-white bg-gradient-to-l from-[#4a45291f] to-[#fad81b41] p-[1px] rounded-sm">
                 <button
-                  className="text-xs px-2 sm:text-sm xl:text-lg w-full flex justify-between items-center rounded-sm bg-[#0a0a09] selects-border cursor-pointer  duration-300"
+                  className="text-xs px-2 sm:text-sm  w-full flex justify-between items-center rounded-sm bg-[#0a0a09] selects-border cursor-pointer  duration-300"
                   onClick={() => setIsOpen(!isOpen)}
                 >
                   {selected}
@@ -480,11 +477,11 @@ export default function StoreProducts() {
                     }`}
                 >
                   <ul>
-                    {["Select one", ...sort.map((s) => s.label)].map(
+                    {["Select one", "High to Low", "Low to High"].map(
                       (label) => (
                         <li
                           key={label}
-                          className={`text-xs sm:text-sm xl:text-lg p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize  ${
+                          className={`text-xs sm:text-sm p-1 bg-[#0a0a09] hover:text-[#0a0a09]  cursor-pointer capitalize  ${
                             selected === label
                               ? "bg-[#FADA1B] text-[#0a0a09]"
                               : "hover:bg-[#FADA1B] "
