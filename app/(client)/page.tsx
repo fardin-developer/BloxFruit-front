@@ -6,7 +6,7 @@ import FAQ from "@/components/Home/FAQ/FAQ";
 
 const page = () => {
   return (
-    <div>
+    <div className="fade-in">
       <Hero />
       <WhyChoose />
       <OurGames />

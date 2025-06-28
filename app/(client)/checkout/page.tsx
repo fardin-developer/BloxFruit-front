@@ -11,7 +11,7 @@ const stripePromise = loadStripe(
 
 const CheckoutPage = () => {
   return (
-    <div className="w-full text-white flex items-center justify-center px-4 py-10 rounded-2xl">
+    <div className="w-full text-white flex items-center justify-center px-4 py-10 rounded-2xl fade-in">
         <UpiCheckout />
     </div>
   );

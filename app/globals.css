@@ -18,6 +18,20 @@ html {
 
 /* *******************Custom********************* */
 
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
 .grad-btn {
   border-radius: 8px;
   background: linear-gradient(90deg, #fada1b 0%, #fff 100%);
