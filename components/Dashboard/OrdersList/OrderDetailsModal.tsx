@@ -40,7 +40,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                           item?.product?.image
                         }
                         alt=""
-                        className="w-16 h-16 object-cover"
+                        className="w-20 h-20 object-cover"
                       />
                     </div>
                     <div>
@@ -48,6 +48,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                         Game Name :{" "}
                         <span className=" font-bold capitalize">
                           {item?.product?.games_name}
+                        </span>
+                      </p>
+                      <p>
+                        Product Name :{" "}
+                        <span className=" font-bold capitalize">
+                          {item?.product?.name}
                         </span>
                       </p>
                       <p>

@@ -9,6 +9,8 @@ import { useState } from "react";
 import { useCreatePaymentIntentMutation } from "@/app/store/api/services/paymentApi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
+import { toast } from "sonner";
+import { clearCart } from "@/app/store/slices/cartSlice";
 
 interface UpiCheckoutProps {
   total: number;
@@ -45,8 +47,9 @@ const UpiCheckout = () => {
     const response = await createPaymentIntent(payload).unwrap();
     if(response.success){
       window.location.replace(response.data.payment_url);
+      dispatch(clearCart());
     } else {
-      alert("Failed to create payment intent. Please try again.");
+      toast.error("Failed to create payment intent. Please try again.");
     }
   };
 
@@ -139,8 +142,8 @@ const UpiCheckout = () => {
             type="submit"
             className="w-full flex items-center justify-center font-bold grad-btn hover:opacity-90 text-black px-8 py-3  text-base cursor-pointer duration-300 hover:brightness-150"
           >
-            {isLoading ? "Processing..." : `Pay $${total} Now`}
-            <svg
+            {isLoadingPayment ? "Processing..." : `Pay $${total} Now`}
+            {isLoadingPayment ? "": <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -152,7 +155,7 @@ const UpiCheckout = () => {
                 d="M4 11V13H16V15H18V13H20V11H18V9H16V11H4ZM14 7H16V9H14V7ZM14 7H12V5H14V7ZM14 17H16V15H14V17ZM14 17H12V19H14V17Z"
                 fill="#0F1016"
               />
-            </svg>
+            </svg>}
           </button>
           <p className="text-xs text-center text-gray-400">
             Your info will be saved to a Shop account. By continuing, you agree
