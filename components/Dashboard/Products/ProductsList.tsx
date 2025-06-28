@@ -156,7 +156,7 @@ const ProductsList = () => {
       />
       
       {/* Pagination */}
-      {!isLoading && totalItems > 0 && (
+      {!isLoading && totalItems > 10 && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

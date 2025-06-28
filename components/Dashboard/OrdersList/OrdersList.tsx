@@ -4,13 +4,16 @@ import DynamicTable, {
 } from "@/components/ui/DynamicTable/DynamicTable";
 import React, { useState } from "react";
 import { useGetOrdersQuery } from "@/app/store/api/services/orderApi";
-import OrderDetailsModal from "./OrderDetailsModal"; 
+import OrderDetailsModal from "./OrderDetailsModal";
+import Pagination from "@/components/ui/Pagination/Pagination";
 
 const OrdersList = () => {
   const { data: orders, isLoading } = useGetOrdersQuery(null);
   const ordersData = orders?.data;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
   console.log("ordersData", ordersData);
 
@@ -50,6 +53,15 @@ const OrdersList = () => {
     }));
   };
 
+  const totalItems = ordersData?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentPageData = ordersData?.slice(startIndex, endIndex) || [];
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const columns: TableColumn[] = [
     { key: "customer_email", label: "Customer Email", type: "text" },
     { key: "customer_name", label: "Roblox Username", type: "text" },
@@ -80,13 +92,26 @@ const OrdersList = () => {
       <h1 className="text-2xl font-bold mb-4">Orders List</h1>
       <DynamicTable
         columns={columns}
-        data={formatData(ordersData)}
+        data={formatData(currentPageData)}
         actions={tableActions}
         loading={isLoading}
       />
 
+      {!isLoading && totalItems > 10 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          itemsPerPage={itemsPerPage}
+          totalItems={totalItems}
+        />
+      )}
+
       {isModalOpen && selectedOrder && (
-        <OrderDetailsModal order={selectedOrder} onClose={() => setIsModalOpen(false)} />
+        <OrderDetailsModal
+          order={selectedOrder}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
     </div>
   );
