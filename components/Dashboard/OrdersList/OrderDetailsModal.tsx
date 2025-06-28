@@ -29,12 +29,16 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
               Order Items
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2  gap-4 h-72 overflow-y-auto custom-scroll">
-              {orderItems.map((item: any) => (
-                <div key={item.id}>
+              {orderItems?.map((item: any) => (
+                <div key={item?.id} className="pr-2">
                   <div className="bg-[#fada1d] text-black flex gap-2 border border-[#fada1d]">
                     <div className="bg-[#080705] p-2 flex items-center justify-center">
                       <img
-                        src="/mainCardImages/common.png"
+                        crossOrigin="anonymous"
+                        src={
+                          process.env.NEXT_PUBLIC_IMAGE_URL +
+                          item?.product?.image
+                        }
                         alt=""
                         className="w-16 h-16 object-cover"
                       />
@@ -43,25 +47,25 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                       <p>
                         Game Name :{" "}
                         <span className=" font-bold capitalize">
-                          {item.product.games_name}
+                          {item?.product?.games_name}
                         </span>
                       </p>
                       <p>
                         Rarity :{" "}
                         <span className=" font-bold capitalize">
-                          {item.product.type}
+                          {item?.product?.type}
                         </span>
                       </p>
                       <p>
                         Quantity :{" "}
                         <span className=" font-bold text-center">
-                          {item.quantity}
+                          {item?.quantity}
                         </span>
                       </p>
                       <p>
                         Price :{" "}
                         <span className=" font-bold text-center">
-                          ₹{item.product.regularPrice}
+                          ₹{item?.product?.regularPrice}
                         </span>
                       </p>
                     </div>
