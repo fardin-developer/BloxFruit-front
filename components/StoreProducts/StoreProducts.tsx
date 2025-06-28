@@ -447,7 +447,7 @@ export default function StoreProducts() {
                     {isActive && (
                       <>
                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[50%] h-[1px] bg-yellow-500 rounded-full z-10" />
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-yellow-500 rounded-full z-10" />
                       </>
                     )}
                   </a>
