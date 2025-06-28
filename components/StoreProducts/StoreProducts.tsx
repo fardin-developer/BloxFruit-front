@@ -62,6 +62,40 @@ const gameNames = [
   },
 ];
 
+// Game-category mapping for navigation
+const gameCategories = {
+  "blox-fruits": [
+    { name: "Permanent Fruits", href: "#PermanentFruits" },
+    { name: "Gamepass", href: "#Gamepass" },
+    { name: "Others section", href: "#OthersSection" },
+  ],
+  "rivals": [
+    { name: "Best Sellers", href: "#BestSellers" },
+    { name: "Bundles", href: "#Bundles" },
+    { name: "Keys", href: "#Keys" },
+    { name: "Others", href: "#Others" },
+  ],
+  "blue-lock-rivals": [
+    { name: "Gamepass", href: "#Gamepass" },
+    { name: "Styles", href: "#Styles" },
+    { name: "Flows", href: "#Flows" },
+  ],
+  "combat-warrior": [
+    { name: "Gamepass", href: "#Gamepass" },
+    { name: "Aether", href: "#Aether" },
+    { name: "Credits", href: "#Credits" },
+  ],
+  "anime-reborn": [
+    { name: "Gamepass", href: "#Gamepass" },
+    { name: "Shards", href: "#Shards" },
+    { name: "Keys", href: "#Keys" },
+    { name: "Stones", href: "#Stones" },
+    { name: "Potions", href: "#Potions" },
+    { name: "Gold", href: "#Gold" },
+    { name: "Gems", href: "#Gems" },
+  ],
+};
+
 export default function StoreProducts() {
   const [activeSection, setActiveSection] = useState("Permanent Fruits");
   const [isOpen, setIsOpen] = useState(false);
@@ -176,11 +210,32 @@ export default function StoreProducts() {
     );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
-  // Check if Blox Fruits is selected
-  const isBloxFruitsSelected = selectedGames.includes("blox-fruits");
-  const hasOtherGamesSelected = selectedGames.some(
-    (game) => game !== "blox-fruits"
-  );
+  // Get data for each category of selected games
+  const getCategoryData = (gameId: string, category: string) => {
+    const filtered = products?.data?.filter(
+      (item: any) =>
+        item.games_name === gameId && item.category === category
+    );
+    const filteredProducts = filterProducts(filtered || []);
+    return sortProducts(
+      filteredProducts,
+      selected === "new" ? "new" : selected === "old" ? "old" : ""
+    );
+  };
+
+  // Get navigation items for selected games
+  const getNavigationItems = () => {
+    const items: { name: string; href: string }[] = [];
+    selectedGames.forEach(gameId => {
+      const gameCategoriesForGame = gameCategories[gameId as keyof typeof gameCategories];
+      if (gameCategoriesForGame) {
+        items.push(...gameCategoriesForGame);
+      }
+    });
+    return items;
+  };
+
+  const navigationItems = getNavigationItems();
 
   // Handle game selection (single selection only)
   const handleGameChange = (gameId: string) => {
@@ -211,8 +266,8 @@ export default function StoreProducts() {
   };
 
   useEffect(() => {
-    // Only observe sections when Blox Fruits is selected
-    if (isBloxFruitsSelected) {
+    // Observe sections when any game is selected
+    if (selectedGames.length > 0) {
       const sections = document.querySelectorAll("section");
 
       const observer = new IntersectionObserver(
@@ -232,10 +287,10 @@ export default function StoreProducts() {
       sections.forEach((section) => observer.observe(section));
       return () => sections.forEach((section) => observer.unobserve(section));
     } else {
-      // Reset active section when not showing Blox Fruits sections
-      setActiveSection("Permanent Fruits");
+      // Reset active section when no games are selected
+      setActiveSection("");
     }
-  }, [isBloxFruitsSelected]);
+  }, [selectedGames]);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 ">
@@ -338,16 +393,16 @@ export default function StoreProducts() {
 
       {/* Product Grid */}
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
-        {selectedGames.includes("blox-fruits") ? (
+        {selectedGames.length > 0 && navigationItems.length > 0 ? (
           <div className="sticky top-0 md:top-4 z-10 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
-            <div className="flex gap-4 text-white">
-              {items.map((item, index) => {
+            <div className="flex gap-4 text-white overflow-x-auto w-full">
+              {navigationItems.map((item, index) => {
                 const isActive = activeSection === item.name;
                 return (
                   <a
                     key={index}
                     href={item.href}
-                    className="relative px-2 md:px-10 py-2.5 border-x border-transparent text-center group overflow-hidden"
+                    className="relative px-2 md:px-10 py-2.5 border-x border-transparent text-center group overflow-hidden whitespace-nowrap"
                   >
                     {isActive && (
                       <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
@@ -420,140 +475,51 @@ export default function StoreProducts() {
         )}
 
         {/* Sections */}
-        {isBloxFruitsSelected && (
-          <>
-            <section
-              id="PermanentFruits"
-              data-title="Permanent Fruits"
-              className="mb-24 scroll-mt-16"
-            >
-              <h2 className="text-[2.5rem] font-semibold mb-4">
-                <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
-                  Permanent Fruits
-                </span>
-              </h2>
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <div
-                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
-                    cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
-                  }`}
-                >
-                  {permanentData.length > 0 ? (
-                    permanentData?.map((item: any, index: number) => (
-                      <MainCard key={index} data={item} />
-                    ))
-                  ) : (
-                    <div className="flex justify-center items-center h-96 w-full col-span-full">
-                      <h2 className="text-2xl font-semibold text-white text-center">
-                        No data found
-                      </h2>
-                    </div>
-                  )}
-                </div>
-              )}
-            </section>
+        {selectedGames.map((gameId) => {
+          const gameCategoriesForGame = gameCategories[gameId as keyof typeof gameCategories];
+          if (!gameCategoriesForGame) return null;
 
-            <section
-              id="Gamepass"
-              data-title="Gamepass"
-              className="mb-24 scroll-mt-16"
-            >
-              <h2 className="text-[2.5rem] font-semibold mb-4">
-                <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
-                  Gamepass
-                </span>
-              </h2>
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <div
-                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
-                    cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
-                  }`}
-                >
-                  {gamepassData.length > 0 ? (
-                    gamepassData?.map((item: any, index: number) => (
-                      <MainCard key={index} data={item} />
-                    ))
-                  ) : (
-                    <div className="flex justify-center items-center h-96 w-full col-span-full">
-                      <h2 className="text-2xl font-semibold text-white text-center">
-                        No data found
-                      </h2>
-                    </div>
-                  )}
-                </div>
-              )}
-            </section>
-
-            <section
-              id="OthersSection"
-              data-title="Others section"
-              className="scroll-mt-16 h-screen"
-            >
-              <h2 className="text-[2.5rem] font-semibold mb-4">
-                <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
-                  Others section
-                </span>
-              </h2>
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <div
-                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
-                    cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
-                  }`}
-                >
-                  {othersData.length > 0 ? (
-                    othersData?.map((item: any, index: number) => (
-                      <MainCard key={index} data={item} />
-                    ))
-                  ) : (
-                    <div className="flex justify-center items-center h-96 w-full col-span-full">
-                      <h2 className="text-2xl font-semibold text-white text-center">
-                        No data found
-                      </h2>
-                    </div>
-                  )}
-                </div>
-              )}
-            </section>
-          </>
-        )}
-
-        {/* Other Games Section */}
-        {hasOtherGamesSelected && (
-          <section className="mb-24 scroll-mt-16">
-            <h2 className="text-2xl md:text-[2.5rem] font-semibold mb-4">
-              <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text uppercase">
-                {selectedGames.map((game) => game)}
-              </span>
-            </h2>
-            {isLoading ? (
-              <Loading />
-            ) : (
-              <div
-                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
-                  cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
-                }`}
+          return gameCategoriesForGame.map((category) => {
+            const categoryData = getCategoryData(gameId, category.name);
+            const sectionId = category.href.replace('#', '');
+            
+            return (
+              <section
+                key={`${gameId}-${category.name}`}
+                id={sectionId}
+                data-title={category.name}
+                className="mb-24 scroll-mt-16"
               >
-                {otherGamesData.length > 0 ? (
-                  otherGamesData?.map((item: any, index: number) => (
-                    <MainCard key={index} data={item} />
-                  ))
+                <h2 className="text-[2.5rem] font-semibold mb-4">
+                  <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
+                    {category.name}
+                  </span>
+                </h2>
+                {isLoading ? (
+                  <Loading />
                 ) : (
-                  <div className="flex justify-center items-center h-96 w-full col-span-full">
-                    <h2 className="text-2xl font-semibold text-white text-center">
-                      No data found
-                    </h2>
+                  <div
+                    className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                      cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
+                    }`}
+                  >
+                    {categoryData.length > 0 ? (
+                      categoryData?.map((item: any, index: number) => (
+                        <MainCard key={index} data={item} />
+                      ))
+                    ) : (
+                      <div className="flex justify-center items-center h-96 w-full col-span-full">
+                        <h2 className="text-2xl font-semibold text-white text-center">
+                          No data found
+                        </h2>
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
-            )}
-          </section>
-        )}
+              </section>
+            );
+          });
+        })}
       </main>
       <aside
         className={`lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 ${
