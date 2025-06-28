@@ -9,35 +9,35 @@ const faqData = [
   {
     question: "Why Choose Blox Fruit Hub?",
     answer:
-      "BeatProtect allows music producers to securely register their beats and obtain legal proof of ownership. Once registered, each beat receives a unique digital fingerprint and timestamp, ensuring that you can prove ownership in case of disputes. When you register a beat, BeatProtect generates a legal certificate, which serves as official proof of ownership. This certificate can be used as legal support in case of any copyright dispute on platforms like YouTube, Spotify, or any other digital service where your beat is being used without permission.",
+      "We sell premium Roblox game items—including Blox Fruits, Anime Reborn, Blue Lock Rivals, and more—delivered safely through in-game gifting. Fast, secure, and affordable—no codes, no passwords, just trusted service.",
   },
   {
     question:
       "How do I complete my purchase?",
     answer:
-      "Yes! Even if your beat is already uploaded to YouTube, SoundCloud, or any other platform, you can still register it with BeatProtect. This will give you legal proof of ownership, ensuring that you can take action if someone uses your beat without permission.",
+      "Just select the items you want, add your Roblox username at checkout, and place your order. We’ll deliver everything quickly and safely through in-game gifting—no extra steps needed!",
   },
   {
     question: "How Fast Is The Delivery?",
     answer:
-      "With your subscription, you receive 20 credits each month (1 credit = 1 beat registration). If you need more, you can purchase additional credits at any time. Your subscription renews automatically every month, and you can manage it from your account dashboard.",
+      "Lightning fast! Most orders are delivered within minutes of purchase—no long waits, just quick and secure in-game delivery so you can jump right into the action.",
   },
   {
     question:
       "Is gifting items to a friend possible?",
     answer:
-      "You can purchase packs of 10 credits for $5. This way, you can buy as many credits as you need to register and protect your beats. This is ideal for producers with large beat catalogs.",
+      "Absolutely! Just enter your friend's Roblox username at checkout and our team will handle the delivery smoothly and quickly.",
   },
   {
     question:
       "What should I do if I haven’t received my items?",
     answer:
-      "Yes! If you don't use your credits within a month, they automatically roll over to the next month. You'll never lose the credits you've paid for.",
+      "No worries! If your items haven’t arrived, reach out to our support team anytime—we’re here 24/7 to ensure you get what you paid for, fast.",
   },
   {
     question: "What is the process for requesting a refund?",
     answer:
-      "Yes, you can cancel your subscription whenever you want. Once you cancel, you’ll still have access to your registered beats, but you won’t be able to register new ones unless you resubscribe.",
+      "Simply contact our support team with your order details. We’ll review your request promptly and do our best to resolve it—your satisfaction always comes first.",
   },
 ];
 

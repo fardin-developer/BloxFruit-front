@@ -30,7 +30,7 @@ const UpiCheckout = () => {
   const onSubmit = async (data: any) => {
 
     const payload = {
-    name: data.name,
+    name: data.roblox_username,
     email: data.email,
     phone: data.phone,
     address: "none", // optional address
@@ -44,7 +44,7 @@ const UpiCheckout = () => {
   };
     const response = await createPaymentIntent(payload).unwrap();
     if(response.success){
-      window.location.href = response.data.payment_url;
+      window.location.replace(response.data.payment_url);
     } else {
       alert("Failed to create payment intent. Please try again.");
     }
