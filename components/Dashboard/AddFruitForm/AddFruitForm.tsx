@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import {
   useAddProductMutation,
   useGetProductByIdQuery,
+  useGetProductsQuery,
   useUpdateProductMutation,
 } from "@/app/store/api/services/productApi";
 
@@ -59,6 +60,7 @@ const gameCategories = {
 
 export default function FruitForm({ id }: { id: any }) {
   console.log(id, "id");
+  const { data: products, refetch } = useGetProductsQuery(undefined);
 
   const [addProduct, { isLoading }] = useAddProductMutation();
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
@@ -96,9 +98,9 @@ export default function FruitForm({ id }: { id: any }) {
     if (product) {
       setValue("name", product.data.name);
       setValue("type", product.data.type);
-      setValue("category", product.data.category);
       setValue("regularPrice", product.data.regularPrice);
       setValue("games_name", product.data.games_name);
+      setValue("category", product.data.category);
 
       // Handle discount price
       if (product.data.discountPrice) {
@@ -116,10 +118,10 @@ export default function FruitForm({ id }: { id: any }) {
 
   // Reset category when game changes
   useEffect(() => {
-    if (selectedGame) {
+    if (selectedGame && !id) {
       setValue("category", "");
     }
-  }, [selectedGame, setValue]);
+  }, [selectedGame, setValue, id]);
 
   const onSubmit = async (data: FormValues) => {
     const formData = new FormData();
@@ -156,6 +158,7 @@ export default function FruitForm({ id }: { id: any }) {
           setPreview(null);
           setSelectedFile(null);
           setExistingImageUrl(null);
+          refetch();
         }
       } else {
         toast.error("Unauthorized");
@@ -257,17 +260,19 @@ export default function FruitForm({ id }: { id: any }) {
               <select
                 {...register("category")}
                 required
-                disabled={!selectedGame}
+                disabled={!selectedGame && !id}
                 className="w-full border border-[#fad91d67] focus:outline-none text-yellow-600 rounded px-4 py-[15px] bg-[#09090b] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <option value="">
-                  {selectedGame ? "Select Category" : "Select Game First"}
+                  {selectedGame ? "Select Category" : id ? "Select Category" : "Select Game First"}
                 </option>
-                {selectedGame && getCategoriesForGame(selectedGame).map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
+                {(selectedGame || (id && product?.data.games_name)) && 
+                  getCategoriesForGame(selectedGame || product?.data.games_name || "").map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))
+                }
               </select>
             </div>
             <div className="sm:col-span-2">
