@@ -12,8 +12,8 @@ export default function PaymentFailedPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-red-50 flex items-center justify-center px-4 fade-in">
-      <section className="bg-white shadow-md rounded-lg p-8 max-w-md w-full text-center">
+    <main className="min-h-[80vh] flex items-center justify-center px-4 fade-in">
+      <section className="border border-red-500 shadow-md rounded-lg p-8 max-w-md w-full text-center">
         <div className="mb-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
