@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { HiCurrencyDollar } from "react-icons/hi";
+import { PiCurrencyInrFill } from "react-icons/pi";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Store", href: "/gamestore" },
@@ -72,8 +73,11 @@ const Navbar = () => {
             <FaDiscord size={48} />
           </a>
 
-          <div onClick={()=>router.push("/cart")} className="flex justify-center items-center rounded-full bg-gradient-to-l to-[#FADA1B] from-[#FFF] w-12 h-12 cursor-pointer">
-            <div  className="relative">
+          <div
+            onClick={() => router.push("/cart")}
+            className="flex justify-center items-center rounded-full bg-gradient-to-l to-[#FADA1B] from-[#FFF] w-12 h-12 cursor-pointer"
+          >
+            <div className="relative">
               <TbShoppingBag size={24} className="text-black/70 text-xl" />
               <span className="absolute -top-1 -right-1 bg-[#772DFF] text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
                 {cartItems.length}
@@ -83,10 +87,9 @@ const Navbar = () => {
 
           <div className="hidden xl:flex mr-8">
             <div className="relative bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] flex items-center px-4 py-2 pr-12">
-              <HiCurrencyDollar size={24} className="text-yellow-500 mr-2" />
-              <span className="text-white text-sm font-semibold mr-1">
-                US Dollar
-              </span>
+              {/* <HiCurrencyDollar size={24} className="text-yellow-500 mr-2" /> */}
+              <PiCurrencyInrFill size={24} className="text-yellow-500 mr-2" />
+              <span className="text-white text-sm font-semibold mr-1">INR</span>
               <IoMdArrowDropdown size={24} className="text-white" />
               <Image
                 src={us}
@@ -98,7 +101,10 @@ const Navbar = () => {
             </div>
           </div>
 
-          <button onClick={()=>router.push("/gamestore")} className="hidden xl:flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150">
+          <button
+            onClick={() => router.push("/gamestore")}
+            className="hidden xl:flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150"
+          >
             Get Started!
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -157,8 +163,9 @@ const Navbar = () => {
           ))}
 
           <div className="flex items-center justify-between bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] px-4 py-2 rounded-md mt-6">
-          <HiCurrencyDollar size={24} className="text-yellow-500 mr-2" />
-            <span className="text-white text-sm font-semibold">US Dollar</span>
+            {/* <HiCurrencyDollar size={24} className="text-yellow-500 mr-2" /> */}
+            <PiCurrencyInrFill size={24} className="text-yellow-500 mr-2" />
+            <span className="text-white text-sm font-semibold mr-1">INR</span>
             <Image
               src={us}
               alt="US Flag"
