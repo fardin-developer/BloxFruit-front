@@ -15,7 +15,7 @@ import { toast } from "sonner";
 
 const MainCard = ({ data }: { data: any }) => {
   const {id, category, imageUrl, discountPrice, regularPrice, name, type } = data;
-  console.log(data);
+  // console.log(data);
 
   const buyNow = () => {
     toast.info("Please add to cart first")
@@ -133,13 +133,13 @@ const MainCard = ({ data }: { data: any }) => {
         <div className="flex justify-between">
           <div className="space-y-2">
             <p className="text-xs text-[#9D99AD]">Regular Price</p>
-            <h2 className={`text-lg text-white ${discountPrice ? "line-through" : ""}`}>${regularPrice}</h2>
+            <h2 className={`text-lg text-white ${discountPrice ? "line-through" : ""}`}>₹{regularPrice}</h2>
           </div>
           {
             discountPrice && (
               <div className="space-y-2">
                 <p className="text-xs text-[#9D99AD]">Discount Price</p>
-                <h2 className="text-lg text-white">${discountPrice}</h2>
+                <h2 className="text-lg text-white">₹{discountPrice}</h2>
               </div>
             )
           }
