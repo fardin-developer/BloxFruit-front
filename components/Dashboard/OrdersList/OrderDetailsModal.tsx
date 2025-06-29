@@ -33,7 +33,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const handleUpdateOrderStatus = async () => {
     try {
       await updateOrderStatus({ order_id: order?.order_id, status: "Completed" }).unwrap();
-      toast.success("Order status updated successfully");
+      toast.success("Order completed successfully");
       refetch();
     } catch (error) {
       toast.error("Failed to update order status");
