@@ -114,19 +114,19 @@ const Footer = () => {
             <h3 className="font-semibold mb-3">Products</h3>
             <ul className="space-y-8 text-gray-300">
               <li>
-                <a href="#">Blox Fruits</a>
+                <Link href="/gamestore">Blox Fruits</Link>
               </li>
               <li>
-                <a href="#">Blue Lock Rivals</a>
+                <Link href="/gamestore">Blue Lock Rivals</Link>
               </li>
               <li>
-                <a href="#">Rivals</a>
+                <Link href="/gamestore">Rivals</Link>
               </li>
               <li>
-                <a href="#">Combat Warrior</a>
+                <Link href="/gamestore">Combat Warrior</Link>
               </li>
               <li>
-                <a href="#">Anime Reborn</a>
+                <Link href="/gamestore">Anime Reborn</Link>
               </li>
             </ul>
           </div>

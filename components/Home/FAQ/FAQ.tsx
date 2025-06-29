@@ -49,7 +49,7 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="max-w-[1320px] mx-auto px-4 2 my-20">
+    <section id="faq" className="max-w-[1320px] mx-auto px-4 2 my-20 ">
       <div className="">
         <div className="space-y-6">
           {faqData.map((item, index) => (

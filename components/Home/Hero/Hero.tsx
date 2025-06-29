@@ -2,7 +2,6 @@
 import React from "react";
 import bannerbackground from "@/public/images/hero.svg";
 import gamecharecter from "@/public/images/gamecharecter.png";
-import Image from "next/image";
 const Hero = () => {
   return (
     <div className="max-w-[1616px] mx-auto px-4  xl:py-4 text-white mt-4 xl:mt-0">
@@ -47,7 +46,7 @@ const Hero = () => {
                 Lock Rivals, Rivals, Combat Warrior, and Anime Reborn? Blox
                 Fruit Hub delivers your favorite items instantly.
               </p>
-              <button className="flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer mt-8 duration-300 hover:brightness-150">
+              <a href='#permanent' className="flex w-fit items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer mt-8 duration-300 hover:brightness-150">
                 Get Started!
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +61,7 @@ const Hero = () => {
                     fill="#0F1016"
                   />
                 </svg>
-              </button>
+              </a>
             </div>
           </div>
         </div>
