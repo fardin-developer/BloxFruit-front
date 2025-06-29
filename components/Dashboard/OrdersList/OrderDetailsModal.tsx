@@ -1,17 +1,23 @@
+import { useUpdateOrderStatusMutation } from "@/app/store/api/services/orderApi";
 import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
+import { toast } from "sonner";
 
 interface OrderDetailsModalProps {
   order: any;
   onClose: () => void;
+  refetch: () => void;
 }
 
 const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   order,
   onClose,
+  refetch,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const orderItems = order?.items;
+  // console.log(order,"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+  const [updateOrderStatus, { isLoading }] = useUpdateOrderStatusMutation();
 
   useEffect(() => {
     setIsVisible(true);
@@ -22,6 +28,16 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
     setTimeout(() => {
       onClose();
     }, 300);
+  };
+
+  const handleUpdateOrderStatus = async () => {
+    try {
+      await updateOrderStatus({ order_id: order?.order_id, status: "Completed" }).unwrap();
+      toast.success("Order status updated successfully");
+      refetch();
+    } catch (error) {
+      toast.error("Failed to update order status");
+    }
   };
 
   return (
@@ -112,6 +128,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                   ? "bg-red-500 text-white"
                   : "bg-green-500"
               }`}
+              onClick={handleUpdateOrderStatus}
             >
               {order?.order_delivery === "Pending"
                 ? "Complete Order"

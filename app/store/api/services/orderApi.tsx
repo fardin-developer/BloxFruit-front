@@ -13,12 +13,12 @@ import { baseApi } from "../baseApi";
         updateOrderStatus: builder.mutation({
             query: ({ order_id, status }) => ({
                 url: `/upi-payment/order-delivery/${order_id}`,
-                method: "PUT",
+                method: "PATCH",
                 body: { status },
             }),
         }),
     }),
  });
 
- export const { useGetOrdersQuery } = orderApi;
+ export const { useGetOrdersQuery, useUpdateOrderStatusMutation } = orderApi;
  

@@ -9,7 +9,7 @@ import Pagination from "@/components/ui/Pagination/Pagination";
 import { FaSearch } from "react-icons/fa";
 
 const OrdersList = () => {
-  const { data: orders, isLoading } = useGetOrdersQuery(null);
+  const { data: orders, isLoading ,refetch} = useGetOrdersQuery(null);
   const ordersData = orders?.data;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
@@ -169,6 +169,7 @@ const OrdersList = () => {
         <OrderDetailsModal
           order={selectedOrder}
           onClose={() => setIsModalOpen(false)}
+          refetch={refetch}
         />
       )}
     </div>
