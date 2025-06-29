@@ -173,81 +173,6 @@ export default function StoreProducts() {
     });
   };
 
-  // Apply filters and sorting to each category (only for Blox Fruits)
-  const permanentData = useMemo(() => {
-    const categoryMappings = getCategoryMapping("Permanent Fruit");
-    const filtered = products?.data?.filter(
-      (item: any) =>
-        item.games_name === "blox-fruits" &&
-        categoryMappings.some(
-          (mapping) => item.category?.toLowerCase() === mapping.toLowerCase()
-        )
-    );
-    const filteredProducts = filterProducts(filtered || []);
-    return sortProducts(
-      filteredProducts,
-      selected === "High to Low"
-        ? "high"
-        : selected === "Low to High"
-        ? "low"
-        : "high"
-    );
-  }, [products, selectedRarities, priceRange, selectedGames, selected]);
-
-  const gamepassData = useMemo(() => {
-    const categoryMappings = getCategoryMapping("Gamepass");
-    const filtered = products?.data?.filter(
-      (item: any) =>
-        item.games_name === "blox-fruits" &&
-        categoryMappings.some(
-          (mapping) => item.category?.toLowerCase() === mapping.toLowerCase()
-        )
-    );
-    const filteredProducts = filterProducts(filtered || []);
-    return sortProducts(
-      filteredProducts,
-      selected === "new" ? "new" : selected === "old" ? "old" : ""
-    );
-  }, [products, selectedRarities, priceRange, selectedGames, selected]);
-
-  const othersData = useMemo(() => {
-    const categoryMappings = getCategoryMapping("Others");
-    const filtered = products?.data?.filter(
-      (item: any) =>
-        item.games_name === "blox-fruits" &&
-        categoryMappings.some(
-          (mapping) => item.category?.toLowerCase() === mapping.toLowerCase()
-        )
-    );
-    const filteredProducts = filterProducts(filtered || []);
-    return sortProducts(
-      filteredProducts,
-      selected === "High to Low"
-        ? "high"
-        : selected === "Low to High"
-        ? "low"
-        : "high"
-    );
-  }, [products, selectedRarities, priceRange, selectedGames, selected]);
-
-  // Get data for other games (non-Blox Fruits)
-  const otherGamesData = useMemo(() => {
-    const filtered = products?.data?.filter(
-      (item: any) =>
-        item.games_name !== "blox-fruits" &&
-        selectedGames.includes(item.games_name)
-    );
-    const filteredProducts = filterProducts(filtered || []);
-    return sortProducts(
-      filteredProducts,
-      selected === "High to Low"
-        ? "high"
-        : selected === "Low to High"
-        ? "low"
-        : "high"
-    );
-  }, [products, selectedRarities, priceRange, selectedGames, selected]);
-
   // Get data for each category of selected games
   const getCategoryData = (gameId: string, category: string) => {
     const categoryMappings = getCategoryMapping(category);
@@ -445,7 +370,7 @@ export default function StoreProducts() {
       {/* Product Grid */}
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
         {selectedGames.length > 0 && navigationItems.length > 0 ? (
-          <div className="sticky top-0 md:top-4 z-10 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
+          <div className="sticky top-0 md:top-4 z-50 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
             <div className="overflow-x-auto w-full">
               <div className="flex gap-4 text-white w-[500px] sm:w-full ">
                 {navigationItems.map((item, index) => {
@@ -544,7 +469,7 @@ export default function StoreProducts() {
                 data-title={category.name}
                 className="mb-24 scroll-mt-16"
               >
-                <h2 className="text-[2.5rem] font-semibold mb-4">
+                <h2 className="text-[1.5rem] lg:text-[2.5rem] font-semibold mb-4">
                   <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
                     {category.name}
                   </span>
