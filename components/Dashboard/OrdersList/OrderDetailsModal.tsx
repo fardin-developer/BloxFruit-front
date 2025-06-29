@@ -16,7 +16,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const orderItems = order?.items;
-  // console.log(order,"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+  console.log(order,"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
   const [updateOrderStatus, { isLoading }] = useUpdateOrderStatusMutation();
 
   useEffect(() => {
@@ -124,15 +124,15 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
             </p>
             <button
               className={`bg-[#fada1d] mt-4 text-black font-bold px-4 py-2 hover:brightness-150 duration-300 cursor-pointer ${
-                order?.order_delivery === "Pending"
-                  ? "bg-red-500 text-white"
-                  : "bg-green-500"
+                order?.order_delivery === "Completed"
+                  ? " bg-green-500"
+                  : "bg-red-500 text-white"
               }`}
               onClick={handleUpdateOrderStatus}
             >
-              {order?.order_delivery === "Pending"
-                ? "Complete Order"
-                : "Order Completed"}
+              {order?.order_delivery === "Completed"
+                ? "Order Completed"
+                : "Complete Order"}
             </button>
           </div>
         </div>
