@@ -6,6 +6,7 @@ import Image from "next/image";
 import { PlusIcon } from "lucide-react";
 import { IoMdPhotos } from "react-icons/io";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import {
   useAddProductMutation,
   useGetProductByIdQuery,
@@ -60,6 +61,7 @@ const gameCategories = {
 
 export default function FruitForm({ id }: { id: any }) {
   console.log(id, "id");
+  const router = useRouter();
   const { data: products, refetch } = useGetProductsQuery(undefined);
 
   const [addProduct, { isLoading }] = useAddProductMutation();
@@ -153,7 +155,10 @@ export default function FruitForm({ id }: { id: any }) {
         toast.success(
           id ? "Product updated successfully!" : "Product added successfully!"
         );
-        if (!id) {
+        if (id) {
+          router.push("/dashboard/products");
+          refetch();
+        } else {
           reset();
           setPreview(null);
           setSelectedFile(null);
