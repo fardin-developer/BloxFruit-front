@@ -34,6 +34,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
     try {
       await updateOrderStatus({ order_id: order?.order_id, status: "Completed" }).unwrap();
       toast.success("Order completed successfully");
+      onClose();
       refetch();
     } catch (error) {
       toast.error("Failed to update order status");
@@ -124,15 +125,15 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
             </p>
             <button
               className={`bg-[#fada1d] mt-4 text-black font-bold px-4 py-2 hover:brightness-150 duration-300 cursor-pointer ${
-                order?.order_delivery === "Completed"
-                  ? " bg-green-500"
-                  : "bg-red-500 text-white"
+                order?.order_delivery === "Pending"
+                  ? "bg-red-500 text-white"
+                  : "bg-green-500"
               }`}
               onClick={handleUpdateOrderStatus}
             >
-              {order?.order_delivery === "Completed"
-                ? "Order Completed"
-                : "Complete Order"}
+              {order?.order_delivery === "Pending"
+                ? isLoading ? "Completing..." : "Complete Order"
+                : "Order Completed"}
             </button>
           </div>
         </div>

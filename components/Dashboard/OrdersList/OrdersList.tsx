@@ -43,22 +43,7 @@ const OrdersList = () => {
     return status;
   };
 
-  const formatOrderStatus = (status: string) => {
-    if (status === "Pending") {
-      return (
-        <p className="text-center font-bold text-yellow-500 border border-yellow-500  px-4 py-2">
-          Pending
-        </p>
-      );
-    } else if (status === "Completed") {
-      return (
-        <p className="text-center font-bold flex items-center justify-center gap-1 text-green-500 border border-green-500 px-4 py-2">
-          Completed <IoCheckmarkCircle size={20} className="text-green-500" />
-        </p>
-      );
-    }
-    return status;
-  }
+  
 
   const formatAmount = (amount: number) => {
     return `₹${amount}`;
@@ -70,7 +55,6 @@ const OrdersList = () => {
       ...item,
       status: formatStatus(item.status),
       amount: formatAmount(item.amount),
-      order_delivery: formatOrderStatus(item.order_delivery),
     }));
   }, [ordersData]);
 
