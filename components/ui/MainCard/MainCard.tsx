@@ -17,6 +17,10 @@ const MainCard = ({ data }: { data: any }) => {
   const {id, category, imageUrl, discountPrice, regularPrice, name, type } = data;
   console.log(data);
 
+  const buyNow = () => {
+    toast.info("Please add to cart first")
+  }
+
   // Styles based on type
   const typeStyles: any = {
     rare: {
@@ -145,6 +149,7 @@ const MainCard = ({ data }: { data: any }) => {
         <div className="mt-3 flex items-center gap-2">
           <button
             className={`${currentStyle.buttonClass}  py-3 w-full rounded-sm font-bold cursor-pointer active:scale-95 duration-200 hover:brightness-150`}
+            onClick={buyNow}
           >
             Buy now
           </button>

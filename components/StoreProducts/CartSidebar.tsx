@@ -47,31 +47,35 @@ export default function CartSidebar() {
         )}
       </div>
       {/* Checkout */}
-      <div>
-        <div className="flex justify-between items-center my-5">
-          <p className="text-[#FADA1B]">Total</p>
-          <p className="text-white">${totalPrice.toFixed(2)}</p>
-        </div>
-        <button
-          onClick={handleCheckout}
-          className="w-full flex justify-center items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150"
-        >
-          Checkout
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="ml-2"
+      {cartItems.length > 0 ? (
+        <div>
+          <div className="flex justify-between items-center my-5">
+            <p className="text-[#FADA1B]">Total</p>
+            <p className="text-white">${totalPrice.toFixed(2)}</p>
+          </div>
+          <button
+            onClick={handleCheckout}
+            className="w-full flex justify-center items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150"
           >
-            <path
-              d="M4 11V13H16V15H18V13H20V11H18V9H16V11H4ZM14 7H16V9H14V7ZM14 7H12V5H14V7ZM14 17H16V15H14V17ZM14 17H12V19H14V17Z"
-              fill="#0F1016"
-            />
-          </svg>
-        </button>
-      </div>
+            Checkout
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="ml-2"
+            >
+              <path
+                d="M4 11V13H16V15H18V13H20V11H18V9H16V11H4ZM14 7H16V9H14V7ZM14 7H12V5H14V7ZM14 17H16V15H14V17ZM14 17H12V19H14V17Z"
+                fill="#0F1016"
+              />
+            </svg>
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

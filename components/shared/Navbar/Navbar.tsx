@@ -13,7 +13,7 @@ import { HiCurrencyDollar } from "react-icons/hi";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Store", href: "/gamestore" },
-  { name: "Checkout", href: "/checkout" },
+  // { name: "Checkout", href: "/checkout" },
 ];
 
 const Navbar = () => {
