@@ -62,7 +62,7 @@ const gameCategories = {
     { name: "Gamepass", href: "#Gamepass" },
     { name: "Others", href: "#Others" },
   ],
-  "rivals": [
+  rivals: [
     { name: "Best Sellers", href: "#BestSellers" },
     { name: "Bundles", href: "#Bundles" },
     { name: "Keys", href: "#Keys" },
@@ -93,22 +93,22 @@ const gameCategories = {
 const getCategoryMapping = (categoryName: string) => {
   const categoryMap: { [key: string]: string[] } = {
     "Permanent Fruit": ["Permanent Fruit", "permanent", "permanent fruit"],
-    "Gamepass": ["Gamepass", "gamepass", "Game Pass"],
-    "Others": ["Others", "others", "Other"],
+    Gamepass: ["Gamepass", "gamepass", "Game Pass"],
+    Others: ["Others", "others", "Other"],
     "Best Sellers": ["Best Sellers", "best sellers", "bestsellers"],
-    "Bundles": ["Bundles", "bundles"],
-    "Keys": ["Keys", "keys"],
-    "Styles": ["Styles", "styles"],
-    "Flows": ["Flows", "flows"],
-    "Aether": ["Aether", "aether"],
-    "Credits": ["Credits", "credits"],
-    "Shards": ["Shards", "shards"],
-    "Stones": ["Stones", "stones"],
-    "Potions": ["Potions", "potions"],
-    "Gold": ["Gold", "gold"],
-    "Gems": ["Gems", "gems"],
+    Bundles: ["Bundles", "bundles"],
+    Keys: ["Keys", "keys"],
+    Styles: ["Styles", "styles"],
+    Flows: ["Flows", "flows"],
+    Aether: ["Aether", "aether"],
+    Credits: ["Credits", "credits"],
+    Shards: ["Shards", "shards"],
+    Stones: ["Stones", "stones"],
+    Potions: ["Potions", "potions"],
+    Gold: ["Gold", "gold"],
+    Gems: ["Gems", "gems"],
   };
-  
+
   return categoryMap[categoryName] || [categoryName];
 };
 
@@ -179,14 +179,18 @@ export default function StoreProducts() {
     const filtered = products?.data?.filter(
       (item: any) =>
         item.games_name === "blox-fruits" &&
-        categoryMappings.some(mapping => 
-          item.category?.toLowerCase() === mapping.toLowerCase()
+        categoryMappings.some(
+          (mapping) => item.category?.toLowerCase() === mapping.toLowerCase()
         )
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
       filteredProducts,
-      selected === "High to Low" ? "high" : selected === "Low to High" ? "low" : "high"
+      selected === "High to Low"
+        ? "high"
+        : selected === "Low to High"
+        ? "low"
+        : "high"
     );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
@@ -195,8 +199,8 @@ export default function StoreProducts() {
     const filtered = products?.data?.filter(
       (item: any) =>
         item.games_name === "blox-fruits" &&
-        categoryMappings.some(mapping => 
-          item.category?.toLowerCase() === mapping.toLowerCase()
+        categoryMappings.some(
+          (mapping) => item.category?.toLowerCase() === mapping.toLowerCase()
         )
     );
     const filteredProducts = filterProducts(filtered || []);
@@ -211,14 +215,18 @@ export default function StoreProducts() {
     const filtered = products?.data?.filter(
       (item: any) =>
         item.games_name === "blox-fruits" &&
-        categoryMappings.some(mapping => 
-          item.category?.toLowerCase() === mapping.toLowerCase()
+        categoryMappings.some(
+          (mapping) => item.category?.toLowerCase() === mapping.toLowerCase()
         )
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
       filteredProducts,
-      selected === "High to Low" ? "high" : selected === "Low to High" ? "low" : "high"
+      selected === "High to Low"
+        ? "high"
+        : selected === "Low to High"
+        ? "low"
+        : "high"
     );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
@@ -232,7 +240,11 @@ export default function StoreProducts() {
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
       filteredProducts,
-      selected === "High to Low" ? "high" : selected === "Low to High" ? "low" : "high"
+      selected === "High to Low"
+        ? "high"
+        : selected === "Low to High"
+        ? "low"
+        : "high"
     );
   }, [products, selectedRarities, priceRange, selectedGames, selected]);
 
@@ -241,23 +253,28 @@ export default function StoreProducts() {
     const categoryMappings = getCategoryMapping(category);
     const filtered = products?.data?.filter(
       (item: any) =>
-        item.games_name === gameId && 
-        categoryMappings.some(mapping => 
-          item.category?.toLowerCase() === mapping.toLowerCase()
+        item.games_name === gameId &&
+        categoryMappings.some(
+          (mapping) => item.category?.toLowerCase() === mapping.toLowerCase()
         )
     );
     const filteredProducts = filterProducts(filtered || []);
     return sortProducts(
       filteredProducts,
-      selected === "High to Low" ? "high" : selected === "Low to High" ? "low" : "high"
+      selected === "High to Low"
+        ? "high"
+        : selected === "Low to High"
+        ? "low"
+        : "high"
     );
   };
 
   // Get navigation items for selected games
   const getNavigationItems = () => {
     const items: { name: string; href: string }[] = [];
-    selectedGames.forEach(gameId => {
-      const gameCategoriesForGame = gameCategories[gameId as keyof typeof gameCategories];
+    selectedGames.forEach((gameId) => {
+      const gameCategoriesForGame =
+        gameCategories[gameId as keyof typeof gameCategories];
       if (gameCategoriesForGame) {
         items.push(...gameCategoriesForGame);
       }
@@ -271,7 +288,7 @@ export default function StoreProducts() {
   const handleGameChange = (gameId: string) => {
     setSelectedGames([gameId]); // Only select one game at a time
     // Scroll to top when game changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Handle rarity selection
@@ -322,7 +339,7 @@ export default function StoreProducts() {
 
   useEffect(() => {
     if (selectedGames.length > 0) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [selectedGames]);
 
@@ -429,36 +446,38 @@ export default function StoreProducts() {
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
         {selectedGames.length > 0 && navigationItems.length > 0 ? (
           <div className="sticky top-0 md:top-4 z-10 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
-            <div className="flex gap-4 text-white overflow-x-auto w-full">
-              {navigationItems.map((item, index) => {
-                const isActive = activeSection === item.name;
-                return (
-                  <a
-                    key={index}
-                    href={item.href}
-                    className="relative px-2 md:px-10 py-2.5 border-x border-transparent text-center group overflow-hidden whitespace-nowrap"
-                  >
-                    {isActive && (
-                      <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
-                    )}
-                    <span
-                      className={`relative z-10 block text-xs ${
-                        isActive ? "text-[#FBDE6E]" : "text-white/60"
-                      }`}
+            <div className="overflow-x-auto w-full">
+              <div className="flex gap-4 text-white w-[500px] sm:w-full ">
+                {navigationItems.map((item, index) => {
+                  const isActive = activeSection === item.name;
+                  return (
+                    <a
+                      key={index}
+                      href={item.href}
+                      className="relative px-2 md:px-10 py-2.5 border-x border-transparent text-center group overflow-hidden whitespace-nowrap"
                     >
-                      {item.name}
-                    </span>
-                    {isActive && (
-                      <>
-                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-yellow-500 rounded-full z-10" />
-                      </>
-                    )}
-                  </a>
-                );
-              })}
+                      {isActive && (
+                        <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
+                      )}
+                      <span
+                        className={`relative z-10 block text-xs ${
+                          isActive ? "text-[#FBDE6E]" : "text-white/60"
+                        }`}
+                      >
+                        {item.name}
+                      </span>
+                      {isActive && (
+                        <>
+                          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
+                          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-[1px] bg-yellow-500 rounded-full z-10" />
+                        </>
+                      )}
+                    </a>
+                  );
+                })}
+              </div>
             </div>
-            <div className="flex items-center gap-2.5 pr-2">
+            <div className="hidden md:flex items-center gap-2.5 pr-2">
               <div className="relative z-10 w-36 text-white bg-gradient-to-l from-[#4a45291f] to-[#fad81b41] p-[1px] rounded-sm">
                 <button
                   className="text-xs px-2 sm:text-sm  w-full flex justify-between items-center rounded-sm bg-[#0a0a09] selects-border cursor-pointer  duration-300"
@@ -510,13 +529,14 @@ export default function StoreProducts() {
 
         {/* Sections */}
         {selectedGames.map((gameId) => {
-          const gameCategoriesForGame = gameCategories[gameId as keyof typeof gameCategories];
+          const gameCategoriesForGame =
+            gameCategories[gameId as keyof typeof gameCategories];
           if (!gameCategoriesForGame) return null;
 
           return gameCategoriesForGame.map((category) => {
             const categoryData = getCategoryData(gameId, category.name);
-            const sectionId = category.href.replace('#', '');
-            
+            const sectionId = category.href.replace("#", "");
+
             return (
               <section
                 key={`${gameId}-${category.name}`}
