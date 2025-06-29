@@ -5,7 +5,7 @@ import MainCard from '@/components/ui/MainCard/MainCard'
 
 export default function OurBestSell() {
     const { data: products, isLoading } = useGetProductsQuery();
-    const data = products?.data?.filter(item => item.category === "permanent");
+    const data = products?.data?.filter(item => item.category === "Permanent Fruit");
 
 
     return (
@@ -47,7 +47,7 @@ export default function OurBestSell() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                         {
                             data?.length > 0 ? (
-                                data?.map((item, index) => (
+                                data?.slice(0, 20).map((item, index) => (
                                     <MainCard key={index} data={item} />
                                 ))
                             ) : (

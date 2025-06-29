@@ -43,7 +43,7 @@ const gameNames = [
     name: "Combat Warrior",
     description:
       "Combat Warriors is a fighting experience. Players compete and fight.",
-    image: image3,
+    image: image5,
     gameId: "combat-warrior",
   },
   {
