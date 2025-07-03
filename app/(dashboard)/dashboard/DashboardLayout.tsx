@@ -4,7 +4,7 @@ import { RxDashboard } from "react-icons/rx";
 import Link from "next/link";
 import Image from "next/image";
 import { RiProductHuntLine, RiSettingsLine } from "react-icons/ri";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { TbSocial } from "react-icons/tb";
 import { PiShoppingBagLight } from "react-icons/pi";
@@ -24,10 +24,13 @@ const menuItems = [
 
 
 
+
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const dispatch = useDispatch();
+  const router = useRouter();
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -44,6 +47,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="font-semibold text-yellow-400 text-2xl">{currentPage}</div>
       </div>
     );
+  };
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    router.push("/login");
   };
 
   return (
@@ -97,7 +105,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Bottom menu */}
         <div className="absolute bottom-0 w-full px-4 mb-6">
-          <button onClick={() => dispatch(logOut())} className="flex items-center text-base font-medium px-4 py-3 rounded-md text-white hover:bg-[#fada1b] duration-300 gap-1 w-full cursor-pointer">Logout</button>
+          <button onClick={handleLogout} className="flex items-center text-base font-medium px-4 py-3 rounded-md text-white hover:bg-[#fada1b] duration-300 gap-1 w-full cursor-pointer">Logout</button>
         </div>
       </div>
 
