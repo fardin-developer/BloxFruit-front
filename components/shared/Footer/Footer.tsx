@@ -67,15 +67,14 @@ const Footer = () => {
               </button>
             </form>
             <div className="text-xs text-[#F0F0F0] mt-4">
-              <p className="mt-12 mb-6 ">
+              {/* <p className="mt-12 mb-6 ">
                 <span className="">GAMIA IS A PROJECT FROM</span>{" "}
                 <span className="bg-gradient-to-l to-[#FADA1B] from-[#FFF] bg-clip-text text-transparent">
                   INOVATION INC.
                 </span>
-              </p>
+              </p> */}
               <p className="text-sm ">
-                Nothing on this website constitutes financial advice. Always
-                consult a qualified financial advisor before making purchases.
+              Blox Fruit Hub is the premier marketplace for acquiring exclusive and high-quality Roblox items. Enjoy lightning-fast delivery, secure payments, and a trusted service that has helped thousands of gamers enhance their experience with the items they adore.
               </p>
             </div>
           </div>
