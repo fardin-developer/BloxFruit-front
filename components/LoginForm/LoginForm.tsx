@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/app/store/slices/authSlice";
+import Link from "next/link";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ const LoginForm = () => {
       <div className="w-full max-w-md bg-zinc-900 rounded-2xl shadow-lg p-8 border border-amber-300">
         {/* Logo */}
         <div className="flex justify-center mb-6">
-          <img src="/logo.svg" alt="Logo" className="h-12" />
+          <Link href="/"><img src="/logo.svg" alt="Logo" className="h-12" /></Link>
         </div>
 
         {/* Heading */}
