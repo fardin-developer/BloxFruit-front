@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { FaDiscord } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
-import { TbCoinBitcoinFilled, TbShoppingBag } from "react-icons/tb";
-import us from "@/public/images/us.png";
+import { TbShoppingBag } from "react-icons/tb";
+import us from "@/public/images/Flag_of_India.svg";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
@@ -96,7 +96,7 @@ const Navbar = () => {
                 alt="US Flag"
                 width={48}
                 height={48}
-                className="w-12 h-12 rounded-full absolute -right-4 drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]"
+                className="w-12 h-12 object-cover rounded-full absolute -right-4 drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]"
               />
             </div>
           </div>
@@ -135,7 +135,7 @@ const Navbar = () => {
 
       {/* Mobile Sidebar Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-[#080705] z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-64 bg-[#080705] transform transition-transform duration-300 ease-in-out z-50 ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         } xl:hidden`}
       >
@@ -171,7 +171,7 @@ const Navbar = () => {
               alt="US Flag"
               width={48}
               height={48}
-              className="w-10 h-10 rounded-full drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]"
+              className="w-10 h-10 object-cover rounded-full drop-shadow-[0_0_3px_rgba(255,255,0,0.7)]"
             />
           </div>
         </div>

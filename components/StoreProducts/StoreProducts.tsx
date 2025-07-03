@@ -370,7 +370,7 @@ export default function StoreProducts() {
       {/* Product Grid */}
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
         {selectedGames.length > 0 && navigationItems.length > 0 ? (
-          <div className="sticky top-0 md:top-4 z-50 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
+          <div className="sticky top-0 md:top-4 z-40 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
             <div className="overflow-x-auto w-full custom-scroll">
               <div className="flex gap-4 text-white w-[500px] sm:w-full ">
                 {navigationItems.map((item, index) => {
