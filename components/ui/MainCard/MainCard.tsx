@@ -77,7 +77,7 @@ const MainCard = ({ data }: { data: any }) => {
       className={`rounded-xl ${currentStyle.bg} p-3 shadow-xl transition-all text-white group bg-[#1a1a1a]`}
     >
       <div
-        className="relative h-56 rounded-xl overflow-hidden"
+        className="relative lg:h-56 rounded-xl overflow-hidden"
         style={{
           border: `1px solid ${currentStyle.borderColor}`,
         }}
@@ -117,7 +117,7 @@ const MainCard = ({ data }: { data: any }) => {
             alt="Main"
             width={400}
             height={400}
-            className="relative z-0 transition-all duration-300 group-hover:scale-105 mt-4"
+            className="relative z-0 transition-all duration-300 group-hover:scale-105 mt-4 aspect-3/2"
           />
         </div>
       </div>

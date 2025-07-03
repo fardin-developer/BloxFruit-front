@@ -122,7 +122,7 @@ export default function StoreProducts() {
 
   // Add new filter states
   const [selectedRarities, setSelectedRarities] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([1, 10000]);
   const [selectedGames, setSelectedGames] = useState<string[]>(["blox-fruits"]);
 
   const { data: products, isLoading } = useGetProductsQuery(null);
@@ -232,7 +232,7 @@ export default function StoreProducts() {
 
   const clearAllFilters = () => {
     setSelectedRarities([]);
-    setPriceRange([1, 1000]);
+    setPriceRange([1, 10000]);
     setSelectedGames(["blox-fruits"]);
     setSelected("High to Low");
   };
@@ -356,7 +356,7 @@ export default function StoreProducts() {
             type="range"
             className="w-full accent-[#FADA1B]"
             min={1}
-            max={1000}
+            max={10000}
             value={priceRange[1]}
             onChange={handlePriceRangeChange}
           />
@@ -371,7 +371,7 @@ export default function StoreProducts() {
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
         {selectedGames.length > 0 && navigationItems.length > 0 ? (
           <div className="sticky top-0 md:top-4 z-50 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto w-full custom-scroll">
               <div className="flex gap-4 text-white w-[500px] sm:w-full ">
                 {navigationItems.map((item, index) => {
                   const isActive = activeSection === item.name;
@@ -478,7 +478,7 @@ export default function StoreProducts() {
                   <Loading />
                 ) : (
                   <div
-                    className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                    className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
                       cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
                     }`}
                   >
