@@ -18,10 +18,12 @@ const Navbar = () => {
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const router = useRouter();
 
+
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Store", href: "/gamestore" },
     ...(pathname === "/cart" ? [{ name: "Cart", href: "/cart" }] : []),
+    ...(pathname === "/checkout" ? [{ name: "Checkout", href: "/checkout" }] : []),
   ];
 
   return (
