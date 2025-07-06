@@ -3,10 +3,12 @@ import React from "react";
 import Image from "next/image";
 import { FaEthereum } from "react-icons/fa";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 
 export default function OurGamesCard({game}: any) {
-  const {image,title,items,description}=game
+  const router = useRouter();
+  const {image,title,items,description,url}=game
   return (
     <div className="card-bg p-4 rounded-lg shadow-lg flex flex-col sm:flex-row items-start sm:items-center sm:space-x-4 space-y-4 sm:space-y-0  w-full">
       {/* Game Image */}
@@ -29,7 +31,7 @@ export default function OurGamesCard({game}: any) {
             {description}
           </p>
         </div>
-        <button className="mt-3 font-bold bg-gradient-to-r from-[#FADA1B] to-white hover:brightness-110 text-black text-sm py-[13px] px-4 rounded cursor-pointer">
+        <button onClick={()=>router.push(url)} className="mt-3 font-bold bg-gradient-to-r from-[#FADA1B] to-white hover:brightness-110 text-black text-sm py-[13px] px-4 rounded cursor-pointer">
           View Items
         </button>
       </div>
