@@ -9,16 +9,27 @@ import "./MainCard.css";
 import Image from "next/image";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { TbShoppingCart } from "react-icons/tb";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/app/store/slices/cartSlice";
 import { toast } from "sonner";
+import { RootState } from "@/app/store/store";
 
 const MainCard = ({ data }: { data: any }) => {
   const {id, category, imageUrl, discountPrice, regularPrice, name, type } = data;
   // console.log(data);
 
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  
+  // Check if product is already in cart
+  const isInCart = cartItems.some(item => item.id === id);
+
   const buyNow = () => {
-    toast.info("Please add to cart first")
+    if (isInCart) {
+      toast.info("Product already in cart! Check your cart to proceed.")
+    } else {
+      toast.info("Please add to cart first")
+    }
   }
 
   // Styles based on type
@@ -57,19 +68,21 @@ const MainCard = ({ data }: { data: any }) => {
 
   const currentStyle = typeStyles[type] || typeStyles["common"];
 
-  const dispatch = useDispatch();
-
   const handleAddToCart = () => {
-    dispatch(
-      addToCart({
-        id: id,
-        name: name,
-        price: discountPrice ? discountPrice : regularPrice,
-        image: imageUrl,
-        quantity: 1,
-      })
-    )
-    toast.success("Added to cart")
+    if (isInCart) {
+      toast.info("Product already in cart! Check your cart to proceed.")
+    } else {
+      dispatch(
+        addToCart({
+          id: id,
+          name: name,
+          price: discountPrice ? discountPrice : regularPrice,
+          image: imageUrl,
+          quantity: 1,
+        })
+      )
+      toast.success("Added to cart")
+    }
   }
 
   return (
