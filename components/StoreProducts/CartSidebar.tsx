@@ -20,7 +20,7 @@ export default function CartSidebar() {
   };
 
   return (
-    <div className="">
+    <div>
       <div>
         <div className="text-white flex justify-between items-center mb-4">
           <p className="flex gap-3 items-center">

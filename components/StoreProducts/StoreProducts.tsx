@@ -501,7 +501,7 @@ export default function StoreProducts() {
         })}
       </main>
       <aside
-        className={`lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6 ${
+        className={`hidden lg:block lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6  ${
           cartItems.length > 0 ? "block transition-all duration-300" : "hidden"
         }`}
       >

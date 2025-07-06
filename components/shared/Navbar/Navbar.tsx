@@ -11,17 +11,18 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { HiCurrencyDollar } from "react-icons/hi";
 import { PiCurrencyInrFill } from "react-icons/pi";
-const navItems = [
-  { name: "Home", href: "/" },
-  { name: "Store", href: "/gamestore" },
-  // { name: "Checkout", href: "/checkout" },
-];
 
 const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const router = useRouter();
+
+  const navItems = [
+    { name: "Home", href: "/" },
+    { name: "Store", href: "/gamestore" },
+    ...(pathname === "/cart" ? [{ name: "Cart", href: "/cart" }] : []),
+  ];
 
   return (
     <nav className="bg-[#080705] border-b border-[#e4e4e414] ">
@@ -57,8 +58,8 @@ const Navbar = () => {
                   {/* Glow and underline */}
                   {isActive && (
                     <>
-                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-20 h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-[1px] bg-yellow-500 rounded-full z-10" />
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-[70%] h-3 bg-[#f7d54f] blur-sm rounded-full z-0" />
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-[1px] bg-yellow-500 rounded-full z-10" />
                     </>
                   )}
                 </Link>
