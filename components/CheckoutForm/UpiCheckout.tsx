@@ -69,7 +69,7 @@ const UpiCheckout = () => {
         {/* Total Amount Display */}
         <div className="text-center mb-8">
           <p className="text-lg text-[#FADA1B]">Total Amount to Pay</p>
-          <p className="text-3xl font-bold text-white">${total}</p>
+          <p className="text-3xl font-bold text-white">₹{total}</p>
         </div>
 
         {/* <div className="flex justify-center gap-3">
@@ -142,7 +142,7 @@ const UpiCheckout = () => {
             type="submit"
             className="w-full flex items-center justify-center font-bold grad-btn hover:opacity-90 text-black px-8 py-3  text-base cursor-pointer duration-300 hover:brightness-150"
           >
-            {isLoadingPayment ? "Processing..." : `Pay $${total} Now`}
+            {isLoadingPayment ? "Processing..." : `Pay ₹${total} Now`}
             {isLoadingPayment ? "": <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
