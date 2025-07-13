@@ -43,14 +43,14 @@ const gameNames = [
     name: "Combat Warrior",
     description:
       "Combat Warriors is a fighting experience. Players compete and fight.",
-    image: image5,
+    image: image4,
     gameId: "combat-warrior",
   },
   {
     name: "Anime Reborn",
     description:
       "Anime Reborn refers to two different things: a popular tower defense game.",
-    image: image4,
+    image: image5,
     gameId: "anime-reborn",
   },
 ];
@@ -370,7 +370,7 @@ export default function StoreProducts() {
       {/* Product Grid */}
       <main className={`w-full ${cartItems.length > 0 ? "lg:w-[60%]" : ""}`}>
         {selectedGames.length > 0 && navigationItems.length > 0 ? (
-          <div className="sticky top-0 md:top-4 z-40 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
+          <div className="sticky top-24 md:top-4 z-40 bg-[#0a0a09] flex justify-between flex-col md:flex-row gap-4 md:gap-0 p-4 md:p-0">
             <div className="overflow-x-auto w-full custom-scroll">
               <div className="flex gap-4 text-white w-[500px] sm:w-full ">
                 {navigationItems.map((item, index) => {
@@ -501,8 +501,8 @@ export default function StoreProducts() {
         })}
       </main>
       <aside
-        className={`  lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6  ${
-          cartItems.length > 0 ? "block transition-all duration-300" : "hidden"
+        className={`lg:sticky top-4 z-40 w-full lg:w-80 xl:w-[20%] h-fit bg-[#090807] border border-[#3b3b3b] text-white rounded-lg p-4 space-y-6  ${
+          cartItems.length > 0 ? " transition-all duration-300 hidden lg:block" : "hidden"
         }`}
       >
         <CartSidebar />

@@ -27,7 +27,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-[#080705] border-b border-[#e4e4e414] ">
+    <nav className="sticky lg:static top-0 z-40 bg-[#080705] border-b border-[#e4e4e414] ">
       <div className="text-white max-w-[1616px] mx-auto px-4  py-6 flex items-center justify-between">
         <div className="flex items-center space-x-14">
           {/* Logo */}
@@ -72,7 +72,7 @@ const Navbar = () => {
 
         {/* Right - Icons, Cart, Currency */}
         <div className="flex items-center space-x-4">
-          <a href="#" className="text-[#5865F2] text-xl">
+          <a href="https://discord.gg/bloxfruithub" target="_blank" className="text-[#5865F2] text-xl">
             <FaDiscord size={48} />
           </a>
 

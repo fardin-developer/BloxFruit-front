@@ -4,7 +4,7 @@ export const paymentApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
         createPaymentIntent: build.mutation({
             query: (formData) => ({
-                url: "/upi-payment",
+                url: "/mobalegends-payment",
                 method: "POST",
                 body: formData,
             }),

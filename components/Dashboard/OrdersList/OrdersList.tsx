@@ -49,13 +49,20 @@ const OrdersList = () => {
     return `₹${amount}`;
   };
 
+  const dateTime = (date: string) => {
+    return new Date(date).toLocaleString();
+  };
+
   const allFormattedData = useMemo(() => {
     if (!ordersData) return [];
-    return ordersData.map((item: any) => ({
-      ...item,
-      status: formatStatus(item.status),
-      amount: formatAmount(item.amount),
-    }));
+    return ordersData
+      .map((item: any) => ({
+        ...item,
+        status: formatStatus(item.status),
+        amount: formatAmount(item.amount),
+        created_at: dateTime(item.created_at),
+      }))
+      .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }, [ordersData]);
 
   const filteredData = useMemo(() => {

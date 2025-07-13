@@ -24,14 +24,6 @@ const MainCard = ({ data }: { data: any }) => {
   // Check if product is already in cart
   const isInCart = cartItems.some(item => item.id === id);
 
-  const buyNow = () => {
-    if (isInCart) {
-      toast.info("Product already in cart! Check your cart to proceed.")
-    } else {
-      toast.info("Please add to cart first")
-    }
-  }
-
   // Styles based on type
   const typeStyles: any = {
     rare: {
@@ -158,16 +150,15 @@ const MainCard = ({ data }: { data: any }) => {
           }
         </div>
 
-        {/* Action Buttons */}
-        <div className="mt-3 flex items-center gap-2">
+        {/* Action Button */}
+        <div className="mt-3">
           <button
-            className={`${currentStyle.buttonClass}  py-3 w-full rounded-sm font-bold cursor-pointer active:scale-95 duration-200 hover:brightness-150`}
-            onClick={buyNow}
+            className={`${currentStyle.buttonClass} py-3 w-full rounded-sm font-bold cursor-pointer active:scale-95 duration-200 hover:brightness-150 flex items-center justify-center gap-2`}
+            onClick={handleAddToCart}
+            disabled={isInCart}
           >
-            Buy now
-          </button>
-          <button onClick={handleAddToCart} className="p-3.5 bg-white/10 rounded-sm cursor-pointer">
             <TbShoppingCart size={20} />
+            {isInCart ? "Already in cart" : "Add to cart"}
           </button>
         </div>
       </div>

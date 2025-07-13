@@ -46,7 +46,7 @@ const UpiCheckout = () => {
   };
     const response = await createPaymentIntent(payload).unwrap();
     if(response.success){
-      window.location.replace(response.data.payment_url);
+      window.location.replace(response.data.paymentUrl);
       dispatch(clearCart());
     } else {
       toast.error("Failed to create payment intent. Please try again.");
