@@ -21,7 +21,7 @@ export default function OurGamesCard({game}: any) {
 
       <div className="flex flex-col justify-between w-full">
         <div>
-          <p className="text-base text-[#9D99AD] mb-1">{items}Items</p>
+          {/* <p className="text-base text-[#9D99AD] mb-1">{items} dsdsdsItems</p> */}
           <div className="flex items-center gap-1">
             <h2 className="text-lg text-white font-bold">{title}</h2>
             <RiVerifiedBadgeFill className="text-[#1d96ff]" />
