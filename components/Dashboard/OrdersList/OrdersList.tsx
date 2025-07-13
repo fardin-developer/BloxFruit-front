@@ -21,7 +21,7 @@ const OrdersList = () => {
   console.log("ordersData", ordersData);
 
   const formatStatus = (status: string) => {
-    if (status === "PENDING") {
+    if (status === "pending") {
       return (
         <p className="bg-yellow-500 text-black font-bold px-4 py-2 text-center">
           Unpaid
