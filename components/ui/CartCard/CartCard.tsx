@@ -43,7 +43,7 @@ export default function CartCard({ id }: { id: string }) {
         <h4 className="text-sm font-semibold leading-tight uppercase">
           {cartItem.name}
         </h4>
-        <p className="text-yellow-400 text-sm mt-1">${cartItem.price} per ps</p>
+        <p className="text-yellow-400 text-sm mt-1">₹{cartItem.price} per ps</p>
       </div>
 
       {/* Quantity controls */}

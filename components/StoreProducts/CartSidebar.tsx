@@ -51,7 +51,7 @@ export default function CartSidebar() {
         <div>
           <div className="flex justify-between items-center my-5">
             <p className="text-[#FADA1B]">Total</p>
-            <p className="text-white">${totalPrice.toFixed(2)}</p>
+            <p className="text-white">₹{totalPrice.toFixed(2)}</p>
           </div>
           <button
             onClick={handleCheckout}

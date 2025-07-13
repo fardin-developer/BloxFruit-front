@@ -361,8 +361,8 @@ export default function StoreProducts() {
             onChange={handlePriceRangeChange}
           />
           <div className="flex justify-between text-xs text-gray-400 mt-1">
-            <span>${priceRange[0]}</span>
-            <span>${priceRange[1]}</span>
+            <span>₹{priceRange[0]}</span>
+            <span>₹{priceRange[1]}</span>
           </div>
         </div>
       </aside>

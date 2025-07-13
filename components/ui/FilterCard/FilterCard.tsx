@@ -31,7 +31,7 @@ const FilterCard = ({
           <p className={`text-xs font-medium ${isSelected ? "text-[#FADA1B]" : ""}`}>
             {data.name}
           </p>
-          <p className="text-sm text-[#FADA1B] whitespace-nowrap">15 items</p>
+          {/* <p className="text-sm text-[#FADA1B] whitespace-nowrap">15 items</p> */}
         </div>
         <p className="text-[11px] text-gray-400 leading-tight">
           {data.description}
