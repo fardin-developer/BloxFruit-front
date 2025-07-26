@@ -39,20 +39,20 @@ const gameNames = [
     image: image3,
     gameId: "rivals",
   },
-  {
-    name: "Combat Warrior",
-    description:
-      "Combat Warriors is a fighting experience. Players compete and fight.",
-    image: image4,
-    gameId: "combat-warrior",
-  },
-  {
-    name: "Anime Reborn",
-    description:
-      "Anime Reborn refers to two different things: a popular tower defense game.",
-    image: image5,
-    gameId: "anime-reborn",
-  },
+  // {
+  //   name: "Combat Warrior",
+  //   description:
+  //     "Combat Warriors is a fighting experience. Players compete and fight.",
+  //   image: image4,
+  //   gameId: "combat-warrior",
+  // },
+  // {
+  //   name: "Anime Reborn",
+  //   description:
+  //     "Anime Reborn refers to two different things: a popular tower defense game.",
+  //   image: image5,
+  //   gameId: "anime-reborn",
+  // },
 ];
 
 // Game-category mapping for navigation
@@ -117,6 +117,7 @@ export default function StoreProducts() {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("High to Low");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isScrollingToSection, setIsScrollingToSection] = useState(false);
 
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
@@ -211,8 +212,14 @@ export default function StoreProducts() {
 
   // Handle game selection (single selection only)
   const handleGameChange = (gameId: string) => {
-    setSelectedGames([gameId]); // Only select one game at a time
-    // Scroll to top when game changes
+    setSelectedGames([gameId]); 
+    setIsScrollingToSection(false); 
+    
+    const gameCategoriesForGame = gameCategories[gameId as keyof typeof gameCategories];
+    if (gameCategoriesForGame && gameCategoriesForGame.length > 0) {
+      setActiveSection(gameCategoriesForGame[0].name);
+    }
+    
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -235,38 +242,65 @@ export default function StoreProducts() {
     setPriceRange([1, 10000]);
     setSelectedGames(["blox-fruits"]);
     setSelected("High to Low");
+    setActiveSection("Permanent Fruit"); 
+    setIsScrollingToSection(false);
   };
 
   useEffect(() => {
-    if (selectedGames.length > 0) {
-      const sections = document.querySelectorAll("section");
+    if (selectedGames.length > 0 && navigationItems.length > 0) {
+      let timeoutId: NodeJS.Timeout;
+      
+      const handleScroll = () => {
+        if (isScrollingToSection) return;
+        
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          const sections = document.querySelectorAll("section");
+          const scrollPosition = window.scrollY + 150; 
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const sectionTitle = entry.target.getAttribute("data-title");
-              if (sectionTitle) setActiveSection(sectionTitle);
+          let currentSection = "";
+          
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionTitle = section.getAttribute("data-title");
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+              currentSection = sectionTitle || "";
             }
           });
-        },
-        {
-          threshold: 0.5,
-          rootMargin: "0px 0px -40% 0px",
-        }
-      );
-      sections.forEach((section) => observer.observe(section));
-      return () => sections.forEach((section) => observer.unobserve(section));
+
+          if (currentSection && currentSection !== activeSection) {
+            setActiveSection(currentSection);
+          }
+        }, 50); // Debounce scroll events
+      };
+
+      // Set initial active section
+      handleScroll();
+      
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        clearTimeout(timeoutId);
+      };
     } else {
       setActiveSection("");
     }
-  }, [selectedGames]);
+  }, [selectedGames, navigationItems, activeSection, isScrollingToSection]);
 
   useEffect(() => {
     if (selectedGames.length > 0) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [selectedGames]);
+
+  // Set initial active section when navigation items change
+  useEffect(() => {
+    if (navigationItems.length > 0 && !activeSection) {
+      setActiveSection(navigationItems[0].name);
+    }
+  }, [navigationItems, activeSection]);
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 ">
@@ -379,6 +413,22 @@ export default function StoreProducts() {
                     <a
                       key={index}
                       href={item.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsScrollingToSection(true);
+                        setActiveSection(item.name);
+                        
+                        const element = document.getElementById(item.href.replace("#", ""));
+                        if (element) {
+                          element.scrollIntoView({ behavior: "smooth", block: "start" });
+                          
+                          setTimeout(() => {
+                            setIsScrollingToSection(false);
+                          }, 1000); 
+                        } else {
+                          setIsScrollingToSection(false);
+                        }
+                      }}
                       className="relative px-2 md:px-10 py-2.5 border-x border-transparent text-center group overflow-hidden whitespace-nowrap"
                     >
                       {isActive && (
@@ -467,7 +517,7 @@ export default function StoreProducts() {
                 key={`${gameId}-${category.name}`}
                 id={sectionId}
                 data-title={category.name}
-                className="mb-24 scroll-mt-16"
+                className="mb-24 scroll-mt-32"
               >
                 <h2 className="text-[1.5rem] lg:text-[2.5rem] font-semibold mb-4">
                   <span className="bg-gradient-to-l from-white via-[#FADA1B] to-[#FADA1B] text-transparent bg-clip-text">
