@@ -1,11 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
-import Image from "next/image";
 import bannerbackground from "@/public/images/bannerbackground.png";
-import paypal from "@/public/paypal.png";
-import gpay from "@/public/gpay.png";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { useCreatePaymentIntentMutation } from "@/app/store/api/services/paymentApi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
@@ -28,7 +24,6 @@ const UpiCheckout = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const { register, handleSubmit } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data: any) => {
 
     const payload = {
