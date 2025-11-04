@@ -81,7 +81,6 @@ const Pagination: React.FC<PaginationProps> = ({
             <div className="w-full h-full group-hover:bg-[radial-gradient(white_1px,transparent_1px)] [background-size:5px_5px] opacity-100" />
           </div>
           <ChevronLeft className="w-4 h-4" />
-          Previous
         </button>
 
         {/* Page numbers */}
@@ -124,7 +123,6 @@ const Pagination: React.FC<PaginationProps> = ({
           }`}>
             <div className="w-full h-full group-hover:bg-[radial-gradient(white_1px,transparent_1px)] [background-size:5px_5px] opacity-100" />
           </div>
-          Next
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
