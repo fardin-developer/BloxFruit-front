@@ -11,14 +11,20 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 import dayjs from "dayjs";
 
 const OrdersList = () => {
-  const { data: orders, isLoading, refetch } = useGetOrdersQuery(null);
-  const ordersData = orders?.data;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "completed" | "pending">("all");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+
+  const { data: orders, isLoading, refetch } = useGetOrdersQuery({ 
+    page: currentPage, 
+    limit: itemsPerPage 
+  });
+  
+  const ordersData = orders?.data;
+  const paginationData = orders?.data?.pagination;
 
   console.log("ordersData", ordersData);
 
@@ -55,7 +61,7 @@ const OrdersList = () => {
 
   const allFormattedData = useMemo(() => {
     if (!ordersData) return [];
-    return ordersData.map((item: any) => ({
+    return ordersData?.data?.map((item: any) => ({
       ...item,
       status: formatStatus(item.status),
       amount: formatAmount(item.amount),
@@ -69,7 +75,7 @@ const OrdersList = () => {
     // Filter by status
     if (statusFilter !== "all") {
       filtered = filtered.filter((order: any) => {
-        const originalStatus = ordersData?.find((o: any) => o.id === order.id)?.status?.toLowerCase();
+        const originalStatus = ordersData?.data?.find((o: any) => o.id === order.id)?.status?.toLowerCase();
         if (statusFilter === "completed") {
           return originalStatus === "completed";
         } else if (statusFilter === "pending") {
@@ -90,14 +96,15 @@ const OrdersList = () => {
     return filtered;
   }, [allFormattedData, searchTerm, statusFilter, ordersData]);
 
-  const totalItems = filteredData.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentPageData = filteredData.slice(startIndex, endIndex);
+  // Use server-side pagination data from API
+  const totalItems = paginationData?.total || filteredData.length;
+  const totalPages = paginationData?.totalPages || Math.ceil(totalItems / itemsPerPage);
+  const currentPageData = filteredData;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,7 +220,7 @@ const OrdersList = () => {
       />
 
       {/* Pagination */}
-      {!isLoading && totalItems > 10 && (
+      {!isLoading && paginationData && totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
