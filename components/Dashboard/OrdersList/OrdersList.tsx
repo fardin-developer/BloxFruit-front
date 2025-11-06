@@ -18,9 +18,11 @@ const OrdersList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
 
+  const isFiltering = Boolean(searchTerm.trim()) || statusFilter !== "all";
+
   const { data: orders, isLoading, refetch } = useGetOrdersQuery({ 
-    page: currentPage, 
-    limit: itemsPerPage 
+    page: isFiltering ? 1 : currentPage, 
+    limit: isFiltering ? 1000 : itemsPerPage 
   });
   
   const ordersData = orders?.data;
@@ -96,10 +98,16 @@ const OrdersList = () => {
     return filtered;
   }, [allFormattedData, searchTerm, statusFilter, ordersData]);
 
-  // Use server-side pagination data from API
-  const totalItems = paginationData?.total || filteredData.length;
-  const totalPages = paginationData?.totalPages || Math.ceil(totalItems / itemsPerPage);
-  const currentPageData = filteredData;
+  // Calculate pagination based on filtered data
+  const totalItems = isFiltering ? filteredData.length : (paginationData?.total || filteredData.length);
+  const totalPages = isFiltering 
+    ? Math.ceil(filteredData.length / itemsPerPage) 
+    : (paginationData?.totalPages || Math.ceil(totalItems / itemsPerPage));
+  
+  // Apply client-side pagination to filtered data
+  const currentPageData = isFiltering
+    ? filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    : filteredData;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -201,7 +209,7 @@ const OrdersList = () => {
       {(searchTerm || statusFilter !== "all") && (
         <div className="mb-4 p-3 bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] rounded-lg">
           <p className="text-[#fada1d] text-sm">
-            Found <span className="font-bold">{totalItems}</span> order{totalItems !== 1 ? "s" : ""}
+            Found <span className="font-bold">{filteredData.length}</span> order{filteredData.length !== 1 ? "s" : ""}
             {statusFilter !== "all" && (
               <span> with status: <span className="font-bold capitalize">{statusFilter}</span></span>
             )}
@@ -220,7 +228,7 @@ const OrdersList = () => {
       />
 
       {/* Pagination */}
-      {!isLoading && paginationData && totalPages > 1 && (
+      {!isLoading && totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -231,7 +239,7 @@ const OrdersList = () => {
       )}
 
       {/* No Results Message */}
-      {!isLoading && totalItems === 0 && (
+      {!isLoading && filteredData.length === 0 && (
         <div className="text-center py-8">
           <p className="text-[#fada1d] text-lg">
             No orders found
