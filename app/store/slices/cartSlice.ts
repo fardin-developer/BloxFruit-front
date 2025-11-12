@@ -64,6 +64,25 @@ const cartSlice = createSlice({
       state.cartItems = [];
       saveCartToStorage([]);
     },
+
+    syncCartWithProduct: (state, action: PayloadAction<{
+      id: string;
+      name: string;
+      price: number;
+      image: string;
+    }>) => {
+      const { id, name, price, image } = action.payload;
+      const cartItem = state.cartItems.find(item => item.id === id);
+      
+      if (cartItem) {
+        // Update the cart item with new product details
+        cartItem.name = name;
+        cartItem.price = price;
+        cartItem.image = image;
+        // Keep the existing quantity
+        saveCartToStorage(state.cartItems);
+      }
+    },
   },
 });
 
@@ -73,6 +92,7 @@ export const {
   decrementQty,
   removeFromCart,
   clearCart,
+  syncCartWithProduct,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -13,6 +13,8 @@ import {
   useGetProductsQuery,
   useUpdateProductMutation,
 } from "@/app/store/api/services/productApi";
+import { useDispatch } from "react-redux";
+import { syncCartWithProduct } from "@/app/store/slices/cartSlice";
 
 type FormValues = {
   name: string;
@@ -62,12 +64,13 @@ const gameCategories = {
 export default function FruitForm({ id }: { id: any }) {
   console.log(id, "id");
   const router = useRouter();
+  const dispatch = useDispatch();
   const { data: products, refetch } = useGetProductsQuery(undefined);
 
   const [addProduct, { isLoading }] = useAddProductMutation();
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
-  const { data: product, isLoading: isLoadingProduct } =
-    useGetProductByIdQuery(id);
+  const { data: product, isLoading: isLoadingProduct, refetch: refetchProduct } =
+    useGetProductByIdQuery(id, { skip: !id });
   const { register, handleSubmit, watch, reset, setValue } =
     useForm<FormValues>();
   const showDiscount = watch("showDiscount");
@@ -156,6 +159,33 @@ export default function FruitForm({ id }: { id: any }) {
           id ? "Product updated successfully!" : "Product added successfully!"
         );
         if (id) {
+          // Sync cart with updated product details
+          // Refetch the product to get the latest data including image URL
+          const updatedProductData = await refetchProduct();
+          if (updatedProductData.data?.data) {
+            const updatedProduct = updatedProductData.data.data;
+            const finalPrice = updatedProduct.discountPrice || updatedProduct.regularPrice;
+            const finalImage = updatedProduct.imageUrl || existingImageUrl || preview || "";
+            
+            dispatch(syncCartWithProduct({
+              id: id,
+              name: data.name,
+              price: finalPrice,
+              image: finalImage,
+            }));
+          } else {
+            // Fallback: use form data if refetch fails
+            const finalPrice = data.discountPrice || data.regularPrice;
+            const finalImage = preview || existingImageUrl || "";
+            
+            dispatch(syncCartWithProduct({
+              id: id,
+              name: data.name,
+              price: finalPrice,
+              image: finalImage,
+            }));
+          }
+          
           router.push("/dashboard/products");
           refetch();
         } else {
