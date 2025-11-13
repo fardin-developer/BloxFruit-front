@@ -4,11 +4,15 @@ import { baseApi } from "../baseApi";
  export const orderApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getOrders: builder.query({
-            query: () => ({
-                url: "/upi-payment/all",
-                method: "GET",
-            }),
-        }),
+           query: (params?: { page?: number; limit?: number }) => ({
+               url: "/upi-payment/all",
+               method: "GET",
+               params: {
+                   page: params?.page || 1,
+                   limit: params?.limit || 10,
+               },
+           }),
+       }),
 
         updateOrderStatus: builder.mutation({
             query: ({ order_id, status }) => ({

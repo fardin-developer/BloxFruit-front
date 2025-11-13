@@ -15,12 +15,12 @@ import { toast } from "sonner";
 import { RootState } from "@/app/store/store";
 
 const MainCard = ({ data }: { data: any }) => {
-  const {id, category, imageUrl, discountPrice, regularPrice, name, type } = data;
+  const { id, category, imageUrl, discountPrice, regularPrice, name, type } = data;
   // console.log(data);
 
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  
+
   // Check if product is already in cart
   const isInCart = cartItems.some(item => item.id === id);
 
@@ -78,23 +78,26 @@ const MainCard = ({ data }: { data: any }) => {
   }
 
   return (
+    // In MainCard.tsx, replace the entire card div structure:
+
     <div
-      className={`rounded-xl ${currentStyle.bg} p-3 shadow-xl transition-all text-white group bg-[#1a1a1a]`}
+      className={`rounded-xl ${currentStyle.bg} p-2 md:p-3 shadow-xl transition-all text-white group bg-[#1a1a1a]`}
     >
       <div
-        className="relative lg:h-56 rounded-xl overflow-hidden"
+        className="relative h-40 md:h-56 rounded-xl overflow-hidden cursor-pointer"
         style={{
           border: `1px solid ${currentStyle.borderColor}`,
         }}
+        onClick={handleAddToCart}
       >
         {/* Type badge */}
-        <div className="absolute top-2 left-3 z-10">
+        <div className="absolute top-1 md:top-2 left-2 md:left-3 z-10">
           <Image
             src={currentStyle.typeImage}
             alt="type badge"
             width={400}
             height={400}
-            className="h-11 w-fit relative z-10"
+            className="h-8 md:h-11 w-fit relative z-10"
           />
         </div>
 
@@ -114,7 +117,7 @@ const MainCard = ({ data }: { data: any }) => {
             alt="Shadow"
             width={400}
             height={400}
-            className="absolute top-1/2 -translate-y-1/2 aspect-3/4  left-1/2 -translate-x-1/2 w-64 h-64 object-cover blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
+            className="absolute top-1/2 -translate-y-1/2 aspect-3/4 left-1/2 -translate-x-1/2 w-32 md:w-64 h-32 md:h-64 object-cover blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"
           />
           <img
             crossOrigin="anonymous"
@@ -122,43 +125,44 @@ const MainCard = ({ data }: { data: any }) => {
             alt="Main"
             width={400}
             height={400}
-            className="relative z-0 transition-all duration-300 group-hover:scale-105 mt-4 aspect-3/2"
+            className="relative z-0 transition-all duration-300 group-hover:scale-105 mt-2 md:mt-4 aspect-3/2 w-full h-full object-cover"
           />
         </div>
       </div>
 
       {/* Info Section */}
-      <div className="mt-3">
-        <p className="text-sm mb-2 text-[#9D99AD] capitalize">{category}</p>
+      <div className="mt-2 md:mt-3">
+        <p className="text-xs md:text-sm mb-1 md:mb-2 text-[#9D99AD] capitalize">{category}</p>
         <div className="flex items-center gap-1">
-          <h2 className="text-lg text-white font-bold">{name}</h2>
-          <RiVerifiedBadgeFill className="text-[#1d96ff]" />
+          <h2 className="text-sm md:text-lg text-white font-bold truncate">{name}</h2>
+          <RiVerifiedBadgeFill className="text-[#1d96ff] flex-shrink-0" size={16} />
         </div>
-        <hr className="mt-2 my-4 border rgb-border" />
-        <div className="flex justify-between">
-          <div className="space-y-2">
+        <hr className="mt-1 md:mt-2 my-2 md:my-4 border rgb-border" />
+        <div className="flex justify-between text-xs md:text-base">
+          <div className="space-y-1 md:space-y-2">
             <p className="text-xs text-[#9D99AD]">Regular Price</p>
-            <h2 className={`text-lg text-white ${discountPrice ? "line-through" : ""}`}>₹{regularPrice}</h2>
+            <h2 className={`text-sm md:text-lg text-white ${discountPrice ? "line-through" : ""}`}>₹{regularPrice}</h2>
           </div>
           {
             discountPrice && (
-              <div className="space-y-2">
+              <div className="space-y-1 md:space-y-2">
                 <p className="text-xs text-[#9D99AD]">Discount Price</p>
-                <h2 className="text-lg text-white">₹{discountPrice}</h2>
+                <h2 className="text-sm md:text-lg text-white">₹{discountPrice}</h2>
               </div>
             )
           }
         </div>
 
         {/* Action Button */}
-        <div className="mt-3">
+        <div className="mt-2 md:mt-3">
           <button
-            className={`${currentStyle.buttonClass} py-3 w-full rounded-sm font-bold cursor-pointer active:scale-95 duration-200 hover:brightness-150 flex items-center justify-center gap-2`}
+            className={`${currentStyle.buttonClass} py-2 md:py-3 w-full rounded-sm font-bold cursor-pointer active:scale-95 duration-200 hover:brightness-150 flex items-center justify-center gap-2 text-xs md:text-sm`}
             onClick={handleAddToCart}
             disabled={isInCart}
           >
-            <TbShoppingCart size={20} />
-            {isInCart ? "Already in cart" : "Add to cart"}
+            <TbShoppingCart size={16} />
+            <span className="hidden sm:inline">{isInCart ? "Already in cart" : "Add to cart"}</span>
+            <span className="sm:hidden">{isInCart ? "In cart" : "Add"}</span>
           </button>
         </div>
       </div>

@@ -15,7 +15,7 @@ export const baseApi = createApi({
         },
     }),
     endpoints:()=>({}),
-    tagTypes:["products"]
+    tagTypes:["products","PaypalAccount"]
 
 });
 

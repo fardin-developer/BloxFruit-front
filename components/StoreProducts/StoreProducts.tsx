@@ -89,7 +89,6 @@ const gameCategories = {
   ],
 };
 
-// Category mapping function to handle different category formats
 const getCategoryMapping = (categoryName: string) => {
   const categoryMap: { [key: string]: string[] } = {
     "Permanent Fruit": ["Permanent Fruit", "permanent", "permanent fruit"],
@@ -528,10 +527,10 @@ export default function StoreProducts() {
                   <Loading />
                 ) : (
                   <div
-                    className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
-                      cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
-                    }`}
-                  >
+                      className={`grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ${
+                        cartItems.length > 0 ? "lg:grid-cols-2" : "xl:grid-cols-4"
+                      }`}
+                    >
                     {categoryData.length > 0 ? (
                       categoryData?.map((item: any, index: number) => (
                         <MainCard key={index} data={item} />

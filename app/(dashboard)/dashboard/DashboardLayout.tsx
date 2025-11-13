@@ -4,6 +4,7 @@ import { RxDashboard } from "react-icons/rx";
 import Link from "next/link";
 import Image from "next/image";
 import { RiProductHuntLine, RiSettingsLine } from "react-icons/ri";
+import { FaCcPaypal } from "react-icons/fa";
 import { usePathname, useRouter } from "next/navigation";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { TbSocial } from "react-icons/tb";
@@ -19,12 +20,9 @@ const menuItems = [
     label: "Products",
   },
   { href: "/dashboard/orders", icon: <PiShoppingBagLight  size={24} />, label: "Orders" },
+  { href: "/dashboard/paypal", icon: <FaCcPaypal size={24} />, label: "Paypal" },
   { href: "/dashboard/others", icon: <TbSocial size={24} />, label: "Others" },
 ];
-
-
-
-
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);

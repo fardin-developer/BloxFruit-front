@@ -27,13 +27,13 @@ const Footer = () => {
     }
   };
   return (
-    <footer className=" text-white  border-t border-[#e4e4e414]">
-      <div className="max-w-[1616px] mx-auto px-4 2 py-10">
-        <div className="flex justify-between items-center mb-6 lg:mb-8">
-          <div className="flex items-center space-x-2 mb-4">
+    <footer className="text-white border-t border-[#e4e4e414]">
+      <div className="max-w-[1616px] mx-auto px-4 py-10">
+        <div className="flex flex-col lg:flex-row justify-between items-start mb-6 lg:mb-8 gap-6">
+          <div className="flex items-center space-x-2">
             <Image src={logo} alt="logo" width={183} height={52} className="" />
           </div>
-          <div className="flex space-x-3 text-lg text-white">
+          <div className="flex space-x-4 text-lg text-white">
             <a href="#">
               <FaFacebook size={24} />
             </a>
@@ -48,10 +48,11 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Logo + Newsletter */}
-          <div>
-            <p className="mb-3 text-[1.5rem]">Don't miss our latest News</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+          {/* Logo + Newsletter - Now spanning 2 columns */}
+          <div className="lg:col-span-2">
+            <p className="mb-4 text-xl font-medium">Don't miss our latest News</p>
             <form className="flex relative" onSubmit={handleSubscribe}>
               <input
                 type="email"
@@ -66,23 +67,20 @@ const Footer = () => {
                 {isLoading ? "Subscribing..." : "Subscribe"}
               </button>
             </form>
-            <div className="text-xs text-[#F0F0F0] mt-4">
-              {/* <p className="mt-12 mb-6 ">
-                <span className="">GAMIA IS A PROJECT FROM</span>{" "}
-                <span className="bg-gradient-to-l to-[#FADA1B] from-[#FFF] bg-clip-text text-transparent">
-                  INOVATION INC.
-                </span>
-              </p> */}
-              <p className="text-sm ">
-              Blox Fruit Hub is the premier marketplace for acquiring exclusive and high-quality Roblox items. Enjoy lightning-fast delivery, secure payments, and a trusted service that has helped thousands of gamers enhance their experience with the items they adore.
+            <div className="text-sm text-[#F0F0F0] mt-6 space-y-4">
+              <p>
+                Blox Fruit Hub is the premier marketplace for acquiring exclusive and high-quality Roblox items. Enjoy lightning-fast delivery, secure payments, and a trusted service that has helped thousands of gamers enhance their experience with the items they adore.
+              </p>
+              <p>
+                Blox Fruit Hub is not affiliated with Roblox Corporation. All in-game assets are the property of their respective owners.
               </p>
             </div>
           </div>
 
           {/* Social Media */}
           <div>
-            <h3 className="font-semibold mb-3">Social Media</h3>
-            <ul className="space-y-8 text-gray-300">
+            <h3 className="font-semibold mb-4 text-lg">Social Media</h3>
+            <ul className="space-y-4 text-gray-300">
               <li>
                 <a href="#">Discord</a>
               </li>
@@ -97,8 +95,8 @@ const Footer = () => {
 
           {/* All Pages */}
           <div>
-            <h3 className="font-semibold mb-3">All Pages</h3>
-            <ul className="space-y-8 text-gray-300">
+            <h3 className="font-semibold mb-4 text-lg">All Pages</h3>
+            <ul className="space-y-4 text-gray-300">
               <li>
                 <Link href="/">Home</Link>
               </li>
@@ -110,8 +108,8 @@ const Footer = () => {
 
           {/* Products */}
           <div>
-            <h3 className="font-semibold mb-3">Products</h3>
-            <ul className="space-y-8 text-gray-300">
+            <h3 className="font-semibold mb-4 text-lg">Products</h3>
+            <ul className="space-y-4 text-gray-300">
               <li>
                 <Link href="/gamestore">Blox Fruits</Link>
               </li>
@@ -129,15 +127,28 @@ const Footer = () => {
               </li>
             </ul>
           </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="font-semibold mb-4 text-lg">Legal</h3>
+            <ul className="space-y-4 text-gray-300">
+              <li>
+                <Link href="/terms-of-service">Terms of Service</Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy">Privacy Policy</Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
       {/* Bottom Footer */}
       <div className="border-t border-[#e4e4e414] mt-10 text-sm text-gray-500">
-        <div className="max-w-[1616px] mx-auto py-5 flex flex-col md:flex-row justify-between items-center ">
-          <div className="space-x-4 mb-3 md:mb-0">
-            <a href="#">Privacy Policy</a>
-            <a href="#">TOS</a>
+        <div className="max-w-[1616px] mx-auto px-4 py-5 flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-wrap gap-4 mb-3 md:mb-0">
+            {/* <a href="#">Privacy Policy</a> */}
+            {/* <a href="#">TOS</a> */}
             <a href="#">Cookies Policy</a>
           </div>
           <p className="mt-4 md:mt-0">© 2025 Rivals. All rights reserved.</p>

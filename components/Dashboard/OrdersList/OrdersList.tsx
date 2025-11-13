@@ -8,20 +8,30 @@ import OrderDetailsModal from "./OrderDetailsModal";
 import Pagination from "@/components/ui/Pagination/Pagination";
 import { FaSearch } from "react-icons/fa";
 import { IoCheckmarkCircle } from "react-icons/io5";
+import dayjs from "dayjs";
 
 const OrdersList = () => {
-  const { data: orders, isLoading ,refetch} = useGetOrdersQuery(null);
-  const ordersData = orders?.data;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | "completed" | "pending">("all");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+
+  const isFiltering = Boolean(searchTerm.trim()) || statusFilter !== "all";
+
+  const { data: orders, isLoading, refetch } = useGetOrdersQuery({ 
+    page: isFiltering ? 1 : currentPage, 
+    limit: isFiltering ? 1000 : itemsPerPage 
+  });
+  
+  const ordersData = orders?.data;
+  const paginationData = orders?.data?.pagination;
 
   console.log("ordersData", ordersData);
 
   const formatStatus = (status: string) => {
-    if (status === "pending") {
+    if (status === "pending" || status === "PENDING") {
       return (
         <p className="bg-yellow-500 text-black font-bold px-4 py-2 text-center">
           Unpaid
@@ -43,50 +53,75 @@ const OrdersList = () => {
     return status;
   };
 
-  
-
   const formatAmount = (amount: number) => {
     return `₹${amount}`;
   };
 
   const dateTime = (date: string) => {
-    return new Date(date).toLocaleString();
+    return dayjs(date).format("DD MMM YYYY, hh:mm A");
   };
 
   const allFormattedData = useMemo(() => {
     if (!ordersData) return [];
-    return ordersData
-      .map((item: any) => ({
-        ...item,
-        status: formatStatus(item.status),
-        amount: formatAmount(item.amount),
-        created_at: dateTime(item.created_at),
-      }))
-      .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    return ordersData?.data?.map((item: any) => ({
+      ...item,
+      status: formatStatus(item.status),
+      amount: formatAmount(item.amount),
+      created_at: dateTime(item.created_at),
+    }));
   }, [ordersData]);
 
   const filteredData = useMemo(() => {
-    if (!searchTerm.trim()) {
-      return allFormattedData;
-    }
-    return allFormattedData.filter((order: any) =>
-      order.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.customer_email?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [allFormattedData, searchTerm]);
+    let filtered = allFormattedData;
 
-  const totalItems = filteredData.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentPageData = filteredData.slice(startIndex, endIndex);
+    // Filter by status
+    if (statusFilter !== "all") {
+      filtered = filtered.filter((order: any) => {
+        const originalStatus = ordersData?.data?.find((o: any) => o.id === order.id)?.status?.toLowerCase();
+        if (statusFilter === "completed") {
+          return originalStatus === "completed";
+        } else if (statusFilter === "pending") {
+          return originalStatus === "pending";
+        }
+        return true;
+      });
+    }
+
+    // Filter by search term
+    if (searchTerm.trim()) {
+      filtered = filtered.filter((order: any) =>
+        order.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.customer_email?.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    return filtered;
+  }, [allFormattedData, searchTerm, statusFilter, ordersData]);
+
+  // Calculate pagination based on filtered data
+  const totalItems = isFiltering ? filteredData.length : (paginationData?.total || filteredData.length);
+  const totalPages = isFiltering 
+    ? Math.ceil(filteredData.length / itemsPerPage) 
+    : (paginationData?.totalPages || Math.ceil(totalItems / itemsPerPage));
   
+  // Apply client-side pagination to filtered data
+  const currentPageData = isFiltering
+    ? filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    : filteredData;
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilterChange = (status: "all" | "completed" | "pending") => {
+    setStatusFilter(status);
     setCurrentPage(1);
   };
 
@@ -120,7 +155,7 @@ const OrdersList = () => {
     <div className="relative">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
         <h1 className="text-2xl font-bold text-[#fada1d]">Orders List</h1>
-        
+
         {/* Search Input */}
         <div className="relative max-w-md w-full">
           <div className="relative">
@@ -136,11 +171,51 @@ const OrdersList = () => {
         </div>
       </div>
 
+      {/* Status Filter Buttons */}
+      <div className="flex gap-3 mb-6">
+        <button
+          onClick={() => handleStatusFilterChange("all")}
+          className={`px-6 py-2 font-semibold transition-all duration-300 ${
+            statusFilter === "all"
+              ? "bg-[#fada1d] text-black"
+              : "bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] text-[#fada1d] hover:bg-[#fada1d]/20"
+          }`}
+        >
+          All Orders
+        </button>
+        <button
+          onClick={() => handleStatusFilterChange("completed")}
+          className={`px-6 py-2 font-semibold transition-all duration-300 ${
+            statusFilter === "completed"
+              ? "bg-green-500 text-black"
+              : "bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] text-[#fada1d] hover:bg-green-500/20"
+          }`}
+        >
+          Completed
+        </button>
+        <button
+          onClick={() => handleStatusFilterChange("pending")}
+          className={`px-6 py-2 font-semibold transition-all duration-300 ${
+            statusFilter === "pending"
+              ? "bg-yellow-500 text-black"
+              : "bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] text-[#fada1d] hover:bg-yellow-500/20"
+          }`}
+        >
+          Pending
+        </button>
+      </div>
+
       {/* Search Results Info */}
-      {searchTerm && (
+      {(searchTerm || statusFilter !== "all") && (
         <div className="mb-4 p-3 bg-gradient-to-l to-[#fada1b26] from-[#594d0026] border border-[#fad91d67] rounded-lg">
           <p className="text-[#fada1d] text-sm">
-            Found <span className="font-bold">{totalItems}</span> order{totalItems !== 1 ? 's' : ''} matching "{searchTerm}"
+            Found <span className="font-bold">{filteredData.length}</span> order{filteredData.length !== 1 ? "s" : ""}
+            {statusFilter !== "all" && (
+              <span> with status: <span className="font-bold capitalize">{statusFilter}</span></span>
+            )}
+            {searchTerm && (
+              <span> matching "<span className="font-bold">{searchTerm}</span>"</span>
+            )}
           </p>
         </div>
       )}
@@ -153,7 +228,7 @@ const OrdersList = () => {
       />
 
       {/* Pagination */}
-      {!isLoading && totalItems > 10 && (
+      {!isLoading && totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -164,14 +239,21 @@ const OrdersList = () => {
       )}
 
       {/* No Results Message */}
-      {!isLoading && searchTerm && totalItems === 0 && (
+      {!isLoading && filteredData.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-[#fada1d] text-lg">No orders found matching "{searchTerm}"</p>
-          <button 
-            onClick={() => setSearchTerm("")}
+          <p className="text-[#fada1d] text-lg">
+            No orders found
+            {statusFilter !== "all" && ` with status: ${statusFilter}`}
+            {searchTerm && ` matching "${searchTerm}"`}
+          </p>
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setStatusFilter("all");
+            }}
             className="mt-2 text-[#fada1d]/80 hover:text-[#fada1d] underline"
           >
-            Clear search
+            Clear all filters
           </button>
         </div>
       )}
