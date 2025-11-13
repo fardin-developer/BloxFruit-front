@@ -1,9 +1,9 @@
 import { baseApi } from "../baseApi";
 
  
- export const orderApi = baseApi.injectEndpoints({
-    endpoints: (builder) => ({
-        getOrders: builder.query({
+export const orderApi = baseApi.injectEndpoints({
+   endpoints: (builder) => ({
+       getOrders: builder.query({
            query: (params?: { page?: number; limit?: number }) => ({
                url: "/upi-payment/all",
                method: "GET",

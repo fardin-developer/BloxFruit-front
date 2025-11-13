@@ -306,7 +306,7 @@ export default function StoreProducts() {
       {/* Mobile Filter Button */}
       <button
         onClick={() => setIsFilterOpen(!isFilterOpen)}
-        className="lg:hidden fixed bottom-4 right-4 z-50 bg-[#FADA1B] text-black px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
+        className="lg:hidden fixed bottom-4 left-4 z-50 bg-[#FADA1B] text-black px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
       >
         <span>Filter</span>
         <IoMdArrowDropdown
