@@ -29,7 +29,7 @@ export default function OurGames() {
             items: "INSTANT",
             description: `Top up ${game.name} instantly. Publisher: ${game.publisher}`,
             image: game.image, // URL from API
-            url: `/gamestore` // or specific game url if available
+            url: `/games/${game._id}` // Link to dynamic game page
           };
 
           return (

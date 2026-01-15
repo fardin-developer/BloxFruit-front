@@ -17,7 +17,13 @@ export const GameApi = baseApi.injectEndpoints({
                 method: "GET",
             }),
         }),
+        getGameProducts: build.query<any, string>({
+            query: (id) => ({
+                url: `/games/${id}/diamond-packs`,
+                method: "GET",
+            }),
+        }),
     }),
 });
 
-export const { useGetAllGamesQuery } = GameApi;
+export const { useGetAllGamesQuery, useGetGameProductsQuery } = GameApi;
