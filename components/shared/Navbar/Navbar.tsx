@@ -11,11 +11,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { HiCurrencyDollar } from "react-icons/hi";
 import { PiCurrencyInrFill } from "react-icons/pi";
+import { User } from "lucide-react";
 
 const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const { user } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
 
 
@@ -50,9 +52,8 @@ const Navbar = () => {
                     <div className="absolute border-x border-[#FBDE6E] inset-0 bg-[#fdfdfd00] backdrop-blur-[1px] z-0" />
                   )}
                   <span
-                    className={`relative z-10 block text-lg ${
-                      isActive ? "text-[#FBDE6E]" : "text-opacity-60"
-                    }`}
+                    className={`relative z-10 block text-lg ${isActive ? "text-[#FBDE6E]" : "text-opacity-60"
+                      }`}
                   >
                     {item.name}
                   </span>
@@ -105,25 +106,38 @@ const Navbar = () => {
           </div>
 
           {pathname !== "/gamestore" && (
-            <button
-              onClick={() => router.push("/gamestore")}
-              className="hidden xl:flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150"
-            >
-              Get Started!
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="ml-2"
+            user ? (
+              <div
+                onClick={() => router.push("/profile")}
+                className="hidden xl:flex items-center justify-center rounded-full bg-gradient-to-l to-[#FADA1B] from-[#FFF] w-12 h-12 cursor-pointer ml-4"
               >
-                <path
-                  d="M4 11V13H16V15H18V13H20V11H18V9H16V11H4ZM14 7H16V9H14V7ZM14 7H12V5H14V7ZM14 17H16V15H14V17ZM14 17H12V19H14V17Z"
-                  fill="#0F1016"
-                />
-              </svg>
-            </button>
+                {user.profilePicture ? (
+                  <img src={user.profilePicture} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                ) : (
+                  <User size={24} className="text-black/70" />
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => router.push("/login")}
+                className="hidden xl:flex items-center grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150"
+              >
+                Login
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="ml-2"
+                >
+                  <path
+                    d="M4 11V13H16V15H18V13H20V11H18V9H16V11H4ZM14 7H16V9H14V7ZM14 7H12V5H14V7ZM14 17H16V15H14V17ZM14 17H12V19H14V17Z"
+                    fill="#0F1016"
+                  />
+                </svg>
+              </button>
+            )
           )}
 
           {/* Mobile Toggle */}
@@ -140,9 +154,8 @@ const Navbar = () => {
 
       {/* Mobile Sidebar Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-[#080705] transform transition-transform duration-300 ease-in-out z-50 ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        } xl:hidden`}
+        className={`fixed top-0 right-0 h-full w-64 bg-[#080705] transform transition-transform duration-300 ease-in-out z-50 ${menuOpen ? "translate-x-0" : "translate-x-full"
+          } xl:hidden`}
       >
         <div className="flex justify-end items-center px-4 py-[33px] border-b border-gray-800">
           <button
@@ -159,9 +172,8 @@ const Navbar = () => {
               key={index}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className={`block py-2 text-lg font-medium ${
-                pathname === item.href ? "text-yellow-400" : "text-white"
-              }`}
+              className={`block py-2 text-lg font-medium ${pathname === item.href ? "text-yellow-400" : "text-white"
+                }`}
             >
               {item.name}
             </Link>

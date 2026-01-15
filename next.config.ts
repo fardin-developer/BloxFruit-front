@@ -19,10 +19,24 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    remotePatterns: paths.map((pathname) => ({
-      ...commonHost,
-      pathname,
-    })),
+    remotePatterns: [
+      ...paths.map((pathname) => ({
+        ...commonHost,
+        pathname,
+      })),
+      {
+        protocol: "https",
+        hostname: "api.bloxfruithub.com",
+      },
+      {
+        protocol: "https",
+        hostname: "api.zorotopup.com",
+      },
+      {
+        protocol: "https",
+        hostname: "api.topupmania.com",
+      },
+    ],
   },
   /* config options here */
 };
