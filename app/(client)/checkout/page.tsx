@@ -6,7 +6,7 @@ import CheckoutForm from "@/components/CheckoutForm/CheckoutForm";
 import UpiCheckout from "@/components/CheckoutForm/UpiCheckout";
 
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+  'pk_test_51PylxMEutx1ydWq1n1MswnBHTlsEuuZzJxZzDIZOPV0tqvhbqiiZI443twXhWN1yNnegA2jXSGHpq3POrwMY2jRQ00RrEFv8fT'
 );
 
 const CheckoutPage = () => {

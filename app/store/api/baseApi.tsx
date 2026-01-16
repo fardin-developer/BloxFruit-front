@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseUrl = process.env.NEXT_PUBLIC_API;
+const baseUrl = 'https://api.bloxfruithub.com/api/v1';
 
 export const baseApi = createApi({
     reducerPath: "api",
