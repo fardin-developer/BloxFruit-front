@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { FaDiscord } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -7,19 +7,77 @@ import { TbShoppingBag } from "react-icons/tb";
 import us from "@/public/images/Flag_of_India.svg";
 import Link from "next/link";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { HiCurrencyDollar } from "react-icons/hi";
 import { PiCurrencyInrFill } from "react-icons/pi";
-import { User } from "lucide-react";
+import { User, Wallet, Plus, X } from "lucide-react";
+import { useGetMeQuery } from "@/app/store/api/services/AuthApi";
+import { setCredentials } from "@/app/store/slices/authSlice";
+import { useAddBalanceMutation } from "@/app/store/api/services/transactionApi";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showAddBalanceModal, setShowAddBalanceModal] = useState(false);
+  const [addBalanceAmount, setAddBalanceAmount] = useState("");
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { user, token } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
+  const dispatch = useDispatch();
+  
+  // Add balance mutation
+  const [addBalance, { isLoading: isAddingBalance }] = useAddBalanceMutation();
 
+  // Fetch user data including wallet balance
+  const { data: apiUser } = useGetMeQuery(undefined, {
+    skip: !token,
+  });
+
+  // Update Redux store when API returns fresh data
+  useEffect(() => {
+    if (apiUser && token) {
+      dispatch(setCredentials({ user: apiUser, token }));
+    }
+  }, [apiUser, token, dispatch]);
+
+  // Use API user data if available, otherwise use stored user
+  const currentUser = apiUser || user;
+
+  // Quick amounts for add balance
+  const quickAmounts = [100, 500, 1000, 2000, 5000];
+
+  // Handle add balance
+  const handleAddBalance = async () => {
+    const amount = parseFloat(addBalanceAmount);
+    
+    if (!amount || amount <= 0) {
+      toast.error("Please enter a valid amount");
+      return;
+    }
+
+    if (amount < 1) {
+      toast.error("Minimum amount is ₹1");
+      return;
+    }
+
+    try {
+      const redirectUrl = `${window.location.origin}/payment-success`;
+      const result = await addBalance({ amount, redirectUrl }).unwrap();
+      
+      if (result.success && result.transaction.paymentUrl) {
+        toast.success("Redirecting to payment gateway...");
+        // Redirect to payment URL
+        window.location.href = result.transaction.paymentUrl;
+      } else {
+        toast.error("Failed to create payment request");
+      }
+    } catch (error: any) {
+      console.error("Add balance error:", error);
+      toast.error(error?.data?.message || "Failed to add balance. Please try again.");
+    }
+  };
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -77,7 +135,7 @@ const Navbar = () => {
             <FaDiscord size={48} />
           </a>
 
-          <div
+          {/* <div
             onClick={() => router.push("/cart")}
             className="flex justify-center items-center rounded-full bg-gradient-to-l to-[#FADA1B] from-[#FFF] w-12 h-12 cursor-pointer"
           >
@@ -87,7 +145,7 @@ const Navbar = () => {
                 {cartItems.length}
               </span>
             </div>
-          </div>
+          </div> */}
 
           <div className="hidden xl:flex mr-8">
             <div className="relative bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] flex items-center px-4 py-2 pr-12">
@@ -105,14 +163,28 @@ const Navbar = () => {
             </div>
           </div>
 
+          {/* Wallet Balance Display */}
+          {currentUser && (
+            <div 
+              onClick={() => router.push("/wallet-history")}
+              className="hidden xl:flex items-center bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] px-4 py-2 rounded-md mr-4 cursor-pointer hover:brightness-110 transition-all"
+              title="View wallet history"
+            >
+              <Wallet size={20} className="text-yellow-500 mr-2" />
+              <span className="text-white text-sm font-semibold">
+                ₹{currentUser.walletBalance?.toFixed(2) || "0.00"}
+              </span>
+            </div>
+          )}
+
           {pathname !== "/gamestore" && (
-            user ? (
+            currentUser ? (
               <div
                 onClick={() => router.push("/profile")}
                 className="hidden xl:flex items-center justify-center rounded-full bg-gradient-to-l to-[#FADA1B] from-[#FFF] w-12 h-12 cursor-pointer ml-4"
               >
-                {user.profilePicture ? (
-                  <img src={user.profilePicture} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                {currentUser.profilePicture ? (
+                  <img src={currentUser.profilePicture} alt="Profile" className="w-full h-full object-cover rounded-full" />
                 ) : (
                   <User size={24} className="text-black/70" />
                 )}
@@ -179,6 +251,69 @@ const Navbar = () => {
             </Link>
           ))}
 
+          {currentUser && (
+            <>
+              {/* Wallet Balance in Mobile Menu */}
+              <div className="flex items-center justify-between bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] px-4 py-3 rounded-md mt-4">
+                <div className="flex items-center">
+                  <Wallet size={20} className="text-yellow-500 mr-2" />
+                  <span className="text-white text-sm font-semibold">
+                    Wallet: ₹{currentUser.walletBalance?.toFixed(2) || "0.00"}
+                  </span>
+                </div>
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setShowAddBalanceModal(true);
+                  }}
+                  className="bg-[#fada1b] p-1.5 rounded-full text-black hover:bg-[#eac31a] transition-colors flex items-center justify-center"
+                  title="Add Money"
+                >
+                  <Plus size={16} strokeWidth={3} />
+                </button>
+              </div>
+
+              <div className="border-t border-gray-700 pt-4 mt-4">
+                <Link
+                  href="/profile"
+                  onClick={() => setMenuOpen(false)}
+                  className={`block py-2 text-lg font-medium ${pathname === "/profile" ? "text-yellow-400" : "text-white"
+                    }`}
+                >
+                  Profile
+                </Link>
+                <Link
+                  href="/order-history"
+                  onClick={() => setMenuOpen(false)}
+                  className={`block py-2 text-lg font-medium ${pathname === "/order-history" ? "text-yellow-400" : "text-white"
+                    }`}
+                >
+                  Order History
+                </Link>
+                <Link
+                  href="/wallet-history"
+                  onClick={() => setMenuOpen(false)}
+                  className={`block py-2 text-lg font-medium ${pathname === "/wallet-history" ? "text-yellow-400" : "text-white"
+                    }`}
+                >
+                  Wallet History
+                </Link>
+              </div>
+            </>
+          )}
+
+          {!currentUser && (
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                router.push("/login");
+              }}
+              className="w-full grad-btn hover:opacity-90 text-black px-8 py-3 font-medium text-base cursor-pointer duration-300 hover:brightness-150 mt-4"
+            >
+              Login
+            </button>
+          )}
+
           <div className="flex items-center justify-between bg-gradient-to-l to-[#080705] via-[#3d3d3d] from-[#3d3d3d] px-4 py-2 rounded-md mt-6">
             {/* <HiCurrencyDollar size={24} className="text-yellow-500 mr-2" /> */}
             <PiCurrencyInrFill size={24} className="text-yellow-500 mr-2" />
@@ -193,6 +328,82 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Add Balance Modal */}
+      {showAddBalanceModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="card-bg border border-[#333] rounded-lg shadow-xl max-w-md w-full p-6 relative">
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                setShowAddBalanceModal(false);
+                setAddBalanceAmount("");
+              }}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Modal Header */}
+            <h2 className="text-2xl font-bold text-white mb-2">Add Balance</h2>
+            <p className="text-gray-400 mb-6">Enter the amount you want to add to your wallet</p>
+
+            {/* Amount Input */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Amount (₹)
+              </label>
+              <input
+                type="number"
+                value={addBalanceAmount}
+                onChange={(e) => setAddBalanceAmount(e.target.value)}
+                placeholder="Enter amount"
+                min="1"
+                step="1"
+                className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#333] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fada1b] text-lg"
+              />
+              <p className="text-xs text-gray-500 mt-2">Minimum amount: ₹1</p>
+            </div>
+
+            {/* Quick Amount Buttons */}
+            <div className="mb-6">
+              <p className="text-sm font-medium text-gray-300 mb-3">Quick Select</p>
+              <div className="grid grid-cols-3 gap-2">
+                {quickAmounts.map((amount) => (
+                  <button
+                    key={amount}
+                    onClick={() => setAddBalanceAmount(amount.toString())}
+                    className="px-4 py-2 border border-[#333] bg-[#1a1a1a] text-gray-300 rounded-lg hover:bg-[#fada1b]/10 hover:border-[#fada1b] hover:text-[#fada1b] transition-colors font-medium"
+                  >
+                    ₹{amount}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowAddBalanceModal(false);
+                  setAddBalanceAmount("");
+                }}
+                className="flex-1 px-4 py-3 border border-[#333] bg-[#1a1a1a] text-gray-300 rounded-lg font-medium hover:bg-[#333] transition-colors"
+                disabled={isAddingBalance}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddBalance}
+                disabled={isAddingBalance || !addBalanceAmount}
+                className="flex-1 px-4 py-3 grad-btn text-black rounded-lg font-bold hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isAddingBalance ? "Processing..." : "Proceed to Payment"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

@@ -7,7 +7,7 @@ import image3 from "@/public/cardsImage/whychoose3.png";
 const cardData = [
   {
     image: image1,
-    title: "Instant Delivery",
+    title: "Delivery in minutes",
     description: "No waiting. Get your in-game items within moments!",
   },
   {

@@ -36,6 +36,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "api.topupmania.com",
       },
+      {
+        protocol: "https",
+        hostname: "tr.rbxcdn.com",
+      },
     ],
   },
   /* config options here */

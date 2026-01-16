@@ -7,6 +7,7 @@ export interface Game {
     productId: string;
     publisher: string;
     ogcode: string;
+    category?: string;
 }
 
 export const GameApi = baseApi.injectEndpoints({
@@ -23,7 +24,34 @@ export const GameApi = baseApi.injectEndpoints({
                 method: "GET",
             }),
         }),
+        validateUser: build.mutation<any, { gameId: string; playerId: string; serverId?: string; game?: string }>({
+            query: (data) => ({
+                url: "/games/validate-user",
+                method: "POST",
+                body: data,
+            }),
+        }),
+        createDiamondPackOrder: build.mutation<any, { diamondPackId: string; playerId: string; server?: string; quantity: number }>({
+            query: (data) => ({
+                url: "/order/diamond-pack",
+                method: "POST",
+                body: data,
+            }),
+        }),
+        createDiamondPackUpiOrder: build.mutation<any, { diamondPackId: string; playerId: string; server?: string; quantity: number; redirectUrl: string }>({
+            query: (data) => ({
+                url: "/order/diamond-pack-upi",
+                method: "POST",
+                body: data,
+            }),
+        }),
     }),
 });
 
-export const { useGetAllGamesQuery, useGetGameProductsQuery } = GameApi;
+export const { 
+    useGetAllGamesQuery, 
+    useGetGameProductsQuery,
+    useValidateUserMutation,
+    useCreateDiamondPackOrderMutation,
+    useCreateDiamondPackUpiOrderMutation
+} = GameApi;

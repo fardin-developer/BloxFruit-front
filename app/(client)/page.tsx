@@ -1,6 +1,5 @@
 import Hero from "@/components/Home/Hero/Hero";
 import OurGames from "@/components/Home/OurGames/OurGames";
-import OurBestSell from "@/components/Home/OurBestSell/OurBestSell";
 import WhyChoose from "@/components/Home/WhyChoose/WhyChoose";
 import FAQ from "@/components/Home/FAQ/FAQ";
 
@@ -10,7 +9,6 @@ const page = () => {
       <Hero />
       <WhyChoose />
       <OurGames />
-      <OurBestSell />
       <FAQ />
     </div>
   );

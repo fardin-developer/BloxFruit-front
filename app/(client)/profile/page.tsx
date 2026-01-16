@@ -2,7 +2,7 @@
 import { useGetMeQuery } from "@/app/store/api/services/AuthApi";
 import { logOut, setCredentials } from "@/app/store/slices/authSlice";
 import { RootState } from "@/app/store/store";
-import { User } from "lucide-react";
+import { User, History, Wallet } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -97,10 +97,26 @@ const ProfilePage = () => {
                                 </div>
                             </div>
 
-                            <div className="pt-8 border-t border-white/10">
+                            <div className="pt-8 border-t border-white/10 space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <button
+                                        onClick={() => router.push("/order-history")}
+                                        className="flex items-center justify-center gap-2 bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium border border-blue-500/20"
+                                    >
+                                        <History size={20} />
+                                        Order History
+                                    </button>
+                                    <button
+                                        onClick={() => router.push("/wallet-history")}
+                                        className="flex items-center justify-center gap-2 bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500 hover:text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium border border-yellow-500/20"
+                                    >
+                                        <Wallet size={20} />
+                                        Wallet History
+                                    </button>
+                                </div>
                                 <button
                                     onClick={handleLogout}
-                                    className="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-6 py-2 rounded-lg transition-colors duration-300 font-medium border border-red-500/20"
+                                    className="w-full bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-6 py-3 rounded-lg transition-colors duration-300 font-medium border border-red-500/20"
                                 >
                                     Logout
                                 </button>

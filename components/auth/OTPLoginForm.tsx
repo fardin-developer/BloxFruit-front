@@ -63,7 +63,7 @@ const OTPLoginForm = () => {
                 setCredentials({ user: response.user, token: response.token })
             );
             toast.success("Login successful");
-            router.push("/profile");
+            router.push("/");
         } catch (error: any) {
             console.error(error);
             toast.error(
