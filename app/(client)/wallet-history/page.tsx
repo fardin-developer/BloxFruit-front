@@ -23,7 +23,7 @@ export default function WalletHistoryPage() {
     const [endDate, setEndDate] = useState(() => new Date().toISOString());
 
     const { token, user: storedUser } = useSelector((state: RootState) => state.auth);
-    
+
     // Fetch user data to get current wallet balance
     const { data: userData } = useGetMeQuery(undefined, {
         skip: !token,
@@ -40,11 +40,11 @@ export default function WalletHistoryPage() {
     });
 
     // Fetch wallet ledger data
-    const { 
-        data: ledgerData, 
-        isLoading: ledgerLoading, 
-        error: ledgerError, 
-        refetch: refetchLedger 
+    const {
+        data: ledgerData,
+        isLoading: ledgerLoading,
+        error: ledgerError,
+        refetch: refetchLedger
     } = useGetWalletLedgerQuery({
         page,
         limit,
@@ -64,7 +64,7 @@ export default function WalletHistoryPage() {
         const newEndDate = new Date();
         const newStartDate = new Date();
         newStartDate.setMonth(newStartDate.getMonth() - 1);
-        
+
         setStartDate(newStartDate.toISOString());
         setEndDate(newEndDate.toISOString());
         setPage(1);
@@ -87,8 +87,15 @@ export default function WalletHistoryPage() {
     };
 
     const handleAddBalance = async () => {
+        // Check if user is logged in
+        if (!token) {
+            toast.error('Please login to continue');
+            window.location.href = '/login';
+            return;
+        }
+
         const amount = parseFloat(addBalanceAmount);
-        
+
         if (!amount || amount <= 0) {
             toast.error("Please enter a valid amount");
             return;
@@ -102,7 +109,7 @@ export default function WalletHistoryPage() {
         try {
             const redirectUrl = `${window.location.origin}/payment-success`;
             const result = await addBalance({ amount, redirectUrl }).unwrap();
-            
+
             if (result.success && result.transaction.paymentUrl) {
                 toast.success("Redirecting to payment gateway...");
                 // Redirect to payment URL
@@ -112,6 +119,16 @@ export default function WalletHistoryPage() {
             }
         } catch (error: any) {
             console.error("Add balance error:", error);
+
+            // Check for JWT authentication error
+            if (error?.data?.error === 'Authentication failed. Required: JWT' ||
+                error?.data?.error?.includes('Authentication failed') ||
+                error?.data?.error?.includes('JWT')) {
+                toast.error('Session expired. Please login again.');
+                window.location.href = '/login';
+                return;
+            }
+
             toast.error(error?.data?.message || "Failed to add balance. Please try again.");
         }
     };
@@ -126,26 +143,24 @@ export default function WalletHistoryPage() {
                         <h1 className="text-3xl font-bold text-white mb-4 sm:mb-0">
                             Wallet {viewMode === "ledger" ? "Ledger" : "Transaction History"}
                         </h1>
-                        
+
                         {/* View Mode Toggle */}
                         <div className="flex gap-2 bg-[#1a1a1a] p-1 rounded-lg border border-[#333]">
                             <button
                                 onClick={() => setViewMode("history")}
-                                className={`px-4 py-2 rounded-md font-medium transition-colors ${
-                                    viewMode === "history"
+                                className={`px-4 py-2 rounded-md font-medium transition-colors ${viewMode === "history"
                                         ? "bg-[#fada1b] text-black shadow-sm"
                                         : "text-gray-400 hover:text-white"
-                                }`}
+                                    }`}
                             >
                                 History
                             </button>
                             <button
                                 onClick={() => setViewMode("ledger")}
-                                className={`px-4 py-2 rounded-md font-medium transition-colors ${
-                                    viewMode === "ledger"
+                                className={`px-4 py-2 rounded-md font-medium transition-colors ${viewMode === "ledger"
                                         ? "bg-[#fada1b] text-black shadow-sm"
                                         : "text-gray-400 hover:text-white"
-                                }`}
+                                    }`}
                             >
                                 Ledger
                             </button>
@@ -398,11 +413,10 @@ export default function WalletHistoryPage() {
                                                         <button
                                                             key={pageNum}
                                                             onClick={() => setPage(pageNum)}
-                                                            className={`px-3 py-2 rounded-md transition-colors ${
-                                                                page === pageNum
+                                                            className={`px-3 py-2 rounded-md transition-colors ${page === pageNum
                                                                     ? "bg-[#fada1b] text-black font-bold"
                                                                     : "bg-[#333] text-gray-300 hover:bg-[#444]"
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {pageNum}
                                                         </button>
@@ -472,22 +486,20 @@ export default function WalletHistoryPage() {
                                                 </div>
                                                 <div className="col-span-2">
                                                     <span
-                                                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                                            entry.transactionType === "credit"
+                                                        className={`px-2 py-1 rounded-full text-xs font-medium ${entry.transactionType === "credit"
                                                                 ? "text-green-400 bg-green-400/10"
                                                                 : "text-red-400 bg-red-400/10"
-                                                        }`}
+                                                            }`}
                                                     >
                                                         {entry.transactionType.toUpperCase()}
                                                     </span>
                                                 </div>
                                                 <div className="col-span-2 text-right">
                                                     <p
-                                                        className={`font-semibold ${
-                                                            entry.transactionType === "credit"
+                                                        className={`font-semibold ${entry.transactionType === "credit"
                                                                 ? "text-green-400"
                                                                 : "text-red-400"
-                                                        }`}
+                                                            }`}
                                                     >
                                                         {entry.transactionType === "credit" ? "+" : "-"} ₹
                                                         {entry.amount.toFixed(2)}
@@ -526,21 +538,19 @@ export default function WalletHistoryPage() {
                                                     </div>
                                                     <div className="text-right">
                                                         <p
-                                                            className={`font-semibold text-lg ${
-                                                                entry.transactionType === "credit"
+                                                            className={`font-semibold text-lg ${entry.transactionType === "credit"
                                                                     ? "text-green-400"
                                                                     : "text-red-400"
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {entry.transactionType === "credit" ? "+" : "-"} ₹
                                                             {entry.amount.toFixed(2)}
                                                         </p>
                                                         <span
-                                                            className={`inline-block mt-1 px-2 py-1 rounded-full text-xs font-medium ${
-                                                                entry.transactionType === "credit"
+                                                            className={`inline-block mt-1 px-2 py-1 rounded-full text-xs font-medium ${entry.transactionType === "credit"
                                                                     ? "text-green-400 bg-green-400/10"
                                                                     : "text-red-400 bg-red-400/10"
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {entry.transactionType.toUpperCase()}
                                                         </span>
@@ -592,11 +602,10 @@ export default function WalletHistoryPage() {
                                                         <button
                                                             key={pageNum}
                                                             onClick={() => setPage(pageNum)}
-                                                            className={`px-3 py-2 rounded-md transition-colors ${
-                                                                page === pageNum
+                                                            className={`px-3 py-2 rounded-md transition-colors ${page === pageNum
                                                                     ? "bg-[#fada1b] text-black font-bold"
                                                                     : "bg-[#333] text-gray-300 hover:bg-[#444]"
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {pageNum}
                                                         </button>

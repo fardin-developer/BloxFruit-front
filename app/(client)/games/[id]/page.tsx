@@ -30,7 +30,7 @@ export default function GameDetailsPage() {
     const [validateUser, { isLoading: isValidating }] = useValidateUserMutation();
     const [createOrder, { isLoading: isCreatingOrder }] = useCreateDiamondPackOrderMutation();
     const [createUpiOrder, { isLoading: isCreatingUpiOrder }] = useCreateDiamondPackUpiOrderMutation();
-    
+
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     const gameData = data?.gameData || {};
@@ -147,7 +147,7 @@ export default function GameDetailsPage() {
     // Debounced validation effect for Roblox
     useEffect(() => {
         const isRoblox = gameData?.ogcode?.toUpperCase() === 'ROBLOX';
-        
+
         if (!isRoblox) return;
 
         const playerId = resolvePlayerId();
@@ -185,7 +185,7 @@ export default function GameDetailsPage() {
 
         const validationFields = gameData.validationFields || [];
         const missingFields = validationFields.filter((field: string) => !validationValues[field]?.trim());
-        
+
         if (missingFields.length > 0) {
             toast.error(`Please fill in: ${missingFields.join(', ')}`);
             return;
@@ -278,6 +278,13 @@ export default function GameDetailsPage() {
     };
 
     const handleCreateOrder = async () => {
+        // Check if user is logged in
+        if (!user) {
+            toast.error('Please login to continue');
+            router.push('/login');
+            return;
+        }
+
         if (!selectedPack || !selectedPaymentMethod) {
             toast.error('Please select a pack and payment method');
             return;
@@ -330,11 +337,20 @@ export default function GameDetailsPage() {
             }
         } catch (err: any) {
             console.error('Order creation failed:', err);
-            
+
             // Handle specific error cases
             if (err.data?.error || err.data?.message) {
                 const errorData = err.data;
-                
+
+                // Check for JWT authentication error
+                if (errorData.error === 'Authentication failed. Required: JWT' ||
+                    errorData.error?.includes('Authentication failed') ||
+                    errorData.error?.includes('JWT')) {
+                    toast.error('Session expired. Please login again.');
+                    router.push('/login');
+                    return;
+                }
+
                 // Check for insufficient balance error
                 if (errorData.error === 'Insufficient wallet balance' || errorData.error?.includes('Insufficient')) {
                     const required = errorData.required || 0;
@@ -376,11 +392,20 @@ export default function GameDetailsPage() {
             }
         } catch (err: any) {
             console.error('UPI order creation failed:', err);
-            
+
             // Handle specific error cases
             if (err.data?.error || err.data?.message) {
                 const errorData = err.data;
-                
+
+                // Check for JWT authentication error
+                if (errorData.error === 'Authentication failed. Required: JWT' ||
+                    errorData.error?.includes('Authentication failed') ||
+                    errorData.error?.includes('JWT')) {
+                    toast.error('Session expired. Please login again.');
+                    router.push('/login');
+                    return;
+                }
+
                 // Check for insufficient balance error
                 if (errorData.error === 'Insufficient wallet balance' || errorData.error?.includes('Insufficient')) {
                     const required = errorData.required || 0;
@@ -471,7 +496,7 @@ export default function GameDetailsPage() {
                         How to Purchase
                     </button>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                     {gameData?.validationFields?.map((field: string) => (
                         <div key={field}>
@@ -525,7 +550,7 @@ export default function GameDetailsPage() {
                                 <div className={`font-bold ${validationResult.status === true ? "text-green-400" : "text-red-400"}`}>
                                     {validationResult.message}
                                 </div>
-                                
+
                                 {/* Display avatar for Roblox */}
                                 {validationResult.avatar && gameData?.ogcode?.toUpperCase() === 'ROBLOX' && (
                                     <div className="mt-3 flex items-center gap-3">
@@ -579,11 +604,10 @@ export default function GameDetailsPage() {
                     <div className="flex flex-wrap gap-2">
                         <button
                             onClick={() => setSelectedCategory(null)}
-                            className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${
-                                selectedCategory === null
+                            className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${selectedCategory === null
                                     ? 'bg-[#FADA1B] text-black'
                                     : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
-                            }`}
+                                }`}
                         >
                             All Packs
                         </button>
@@ -591,11 +615,10 @@ export default function GameDetailsPage() {
                             <button
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
-                                className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${
-                                    selectedCategory === category
+                                className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${selectedCategory === category
                                         ? 'bg-[#FADA1B] text-black'
                                         : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
-                                }`}
+                                    }`}
                             >
                                 {category}
                             </button>
@@ -616,11 +639,10 @@ export default function GameDetailsPage() {
                             <div
                                 key={product._id}
                                 onClick={() => setSelectedPack(product._id)}
-                                className={`card-bg p-4 rounded-lg border transition-all cursor-pointer group relative overflow-hidden ${
-                                    isSelected
+                                className={`card-bg p-4 rounded-lg border transition-all cursor-pointer group relative overflow-hidden ${isSelected
                                         ? 'border-[#FADA1B] shadow-lg shadow-[#FADA1B]/20'
                                         : 'border-white/5 hover:border-[#FADA1B]/50'
-                                }`}
+                                    }`}
                             >
                                 {/* Selection Indicator */}
                                 {isSelected && (
@@ -654,11 +676,10 @@ export default function GameDetailsPage() {
                                     </h3>
 
                                     <div className="mt-4 w-full">
-                                        <div className={`w-full py-2 rounded font-bold transition-colors border flex items-center justify-center text-lg ${
-                                            isSelected
+                                        <div className={`w-full py-2 rounded font-bold transition-colors border flex items-center justify-center text-lg ${isSelected
                                                 ? 'bg-[#FADA1B] text-black border-[#FADA1B]'
                                                 : 'bg-white/10 text-white border-white/10 group-hover:bg-white/20'
-                                        }`}>
+                                            }`}>
                                             ₹{product.amount}
                                         </div>
                                     </div>
@@ -697,16 +718,15 @@ export default function GameDetailsPage() {
                             {/* UPI Payment Option */}
                             <button
                                 onClick={() => setSelectedPaymentMethod('upi')}
-                                className={`relative flex flex-col items-center gap-2 py-4 px-3 rounded-lg border-2 transition-all ${
-                                    selectedPaymentMethod === 'upi'
+                                className={`relative flex flex-col items-center gap-2 py-4 px-3 rounded-lg border-2 transition-all ${selectedPaymentMethod === 'upi'
                                         ? 'bg-[#FADA1B]/10 border-[#FADA1B] shadow-lg'
                                         : 'bg-white/5 border-white/10 hover:border-white/20'
-                                }`}
+                                    }`}
                             >
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${selectedPaymentMethod === 'upi' ? 'bg-[#FADA1B] text-black' : 'bg-white/10 text-white'}`}>
                                     <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor">
-                                        <rect x="2" y="4" width="20" height="14" rx="2" strokeWidth="2"/>
-                                        <path d="M2 10h20" strokeWidth="2"/>
+                                        <rect x="2" y="4" width="20" height="14" rx="2" strokeWidth="2" />
+                                        <path d="M2 10h20" strokeWidth="2" />
                                     </svg>
                                 </div>
                                 <span className={`font-bold uppercase tracking-wider text-xs ${selectedPaymentMethod === 'upi' ? 'text-[#FADA1B]' : 'text-white/60'}`}>UPI</span>
@@ -720,11 +740,10 @@ export default function GameDetailsPage() {
                             {/* Wallet Payment Option */}
                             <button
                                 onClick={() => setSelectedPaymentMethod('wallet')}
-                                className={`relative flex flex-col items-center gap-2 py-4 px-3 rounded-lg border-2 transition-all ${
-                                    selectedPaymentMethod === 'wallet'
+                                className={`relative flex flex-col items-center gap-2 py-4 px-3 rounded-lg border-2 transition-all ${selectedPaymentMethod === 'wallet'
                                         ? 'bg-[#FADA1B]/10 border-[#FADA1B] shadow-lg'
                                         : 'bg-white/5 border-white/10 hover:border-white/20'
-                                }`}
+                                    }`}
                             >
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs ${selectedPaymentMethod === 'wallet' ? 'bg-[#FADA1B] text-black' : 'bg-white/10 text-white'}`}>
                                     ₹
