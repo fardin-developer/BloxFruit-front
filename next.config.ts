@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       ...paths.map((pathname) => ({
         ...commonHost,
