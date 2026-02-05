@@ -32,6 +32,7 @@ export default function GameDetailsPage() {
     const [createUpiOrder, { isLoading: isCreatingUpiOrder }] = useCreateDiamondPackUpiOrderMutation();
 
     const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const paymentSectionRef = useRef<HTMLDivElement>(null);
 
     const gameData = data?.gameData || {};
     const products = data?.diamondPacks || [];
@@ -605,8 +606,8 @@ export default function GameDetailsPage() {
                         <button
                             onClick={() => setSelectedCategory(null)}
                             className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${selectedCategory === null
-                                    ? 'bg-[#FADA1B] text-black'
-                                    : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
+                                ? 'bg-[#FADA1B] text-black'
+                                : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
                                 }`}
                         >
                             All Packs
@@ -616,8 +617,8 @@ export default function GameDetailsPage() {
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
                                 className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${selectedCategory === category
-                                        ? 'bg-[#FADA1B] text-black'
-                                        : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
+                                    ? 'bg-[#FADA1B] text-black'
+                                    : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
                                     }`}
                             >
                                 {category}
@@ -638,7 +639,16 @@ export default function GameDetailsPage() {
                         return (
                             <div
                                 key={product._id}
-                                onClick={() => setSelectedPack(product._id)}
+                                onClick={() => {
+                                    setSelectedPack(product._id);
+                                    // Scroll to payment section after a short delay
+                                    setTimeout(() => {
+                                        paymentSectionRef.current?.scrollIntoView({
+                                            behavior: 'smooth',
+                                            block: 'center'
+                                        });
+                                    }, 100);
+                                }}
                                 className={`card-bg p-4 rounded-lg border transition-all cursor-pointer group relative overflow-hidden ${isSelected
                                         ? 'border-[#FADA1B] shadow-lg shadow-[#FADA1B]/20'
                                         : 'border-white/5 hover:border-[#FADA1B]/50'
@@ -677,8 +687,8 @@ export default function GameDetailsPage() {
 
                                     <div className="mt-4 w-full">
                                         <div className={`w-full py-2 rounded font-bold transition-colors border flex items-center justify-center text-lg ${isSelected
-                                                ? 'bg-[#FADA1B] text-black border-[#FADA1B]'
-                                                : 'bg-white/10 text-white border-white/10 group-hover:bg-white/20'
+                                            ? 'bg-[#FADA1B] text-black border-[#FADA1B]'
+                                            : 'bg-white/10 text-white border-white/10 group-hover:bg-white/20'
                                             }`}>
                                             ₹{product.amount}
                                         </div>
@@ -707,7 +717,7 @@ export default function GameDetailsPage() {
 
             {/* Payment Section */}
             {selectedPack && selectedPackData && (
-                <div className="max-w-xl mx-auto space-y-4 mb-12">
+                <div ref={paymentSectionRef} className="max-w-xl mx-auto space-y-4 mb-12">
                     {/* Payment Method Selection */}
                     <div className="card-bg p-5 rounded-xl border border-white/10">
                         <h3 className="text-white text-sm font-bold mb-4 flex items-center gap-2">
@@ -719,8 +729,8 @@ export default function GameDetailsPage() {
                             <button
                                 onClick={() => setSelectedPaymentMethod('upi')}
                                 className={`relative flex flex-col items-center gap-2 py-4 px-3 rounded-lg border-2 transition-all ${selectedPaymentMethod === 'upi'
-                                        ? 'bg-[#FADA1B]/10 border-[#FADA1B] shadow-lg'
-                                        : 'bg-white/5 border-white/10 hover:border-white/20'
+                                    ? 'bg-[#FADA1B]/10 border-[#FADA1B] shadow-lg'
+                                    : 'bg-white/5 border-white/10 hover:border-white/20'
                                     }`}
                             >
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${selectedPaymentMethod === 'upi' ? 'bg-[#FADA1B] text-black' : 'bg-white/10 text-white'}`}>
@@ -741,8 +751,8 @@ export default function GameDetailsPage() {
                             <button
                                 onClick={() => setSelectedPaymentMethod('wallet')}
                                 className={`relative flex flex-col items-center gap-2 py-4 px-3 rounded-lg border-2 transition-all ${selectedPaymentMethod === 'wallet'
-                                        ? 'bg-[#FADA1B]/10 border-[#FADA1B] shadow-lg'
-                                        : 'bg-white/5 border-white/10 hover:border-white/20'
+                                    ? 'bg-[#FADA1B]/10 border-[#FADA1B] shadow-lg'
+                                    : 'bg-white/5 border-white/10 hover:border-white/20'
                                     }`}
                             >
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs ${selectedPaymentMethod === 'wallet' ? 'bg-[#FADA1B] text-black' : 'bg-white/10 text-white'}`}>
