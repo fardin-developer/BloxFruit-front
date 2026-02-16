@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { FaDiscord } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { TbShoppingBag } from "react-icons/tb";
 import us from "@/public/images/Flag_of_India.svg";
@@ -131,8 +131,8 @@ const Navbar = () => {
 
         {/* Right - Icons, Cart, Currency */}
         <div className="flex items-center space-x-4">
-          <a href="https://discord.gg/bloxfruithub" target="_blank" className="text-[#5865F2] text-xl">
-            <FaDiscord size={48} />
+          <a href="https://wa.me/message/ZMPZGV6FSTCSF1" target="_blank" className="text-green-500 text-xl">
+            <FaWhatsapp size={48} />
           </a>
 
           {/* <div
