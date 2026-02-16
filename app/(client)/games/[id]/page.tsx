@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { useGetGameProductsQuery, useValidateUserMutation, useCreateDiamondPackOrderMutation, useCreateDiamondPackUpiOrderMutation } from "@/app/store/api/services/GameApi";
+import { useGetGameProductsQuery, useValidateUserMutation, useCreateDiamondPackOrderMutation, useCreateDiamondPackUpiOrderMutation, useValidateCouponMutation } from "@/app/store/api/services/GameApi";
 import { FaEthereum, FaCheckCircle, FaTimes, FaBolt, FaSpinner } from "react-icons/fa";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { Zap, Shield, Headphones, DollarSign } from "lucide-react";
@@ -27,7 +27,12 @@ export default function GameDetailsPage() {
     const [showHowToPurchase, setShowHowToPurchase] = useState(false);
     const [isAutoValidating, setIsAutoValidating] = useState(false);
 
+    const [couponCode, setCouponCode] = useState("");
+    const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
+    const [couponDiscount, setCouponDiscount] = useState<any>(null);
+
     const [validateUser, { isLoading: isValidating }] = useValidateUserMutation();
+    const [validateCoupon, { isLoading: isValidatingCoupon }] = useValidateCouponMutation();
     const [createOrder, { isLoading: isCreatingOrder }] = useCreateDiamondPackOrderMutation();
     const [createUpiOrder, { isLoading: isCreatingUpiOrder }] = useCreateDiamondPackUpiOrderMutation();
 
@@ -73,7 +78,49 @@ export default function GameDetailsPage() {
             setSelectedPack(null);
             setSelectedPaymentMethod(null);
         }
+        // Reset coupon when pack changes
+        setCouponCode("");
+        setAppliedCoupon(null);
+        setCouponDiscount(null);
     }, [filteredPacks, selectedPack]);
+
+    const handleValidateCoupon = async () => {
+        if (!couponCode.trim()) {
+            toast.error("Please enter a coupon code");
+            return;
+        }
+
+        if (!selectedPack) {
+            toast.error("Please select a pack first");
+            return;
+        }
+
+        const pack = products.find((p: any) => p._id === selectedPack);
+        if (!pack) return;
+
+        try {
+            const payload = {
+                code: couponCode,
+                orderAmount: pack.amount,
+                gameId: gameData._id,
+                diamondPackId: pack._id,
+                category: pack.category
+            };
+
+            const result = await validateCoupon(payload).unwrap();
+
+            if (result.success) {
+                setAppliedCoupon(result.coupon);
+                setCouponDiscount(result.discount);
+                toast.success("Coupon applied successfully!");
+            }
+        } catch (err: any) {
+            console.error("Coupon validation failed:", err);
+            setAppliedCoupon(null);
+            setCouponDiscount(null);
+            toast.error(err.data?.error || "Invalid coupon code");
+        }
+    };
 
     // Resolve player ID from validation fields
     const resolvePlayerId = () =>
@@ -322,12 +369,16 @@ export default function GameDetailsPage() {
         if (!pack) return;
 
         try {
-            const payload = {
+            const payload: any = {
                 diamondPackId: pack._id,
                 playerId: resolvePlayerId(),
                 server: resolveServerId(),
                 quantity: 1,
             };
+
+            if (appliedCoupon) {
+                payload.couponCode = appliedCoupon.code;
+            }
 
             const result = await createOrder(payload).unwrap();
             const orderId = result.orderId;
@@ -376,13 +427,17 @@ export default function GameDetailsPage() {
         if (!pack) return;
 
         try {
-            const payload = {
+            const payload: any = {
                 diamondPackId: pack._id,
                 playerId: resolvePlayerId(),
                 server: resolveServerId(),
                 quantity: 1,
                 redirectUrl: `${window.location.origin}/order-status`
             };
+
+            if (appliedCoupon) {
+                payload.couponCode = appliedCoupon.code;
+            }
 
             const result = await createUpiOrder(payload).unwrap();
 
@@ -650,8 +705,8 @@ export default function GameDetailsPage() {
                                     }, 100);
                                 }}
                                 className={`card-bg p-4 rounded-lg border transition-all cursor-pointer group relative overflow-hidden ${isSelected
-                                        ? 'border-[#FADA1B] shadow-lg shadow-[#FADA1B]/20'
-                                        : 'border-white/5 hover:border-[#FADA1B]/50'
+                                    ? 'border-[#FADA1B] shadow-lg shadow-[#FADA1B]/20'
+                                    : 'border-white/5 hover:border-[#FADA1B]/50'
                                     }`}
                             >
                                 {/* Selection Indicator */}
@@ -718,6 +773,72 @@ export default function GameDetailsPage() {
             {/* Payment Section */}
             {selectedPack && selectedPackData && (
                 <div ref={paymentSectionRef} className="max-w-xl mx-auto space-y-4 mb-12">
+
+                    {/* Coupon Section */}
+                    <div className="card-bg p-5 rounded-xl border border-white/10">
+                        <h3 className="text-white text-sm font-bold mb-4 flex items-center gap-2">
+                            <div className="w-1 h-4 bg-[#FADA1B] rounded-full"></div>
+                            HAVE A COUPON CODE?
+                        </h3>
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                value={couponCode}
+                                onChange={(e) => setCouponCode(e.target.value)}
+                                placeholder="Enter coupon code"
+                                className="flex-1 bg-white/5 text-white placeholder:text-white/30 rounded-lg px-4 py-3 border border-white/10 focus:outline-none focus:border-[#FADA1B] transition-all uppercase"
+                                disabled={!!appliedCoupon}
+                            />
+                            {appliedCoupon ? (
+                                <button
+                                    onClick={() => {
+                                        setAppliedCoupon(null);
+                                        setCouponDiscount(null);
+                                        setCouponCode("");
+                                    }}
+                                    className="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-6 rounded-lg font-bold transition-all border border-red-500/30"
+                                >
+                                    REMOVE
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleValidateCoupon}
+                                    disabled={isValidatingCoupon || !couponCode.trim()}
+                                    className="bg-[#FADA1B] hover:bg-[#FADA1B]/90 text-black px-6 rounded-lg font-bold transition-all border border-[#FADA1B] disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px]"
+                                >
+                                    {isValidatingCoupon ? (
+                                        <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin mx-auto"></div>
+                                    ) : (
+                                        "APPLY"
+                                    )}
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Applied Coupon Details */}
+                        {appliedCoupon && couponDiscount && (
+                            <div className="mt-4 p-4 rounded-lg bg-green-500/10 border border-green-500/30">
+                                <div className="flex justify-between items-center mb-2 text-sm">
+                                    <span className="text-gray-400">Original Amount:</span>
+                                    <span className="text-white line-through">₹{couponDiscount.originalAmount}</span>
+                                </div>
+                                <div className="flex justify-between items-center mb-2 text-sm">
+                                    <span className="text-green-400">Coupon Discount:</span>
+                                    <span className="text-green-400 font-bold">- ₹{couponDiscount.discountAmount}</span>
+                                </div>
+                                <div className="border-t border-white/10 my-2"></div>
+                                <div className="flex justify-between items-center text-lg font-bold">
+                                    <span className="text-[#FADA1B]">New Total:</span>
+                                    <span className="text-[#FADA1B]">₹{couponDiscount.finalAmount}</span>
+                                </div>
+                                <div className="mt-2 text-xs text-green-400/80 flex items-center gap-1">
+                                    <FaCheckCircle />
+                                    {appliedCoupon.description || "Coupon applied successfully"}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                     {/* Payment Method Selection */}
                     <div className="card-bg p-5 rounded-xl border border-white/10">
                         <h3 className="text-white text-sm font-bold mb-4 flex items-center gap-2">
@@ -775,7 +896,7 @@ export default function GameDetailsPage() {
                                 <div>
                                     <div className="text-white/50 text-xs font-bold uppercase tracking-wider mb-1">Total Payable</div>
                                     <div className="text-white text-3xl font-black">
-                                        ₹{selectedPackData.amount}
+                                        ₹{couponDiscount ? couponDiscount.finalAmount : selectedPackData.amount}
                                     </div>
                                 </div>
                                 <div className="text-right">

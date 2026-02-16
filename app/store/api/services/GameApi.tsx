@@ -31,14 +31,21 @@ export const GameApi = baseApi.injectEndpoints({
                 body: data,
             }),
         }),
-        createDiamondPackOrder: build.mutation<any, { diamondPackId: string; playerId: string; server?: string; quantity: number }>({
+        validateCoupon: build.mutation<any, { code: string; orderAmount: number; gameId?: string; diamondPackId?: string; category?: string }>({
+            query: (data) => ({
+                url: "/user/validate-coupon",
+                method: "POST",
+                body: data,
+            }),
+        }),
+        createDiamondPackOrder: build.mutation<any, { diamondPackId: string; playerId: string; server?: string; quantity: number; couponCode?: string }>({
             query: (data) => ({
                 url: "/order/diamond-pack",
                 method: "POST",
                 body: data,
             }),
         }),
-        createDiamondPackUpiOrder: build.mutation<any, { diamondPackId: string; playerId: string; server?: string; quantity: number; redirectUrl: string }>({
+        createDiamondPackUpiOrder: build.mutation<any, { diamondPackId: string; playerId: string; server?: string; quantity: number; redirectUrl: string; couponCode?: string }>({
             query: (data) => ({
                 url: "/order/diamond-pack-upi",
                 method: "POST",
@@ -48,10 +55,11 @@ export const GameApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { 
-    useGetAllGamesQuery, 
+export const {
+    useGetAllGamesQuery,
     useGetGameProductsQuery,
     useValidateUserMutation,
+    useValidateCouponMutation,
     useCreateDiamondPackOrderMutation,
     useCreateDiamondPackUpiOrderMutation
 } = GameApi;
