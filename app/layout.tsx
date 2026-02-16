@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "Blox Fruit Hub",
   description: "Blox Fruit Hub",
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.ico",
   },
 };
 
